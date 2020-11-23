@@ -78,11 +78,10 @@ int main()
     // load models
     // -----------
     stbi_set_flip_vertically_on_load(true);
-    Model backpack("resources/objects/backpack/backpack.obj");
-    Model nanosuit("resources/objects/nanosuit/nanosuit.obj");
-  //  Model car("resources/objects/car/_Subaru-Loyale.obj");
+
     Model RedCar("resources/objects/RedCar/RedCar.obj");
-   // Model car2("resources/objects/Jeep_Renegade_2016_obj/Jeep_Renegade_2016.obj");
+
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -114,7 +113,6 @@ int main()
         shader.setMat4("model", model);
 
         // draw model as usual
-     //   backpack.Draw(shader);
         RedCar.Draw(shader);
   
 

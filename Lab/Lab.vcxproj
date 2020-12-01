@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Pawel\Desktop\UNI\Lab\Lab\glfw-3.3.2\include;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glm\glm;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glad\include;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glad\include\KHR;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glad\include\glad;C:\Users\Pawel\Desktop\UNI\Lab\Lab\assimp;G:\University\OneDrive\OneDrive - University of the West of Scotland\3rd year\1st trimester\Advanced Graphics Programming\Dev\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Pawel\Desktop\UNI\Lab\Lab\assimp\lib64;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glfw-3.3.2\lib-vc2019;C:\Users\Pawel\Desktop\UNI\Lab\Lab\glfw-3.3.2;G:\University\OneDrive\OneDrive - University of the West of Scotland\3rd year\1st trimester\Advanced Graphics Programming\Dev\Assimp\lib64;G:\University\OneDrive\OneDrive - University of the West of Scotland\3rd year\1st trimester\Advanced Graphics Programming\Dev\glfw-3.3.2\lib-vc2019;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Pawel\Desktop\UNI\Lab\Lab\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Lab\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

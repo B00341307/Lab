@@ -64,7 +64,15 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix()
     {
+
         return glm::lookAt(Position, Position + Front, Up);
+    }
+
+    // returns the view matrix calculated using Euler Angles and the LookAt Matrix
+    glm::mat4 GetViewMatrixAtPlayer(glm::vec3 CarPosition)
+    {
+
+        return glm::lookAt(Position, CarPosition, Up);
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -113,6 +121,30 @@ public:
             Zoom = 45.0f;
     }
 
+    void move(float playerRotation, glm::vec3 playerPosition, bool pressed)
+    {
+        if (pressed)
+        {
+        //    playerRotation *= 0.7f;
+        }
+
+        float distanceFromPlayer = 20.0f;
+        Pitch = M_PI - M_PI / 6;
+
+        float HorizontalDistance = distanceFromPlayer * cos(Pitch);
+        float VerticalDistance = distanceFromPlayer * sin(Pitch);
+
+        float offsetx = HorizontalDistance * sin(playerRotation + M_PI / 2);
+        float offsetz = HorizontalDistance * cos(playerRotation + M_PI / 2);
+        Position.x = playerPosition.x - offsetx;
+        Position.z = playerPosition.z - offsetz;
+        Position.y = playerPosition.y + VerticalDistance;
+
+        Yaw = M_PI - playerRotation;
+
+        //  Front = glm::rotate(Front, amount * speed, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+
 private:
     // calculates the front vector from the Camera's (updated) Euler Angles
     void updateCameraVectors()
@@ -127,5 +159,9 @@ private:
         Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
         Up = glm::normalize(glm::cross(Right, Front));
     }
+
+
+    
+   
 };
 #endif

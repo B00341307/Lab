@@ -24,7 +24,10 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="glad\src\glad.c">
+    <ClCompile Include="..\..\..\..\..\..\..\DEV\vcpkg\buildtrees\glad\x64-windows-rel\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions-Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -255,6 +258,9 @@
       <Filter>Header Files\assimp</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions-Physics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

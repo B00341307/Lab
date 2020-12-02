@@ -142,7 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="glad\src\glad.c" />
+    <ClCompile Include="..\..\..\..\..\..\..\DEV\vcpkg\buildtrees\glad\x64-windows-rel\src\glad.c" />
+    <ClCompile Include="Collisions-Physics.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
@@ -219,6 +220,7 @@
     <ClInclude Include="assimp\Vertex.h" />
     <ClInclude Include="assimp\XMLTools.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collisions-Physics.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />

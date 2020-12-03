@@ -46,6 +46,8 @@ float playerCurrentSpeed = 0.0f;
 float TurnSpeed = 1.f;
 float playerCurrentTurnSpeed = 0.0f;
 
+float playerAcceleration = 10.0f;
+
 glm::vec3 Front = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 glm::vec3 Right = glm::normalize(glm::cross(Front, Up));
@@ -188,25 +190,59 @@ int main()
 void processInput(GLFWwindow* window)
 {
 
-    float velocity = MovementSpeed * deltaTime;
+    //escape
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
+    //forward / backward
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    playerCurrentSpeed = -MovementSpeed;
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        playerCurrentSpeed = MovementSpeed * 0.7f;
-    else
-    playerCurrentSpeed = 0.0f;
-
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
     {
-        playerCurrentTurnSpeed = TurnSpeed;
+        playerCurrentSpeed = playerCurrentSpeed - playerAcceleration * deltaTime;
+        //playerCurrentSpeed = -MovementSpeed;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        playerCurrentSpeed = playerCurrentSpeed + (playerAcceleration * deltaTime) * 0.7f;
+        //playerCurrentSpeed = MovementSpeed * 0.7f;
+    }      
+    else if (playerCurrentSpeed > 0.0f)
+    {
+        playerCurrentSpeed = playerCurrentSpeed - 25.0f * deltaTime;
+        if (playerCurrentSpeed < 0.0f)
+        {
+            playerCurrentSpeed = 0.0f;
+        }
+    }
+    else if (playerCurrentSpeed < 0.0f)
+    {
+        playerCurrentSpeed = playerCurrentSpeed + 25.0f * deltaTime;
+        if (playerCurrentSpeed > 0.0f)
+        {
+            playerCurrentSpeed = 0.0f;
+        }
+    }
+
+
+
+    //left / right
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && playerCurrentSpeed<0.0f)
+    {
+        playerCurrentTurnSpeed = -0.05f * playerCurrentSpeed;
         pressed = true;
     }      
-    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && playerCurrentSpeed < 0.0f)
     {
-        playerCurrentTurnSpeed = -TurnSpeed;
+        playerCurrentTurnSpeed = 0.05f * playerCurrentSpeed;
+        pressed = true;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && playerCurrentSpeed > 0.0f)
+    {
+        playerCurrentTurnSpeed = -0.05f * playerCurrentSpeed;
+        pressed = true;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && playerCurrentSpeed > 0.0f)
+    {
+        playerCurrentTurnSpeed = 0.05f * playerCurrentSpeed;
         pressed = true;
     }
     else
@@ -215,7 +251,26 @@ void processInput(GLFWwindow* window)
         pressed = false;
     }
 
-    
+    //brake
+    if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && playerCurrentSpeed > 0.0f)
+    {
+        playerCurrentSpeed = playerCurrentSpeed - 65.0f * deltaTime;
+
+        if (playerCurrentSpeed < 0.0f)
+        {
+            playerCurrentSpeed = 0.0f;
+        }
+    }
+
+
+     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && playerCurrentSpeed < 0.0f)
+     {
+        playerCurrentSpeed = playerCurrentSpeed + 65.0f * deltaTime;
+        if (playerCurrentSpeed > 0.0f)
+        {
+            playerCurrentSpeed = 0.0f;
+        }
+     }
 
 }
 

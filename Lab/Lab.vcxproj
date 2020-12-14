@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Lab\freetype\ft2build.h;$(SolutionDir)\Lab\freetype\freetype.h;$(SolutionDir)\Lab\freetype;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lab\freetype.lib;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Lab\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Lab\glm;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

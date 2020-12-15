@@ -129,7 +129,7 @@ public:
         }
 
         float distanceFromPlayer = 20.0f;
-        Pitch = M_PI - M_PI / 6;
+        Pitch = M_PI - M_PI / 12;
 
         float HorizontalDistance = distanceFromPlayer * cos(Pitch);
         float VerticalDistance = distanceFromPlayer * sin(Pitch);

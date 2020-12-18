@@ -16,6 +16,9 @@
 #include <vector>
 #include <math.h>
 
+#include <ctime>
+#include <chrono>
+#include <cstdio>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -61,7 +64,11 @@ glm::vec3 RockPosition[10];
 float RockRotation[10];
 float RockSpeed = 5.0f;
 bool loaded = false;
+bool exist[10] = {true,true,true,true,true,true,true,true,true,true};
+bool reLoaded[10] = { true,true,true,true,true,true,true,true,true,true };
 int i = 9;
+double explosionTime[10];
+glm::vec3 RockTempPos;
 
 //Bullets
 glm::vec3 BulletPosition[10];
@@ -73,9 +80,12 @@ bool canShoot = true;
 int ReamainingLifeSpawn[10];
 int BulletLifeSpawn = 20;
 
+//explosion
+double timer[10] = { -1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0};
 
 int main()
 {
+
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -134,6 +144,8 @@ Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
 */
   //  Shader shader("Shaders/2.stencil_testing.vs", "Shaders/2.stencil_testing.fs");
     Shader shaderSingleColor("Shaders/2.stencil_testing.vs", "Shaders/2.stencil_single_color.fs");
+    Shader shader_explosion("Shaders/9.2.geometry_shader.vs", "Shaders/9.2.geometry_shader.fs", "Shaders/9.2.geometry_shader.gs");
+    Shader toonShader("Shaders/Toon.vs", "Shaders/Toon.fs");
 
     // load models
     // -----------
@@ -145,10 +157,17 @@ Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
     shader.use();
     shader.setInt("texture1", 0);
 
+    toonShader.use();
+    toonShader.setInt("toon", 0);
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+      
+
+    
+
         // per-frame time logic
         // --------------------
         float currentFrame = glfwGetTime();
@@ -281,10 +300,10 @@ Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
         shaderSingleColor.use();
         glm::mat4 model = glm::mat4(1.0f);
 
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 1.0f, 100.0f);
-         glm::mat4 view = camera.GetViewMatrix();
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.GetViewMatrix();
 
-       // glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+
         shaderSingleColor.setMat4("view", view);
         shaderSingleColor.setMat4("projection", projection);
 
@@ -294,17 +313,17 @@ Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
 
         glStencilMask(0x00);
         // configure transformation matrices
-      //  glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 1.0f, 100.0f);
+        glm::mat4 projection2 = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 1.0f, 1000.0f);
       //  glm::mat4 view = camera.GetViewMatrix();
 
-              // 1st. render pass, draw objects as normal, writing to the stencil buffer
+        // 1st. render pass, draw objects as normal, writing to the stencil buffer
        // --------------------------------------------------------------------
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
         glStencilMask(0xFF);
 
-        //draw model using normal shader
-        shader.use();
-        shader.setMat4("projection", projection);
+
+         shader.use();
+        shader.setMat4("projection", projection2);
         shader.setMat4("view", view);
         model = glm::mat4(1.0f);
         model = glm::translate(model, playerPosition); // translate it down so it's at the center of the scene
@@ -313,104 +332,166 @@ Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
         shader.setMat4("model", model);
         Rocket.Draw(shader);
 
-  
+        shader.use();
+        shader.setMat4("projection", projection);
+        shader.setMat4("view", view);
         i = 9;
-        //draw rocks
-        while (i > 0)
-        {
-            model = glm::mat4(1.0f);
-            if (loaded == false)
-            {
-                if (rand() % 4 > 2)
-                    RockPosition[i].x = rand() % 66;
-                else
-                    RockPosition[i].x = (rand() % 66) * -1;
-
-                if (rand() % 4 > 2)
-                    RockPosition[i].z = rand() % 41;
-                else
-                    RockPosition[i].z = (rand() % 66) * -1;
-
-                RockRotation[i] = (rand() % 40);
-                model = glm::rotate(model, RockRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));
-            }
-            model = glm::translate(model, RockPosition[i]);
-            model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//scale
-            shader.setMat4("model", model);
-            Rock.Draw(shader);
-            i--;
-        }
-        i = 9;
-
+       
         //draw bullets
         while (i > 0)
         {
             if (wasShoot[i] == true)
             {
-
-
                 if (ReamainingLifeSpawn[i] > 0)
                 {
                     shader.use();
-
                     model = glm::mat4(1.0f);
                     model = glm::translate(model, BulletPosition[i]);
                     model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));	//scale
                     model = glm::rotate(model, BulletRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));           
                     shader.setMat4("model", model);
                     Bullet.Draw(shader);
-
                 }
                 else
                 {
                     wasShoot[i] = false;
                 }
-
             }
             i--;
         }
         i = 9;
        
 
-        // 2nd. render pass: now draw slightly scaled versions of the objects, this time disabling stencil writing.
-       // Because the stencil buffer is now filled with several 1s. The parts of the buffer that are 1 are not drawn, thus only drawing 
-       // the objects' size differences, making it look like borders.
-       // -----------------------------------------------------------------------------------------------------------------------------
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-        glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-        glStencilMask(0x00);
-        glDisable(GL_DEPTH_TEST);
-        shaderSingleColor.use();
-        float scale = 1.2;
-        while (i > 0)
-        {
-            model = glm::mat4(1.0f);
-            if (loaded == false)
-            {
-                if (rand() % 4 > 2)
-                    RockPosition[i].x = rand() % 66;
-                else
-                    RockPosition[i].x = (rand() % 66) * -1;
 
-                if (rand() % 4 > 2)
-                    RockPosition[i].z = rand() % 41;
-                else
-                    RockPosition[i].z = (rand() % 66) * -1;
+        //rocks    
+                //draw rocks
+                while (i > 0)
+                {
+                    if (loaded == true && exist[i] == false) //Draw if is exploding
+                    {
+                        model = glm::mat4(1.0f);
+                        model = glm::translate(model, RockPosition[i]); // translate it down so it's at the center of the scene
+                        model = glm::rotate(model, RockRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));
+                        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//scale
 
-                RockRotation[i] = (rand() % 40);
-                model = glm::rotate(model, RockRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));
-            }
-            model = glm::translate(model, RockPosition[i]);
-            model = glm::scale(model, glm::vec3(0.3f* scale, 0.3f* scale, 0.3f* scale));	//scale
-            shaderSingleColor.setMat4("model", model);
-            Rock.Draw(shaderSingleColor);       
-            i--;
-        }
-        glStencilMask(0xFF);
-        glStencilFunc(GL_ALWAYS, 0, 0xFF);
-        glEnable(GL_DEPTH_TEST);
-        i = 9;
+
+                         // explosion
+                        shader_explosion.use();
+                        shader_explosion.setMat4("projection", projection2);
+                        shader_explosion.setMat4("view", view);
+                        shader_explosion.setMat4("model", model);
+
+
+                       
+                       shader_explosion.setFloat("time", timer[i]);
+                       timer[i] += deltaTime;
+
+                        Rock.Draw(shader_explosion);
+
+                            
+                       
+                    }
+                    else //draw if it is not exploding
+                    {
+                        model = glm::mat4(1.0f);
+                        if (loaded == false)// || reLoaded[i] == false) //random position once
+                        {
+                            if (rand() % 4 > 2)
+                                RockTempPos.x = rand() % 66;
+                            else
+                                RockTempPos.x = (rand() % 66) * -1;
+
+                            if (rand() % 4 > 2)
+                                RockTempPos.z = rand() % 41;
+                            else
+                                RockTempPos.z = (rand() % 66) * -1;
+
+                            RockTempPos.y = RockPosition[i].y;
+                            RockPosition[i] = RockTempPos;
+                            RockRotation[i] = (rand() % 40);
+                            model = glm::rotate(model, RockRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));
+
+                                reLoaded[i] = true;
+                        }
+
+                        model = glm::translate(model, RockPosition[i]);
+                        model = glm::scale(model, glm::vec3(0.3f, 0.3f, 0.3f));	//scale
+                        shader.setMat4("model", model);
+                        Rock.Draw(shader);
+                    }
+                    i--;
+                }
+                i = 9;
+                // 2nd. render pass: now draw slightly scaled versions of the objects, this time disabling stencil writing.
+               // Because the stencil buffer is now filled with several 1s. The parts of the buffer that are 1 are not drawn, thus only drawing 
+               // the objects' size differences, making it look like borders.
+               // -----------------------------------------------------------------------------------------------------------------------------
+                // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+                // -------------------------------------------------------------------------------
+
+                if (loaded == true)//stencil
+                {
+                    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+                    glStencilMask(0x00);
+                    glDisable(GL_DEPTH_TEST);
+                    shaderSingleColor.use();
+                    float scale = 1.4;
+                
+                        while (i > 0)
+                        {
+                            model = glm::mat4(1.0f);
+
+                            if (loaded == false)// || reLoaded[i] == false)// i should not random location again but it does not works otherwise 
+                            {
+                                if (rand() % 4 > 2)
+                                RockTempPos.x = rand() % 66;
+                            else
+                                RockTempPos.x = (rand() % 66) * -1;
+
+                            if (rand() % 4 > 2)
+                                RockTempPos.z = rand() % 41;
+                            else
+                                RockTempPos.z = (rand() % 66) * -1;
+
+                            RockTempPos.y = RockPosition[i].y;
+                            RockPosition[i] = RockTempPos;
+
+                                RockRotation[i] = (rand() % 40);
+                                model = glm::rotate(model, RockRotation[i], glm::vec3(0.0f, 1.0f, 0.0f));
+
+                                reLoaded[i] = true;
+
+
+                            }
+
+                            model = glm::translate(model, RockPosition[i]);
+
+                            if (exist[i] == false)//if is exploding hide stencil (scale to 0)                           
+                                model = glm::scale(model, glm::vec3(0.0f, 0.0f, 0.0f));	//scale
+                            else
+                                model = glm::scale(model, glm::vec3(0.3f * scale, 0.3f * scale, 0.3f * scale));	//scale
+                            shaderSingleColor.setMat4("model", model);
+                            Rock.Draw(shaderSingleColor);
+
+
+                            if (loaded == true && exist[i] == false && std::clock() > explosionTime[i] + 1000)//stop explosion after given time
+                            {
+                                exist[i] = true;
+                                timer[i] = -1.0;
+                                reLoaded[i] = false;
+                            }
+
+                            i--;
+                        }            
+                    glStencilMask(0xFF);
+                    glStencilFunc(GL_ALWAYS, 0, 0xFF);
+                    glEnable(GL_DEPTH_TEST);
+
+                   
+                    i = 9;        
+
+                }
+
         loaded = true;
 
         glfwSwapBuffers(window);
@@ -511,6 +592,21 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) //SHOOT
     {
         canShoot = true;
+    }
+
+    if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS && loaded == true) //explode asteroids test
+    {
+       exist[0] = false;
+       explosionTime[0] = std::clock();
+
+       exist[1] = false;
+       explosionTime[1] = std::clock();
+      
+       exist[2] = false;
+       explosionTime[2] = std::clock();
+
+       exist[3] = false;
+       explosionTime[3] = std::clock();
     }
 }
 

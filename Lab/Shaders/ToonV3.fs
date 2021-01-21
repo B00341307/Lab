@@ -15,14 +15,14 @@ void main()
 	vec4 color;
 	intensity = dot(lightDir,normalize(normal));
 	
-	if(intensity > 0.95)
-		color = vec4(0.7, 0.7, 0.7, 1.0);
-	else if(intensity > 0.5)
-		color = vec4(0.5, 0.5, 0.5, 1.0);
-	else if(intensity > 0.25)
-		color = vec4(0.3, 0.3, 0.3, 1.0);
+	if(intensity > 10)
+		color = vec4(0.75, 0, 1, 1.0);
+	else if(intensity > 5)
+		color = vec4(0, 0.75, 1, 1.0);
+	else if(intensity > 0.1)
+		color = vec4(0, 0, 1, 1.0);
 	else
-		color = vec4(0.7, 1.0, 1.0, 1.0);
+		color = vec4(0, 0, 0.25, 1.0);
 		
 	FragColor = texture(ourTexture, TexCoord) * color;
 	

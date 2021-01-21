@@ -10,7 +10,7 @@ Ke 0.0 0.0 0.0
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd asdfred.png
+map_Kd sadgred.png
 
 newmtl gloss.001
 Ns 64.999991
@@ -21,4 +21,4 @@ Ke 0.0 0.0 0.0
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd asdfblue.png
+map_Kd sadgblue.png

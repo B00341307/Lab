@@ -813,7 +813,7 @@ int main()
 
                 ToonTest.setInt("texture", 0);
 
-                ToonTest.setVec3("lightDir", glm::vec3(10, 0, 1));
+                ToonTest.setVec3("lightDir", glm::vec3(playerPosition.x,playerPosition.y,playerPosition.z));
 
 
                 model = glm::mat4(1.0f);

@@ -18,7 +18,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd 1234blue.png
+map_Kd blue.png
 
 newmtl blue.001
 Ns 225.000000
@@ -59,7 +59,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd 1234green.png
+map_Kd green.png
 
 newmtl road
 Ns 225.000000
@@ -70,4 +70,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd 1234black.png
+map_Kd black.png

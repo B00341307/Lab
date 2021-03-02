@@ -39,8 +39,8 @@ int key = 1;
 
 double tempdp;
 // settings                     2k:     wide 2k:    fullhd:
-const unsigned int SCR_WIDTH = 2560;    //3440;     // 1920;// 
-const unsigned int SCR_HEIGHT = 1440;   //1440      //1080;// 
+const unsigned int SCR_WIDTH = /*//2560;    //3440;*/      1920;
+const unsigned int SCR_HEIGHT = /*//1440;   //1440;*/      1080;
 
 // camera
 Camera camera(glm::vec3(15.0f, 5.0f, 0.0f));

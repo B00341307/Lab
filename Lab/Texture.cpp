@@ -23,7 +23,7 @@ TextureGUI::TextureGUI(int ID)
 TextureGUI::TextureGUI(std::string local)
 {
 	
-	id = SOIL_load_OGL_texture(local.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y);
+	id = SOIL_load_OGL_texture(local.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MULTIPLY_ALPHA | SOIL_FLAG_INVERT_Y); //error here
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &id);
 	if (!textureParam())
 	{

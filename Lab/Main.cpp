@@ -133,25 +133,16 @@ int main()
 
     // build and compile shaders
     // -------------------------
-  //  Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
- //  Shader shader2("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
-  //  Shader normalShader("Shaders/9.3.normal_visualization.vs", "Shaders/9.3.normal_visualization.fs", "Shaders/9.3.normal_visualization.gs");
-  //  Shader shader_explosion("Shaders/9.2.geometry_shader.vs", "Shaders/9.2.geometry_shader.fs", "Shaders/9.2.geometry_shader.gs");
-
-
     Shader ourShader("1.model_loading.v2.vs", "1.model_loading.v2.fs");
     Shader equirectangularToCubemapShader("2.2.2.cubemap.vs", "2.2.2.equirectangular_to_cubemap.fs");
     Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
-
-    Shader toonShader("Shaders/Toon.vs", "Toon.fs");
+    Shader roadShader("2.0.roads.vs", "2.0.roads.fs");
   
     ourShader.use();
     ourShader.setInt("material.diffuse", 0);
     backgroundShader.use();
     backgroundShader.setInt("environmentMap", 0);
 
-    toonShader.use();
-    toonShader.setInt("toon", 0);
 
     // load models
     // -----------
@@ -168,6 +159,72 @@ int main()
 
     Model track("resources/objects/track/track.obj");
    
+
+
+    // generate a large list of semi-random model transformation matrices
+    // ------------------------------------------------------------------
+    unsigned int amount = 10;
+    glm::mat4* modelMatrices;
+    modelMatrices = new glm::mat4[amount];
+    srand(glfwGetTime()); // initialize random seed	
+    float radius = 15.0;
+    float offset = 25.0f;
+    for (unsigned int i = 0; i < amount; i++)
+    {
+        glm::mat4 model = glm::mat4(1.0f);
+        // 1. translation: displace along circle with 'radius' in range [-offset, offset]
+        float angle = (float)i / (float)amount * 360.0f;
+        float displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float x = sin(angle) * radius + displacement;
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float y = displacement * 0.4f; // keep height of asteroid field smaller compared to width of x and z
+        displacement = (rand() % (int)(2 * offset * 100)) / 100.0f - offset;
+        float z = cos(angle) * radius + displacement;
+        model = glm::translate(model, glm::vec3(x, y, z));
+
+        // 2. scale: Scale 3.5f
+        float scale = 3.5f;
+        model = glm::scale(model, glm::vec3(scale));
+
+        // 3. rotation: add random rotation around a (semi)randomly picked rotation axis vector
+        float rotAngle = (rand() % 360);
+        model = glm::rotate(model, rotAngle, glm::vec3(0.4f, 0.6f, 0.8f));
+
+        // 4. now add to list of matrices
+        modelMatrices[i] = model;
+    }
+
+    // configure instanced array
+    // -------------------------
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, amount * sizeof(glm::mat4), &modelMatrices[0], GL_STATIC_DRAW);
+
+    // set transformation matrices as an instance vertex attribute (with divisor 1)
+    // -----------------------------------------------------------------------------------------------------------------------------------
+    for (unsigned int i = 0; i < countryRoadModel.meshes.size(); i++)
+    {
+        unsigned int VAO = countryRoadModel.meshes[i].VAO;
+        glBindVertexArray(VAO);
+        // set attribute pointers for matrix (4 times vec4)
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)0);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4)));
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(2 * sizeof(glm::vec4)));
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(3 * sizeof(glm::vec4)));
+
+        glVertexAttribDivisor(3, 1);
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+        glVertexAttribDivisor(6, 1);
+
+        glBindVertexArray(0);
+    }
+
     // pbr: setup framebuffer
     // ----------------------
     unsigned int captureFBO;
@@ -432,8 +489,7 @@ int main()
     }
     stbi_image_free(tdata);
 
-
-
+    
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -1111,7 +1167,26 @@ int main()
         ourShader.setMat4("model", victorianHouse);
         victorianHouseModel.Draw(ourShader);
 
-    //road was here
+        //road was here
+        /*glActiveTexture(GL_TEXTURE0);
+        roadShader.use();
+        roadShader.setInt("texture_diffuse1", 0);
+        glm::mat4 countryRoad = glm::mat4(1.0f);
+        countryRoad = glm::translate(countryRoad, glm::vec3(100.0f, 11.0f, -400.0f));
+        countryRoad = glm::scale(countryRoad, glm::vec3(3.5f, 3.5f, 3.5f));
+        roadShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(roadShader);*/
+
+        roadShader.use();
+        roadShader.setInt("texture_diffuse1", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, countryRoadModel.textures_loaded[0].id); // note: we also made the textures_loaded vector public (instead of private) from the model class.
+        for (unsigned int i = 0; i < countryRoadModel.meshes.size(); i++)
+        {
+            glBindVertexArray(countryRoadModel.meshes[i].VAO);
+            glDrawElementsInstanced(GL_TRIANGLES, countryRoadModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, amount);
+            glBindVertexArray(0);
+        }
 
         //Background Loader
         backgroundShader.use();
@@ -1151,15 +1226,19 @@ int main()
         ourShader.setMat4("model", model);
         RedCar.Draw(ourShader); */
 
+
         ourShader.use();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
+
+        
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, player1.playerPosition);
         model = glm::rotate(model, player1.playerRotation, glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
         ourShader.setMat4("model", model);
         RedCar.Draw(ourShader);
+                
 
         if (numberOfPlayers == 2.0f)
         {
@@ -1170,12 +1249,6 @@ int main()
             ourShader.setMat4("model", model2);
             RedCar2.Draw(ourShader);
         }
-
-        glm::mat4 newtrack = glm::mat4(1.0f);
-        newtrack = glm::translate(newtrack, glm::vec3(100.0f, 11.0f, -400.0f));
-        newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
-        ourShader.setMat4("model", newtrack);
-        track.Draw(ourShader);
 
         if (numberOfPlayers == 2.0f)
         {
@@ -1690,13 +1763,12 @@ int main()
                 }
             }
 
-
             glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT * numberOfPlayers, 1.0f, 10000.0f);
             glm::mat4 view = camera2.GetViewMatrixAtPlayer(player2.playerPosition);
              
 
 
-            //  glm::mat4 projection2 = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / numberOfPlayers / (float)SCR_HEIGHT, 1.0f, 10000.0f);
+           //  glm::mat4 projection2 = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / numberOfPlayers / (float)SCR_HEIGHT, 1.0f, 10000.0f);
            //   glm::mat4 view2 = camera2.GetViewMatrixAtPlayer(player2.playerPosition);
 
 
@@ -1716,8 +1788,24 @@ int main()
             victorianHouseModel.Draw(ourShader);
 
             //road was here
+            /*glm::mat4 newtrack = glm::mat4(1.0f);
+            newtrack = glm::translate(newtrack, glm::vec3(100.0f, 11.0f, -400.0f));
+            newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
+            roadShader.setMat4("model", newtrack);
+            countryRoadModel.Draw(roadShader);*/
 
-                //Background Loader
+            roadShader.use();
+            roadShader.setInt("texture_diffuse1", 0);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, countryRoadModel.textures_loaded[0].id); // note: we also made the textures_loaded vector public (instead of private) from the model class.
+            for (unsigned int i = 0; i < countryRoadModel.meshes.size(); i++)
+            {
+                glBindVertexArray(countryRoadModel.meshes[i].VAO);
+                glDrawElementsInstanced(GL_TRIANGLES, countryRoadModel.meshes[i].indices.size(), GL_UNSIGNED_INT, 0, amount);
+                glBindVertexArray(0);
+            }
+
+            //Background Loader
             backgroundShader.use();
 
             backgroundShader.setMat4("view", view);
@@ -1746,12 +1834,6 @@ int main()
             model2 = glm::scale(model2, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
             ourShader.setMat4("model", model2);
             RedCar2.Draw(ourShader);
-
-            glm::mat4 newtrack = glm::mat4(1.0f);
-            newtrack = glm::translate(newtrack, glm::vec3(100.0f, 11.0f, -400.0f));
-            newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
-            ourShader.setMat4("model", newtrack);
-            track.Draw(ourShader);
         }
         //draw hud
         //----------------------------------

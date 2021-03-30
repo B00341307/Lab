@@ -112,12 +112,6 @@ int main()
 
     // build and compile shaders
     // -------------------------
-    Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
-    Shader shader2("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
-    Shader normalShader("Shaders/9.3.normal_visualization.vs", "Shaders/9.3.normal_visualization.fs", "Shaders/9.3.normal_visualization.gs");
-    Shader shader_explosion("Shaders/9.2.geometry_shader.vs", "Shaders/9.2.geometry_shader.fs", "Shaders/9.2.geometry_shader.gs");
-
-
     Shader ourShader("1.model_loading.v2.vs", "1.model_loading.v2.fs");
     Shader equirectangularToCubemapShader("2.2.2.cubemap.vs", "2.2.2.equirectangular_to_cubemap.fs");
     Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
@@ -130,11 +124,11 @@ int main()
 
     // load models
     // -----------
+    Model victorianHouseModel("resources/objects/Victorian House/Victorian House 2 8 edit 2.obj");
+    Model countryRoadModel("resources/objects/country road/terreno02.obj");
     stbi_set_flip_vertically_on_load(true);
     Model RedCar("resources/objects/RedCarColours/RedCar.obj");
     Model RedCar2("resources/objects/RedCar/RedCar.obj");
-     Model victorianHouseModel("resources/objects/Victorian House/Victorian House 2 8 edit 2.obj");
-    Model countryRoadModel("resources/objects/country road/terreno02.obj");
 
     // pbr: setup framebuffer
     // ----------------------

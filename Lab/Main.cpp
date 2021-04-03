@@ -15,7 +15,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
- 
+
 #define GLT_IMPLEMENTATION//does not works
 #include "gltext.h"   //does not works
 
@@ -81,7 +81,7 @@ Player player1;
 Player player2;
 
 int main()
-{  
+{
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -100,20 +100,20 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
- //   glfwSetCursorPosCallback(window, mouse_callback);
-  //  glfwSetScrollCallback(window, scroll_callback);
+    //   glfwSetCursorPosCallback(window, mouse_callback);
+     //  glfwSetScrollCallback(window, scroll_callback);
 
-    // tell GLFW to capture our mouse
-  //  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+       // tell GLFW to capture our mouse
+     //  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
+       // glad: load all OpenGL function pointers
+       // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
- 
+
 
     // configure opengl state
     glEnable(GL_DEPTH_TEST);
@@ -144,7 +144,7 @@ int main()
     Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
 
     Shader toonShader("Shaders/Toon.vs", "Toon.fs");
-  
+
     ourShader.use();
     ourShader.setInt("material.diffuse", 0);
     backgroundShader.use();
@@ -155,7 +155,7 @@ int main()
 
     // load models
     // -----------
-   
+
     Model victorianHouseModel("resources/objects/Victorian House/Victorian House 2 8 edit 2.obj");
     Model countryRoadModel("resources/objects/country road/terreno02.obj");
 
@@ -167,7 +167,7 @@ int main()
     Model Shield("resources/HUD/shield/shield.obj");
 
     Model track("resources/objects/track/track.obj");
-   
+
     // pbr: setup framebuffer
     // ----------------------
     unsigned int captureFBO;
@@ -362,7 +362,7 @@ int main()
 
     GLTtext* text2 = gltCreateText();
 
-    double time =1000;
+    double time = 1000;
     char str[30];
     /////////////////////////////////////////////////////////////////////////
 
@@ -447,40 +447,40 @@ int main()
         // input
         // -----     
         processInput(window);
-        
+
         if (numberOfPlayers == 2.0f)
         {
             //top screen
-            glViewport(0, SCR_HEIGHT / 2, SCR_WIDTH , SCR_HEIGHT / 2);
-           /* glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glViewport(0, 0, SCR_WIDTH / 2, SCR_HEIGHT);
-            glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-            glMatrixMode(GL_MODELVIEW);*/
-            /*
-            // setup your right view projection:
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
-            glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-            glMatrixMode(GL_MODELVIEW);
-            */
+            glViewport(0, SCR_HEIGHT / 2, SCR_WIDTH, SCR_HEIGHT / 2);
+            /* glMatrixMode(GL_PROJECTION);
+             glLoadIdentity();
+             glViewport(0, 0, SCR_WIDTH / 2, SCR_HEIGHT);
+             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
+             glMatrixMode(GL_MODELVIEW);*/
+             /*
+             // setup your right view projection:
+             glMatrixMode(GL_PROJECTION);
+             glLoadIdentity();
+             glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
+             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
+             glMatrixMode(GL_MODELVIEW);
+             */
         }
         else
         {
             //normal screen
             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-           /* glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-            glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-            glMatrixMode(GL_MODELVIEW);*/
+            /* glMatrixMode(GL_PROJECTION);
+             glLoadIdentity();
+             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
+             glMatrixMode(GL_MODELVIEW);*/
         }
-      
-        
-         camera.Position = glm::vec3(player1.playerPosition.x+10.0f, 
-                                     player1.playerPosition.y+5.0f,
-                                     player1.playerPosition.z);
+
+
+        camera.Position = glm::vec3(player1.playerPosition.x + 10.0f,
+            player1.playerPosition.y + 5.0f,
+            player1.playerPosition.z);
 
 
         camera.move(player1.playerRotation, player1.playerPosition, player1.pressed);
@@ -492,8 +492,8 @@ int main()
         if (player1.playerCurrentSpeed > 530)
             player1.playerCurrentSpeed = 530;
 
-        player1.playerRotation += player1.playerCurrentTurnSpeed/100;
-        double distance = player1.playerCurrentSpeed/100;// *deltaTime;
+        player1.playerRotation += player1.playerCurrentTurnSpeed / 100;
+        double distance = player1.playerCurrentSpeed / 100;// *deltaTime;
         double dx = (double)(distance * sin(player1.playerRotation + M_PI / 2));
         double dz = (double)(distance * cos(player1.playerRotation + M_PI / 2));
         player1.playerPosition += glm::vec3(dx, 0.0f, dz);
@@ -529,7 +529,7 @@ int main()
             double dz2 = (double)(distance2 * cos(player2.playerRotation + M_PI / 2));
             player2.playerPosition += glm::vec3(dx2, 0.0f, dz2);
 
-        // calculate the new Front vector
+            // calculate the new Front vector
             glm::vec3 front2;
             front2.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
             front2.y = sin(glm::radians(0.0f));
@@ -559,7 +559,7 @@ int main()
         ourShader.use();
         ourShader.setVec3("viewPos", camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
-       
+
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
         {
             key = 1;
@@ -580,523 +580,523 @@ int main()
             key = 4;
         }
 
-    {
-        if (key == 1)
         {
-            // == ==============================================================================================
-            //       DESERT
-            // == ==============================================================================================
+            if (key == 1)
+            {
+                // == ==============================================================================================
+                //       DESERT
+                // == ==============================================================================================
 
-            glClearColor(0.75f, 0.52f, 0.3f, 1.0f);
+                glClearColor(0.75f, 0.52f, 0.3f, 1.0f);
 
-            glm::vec3 pointLightColors[] = {
-                glm::vec3(1.0f, 0.6f, 0.0f),
-                glm::vec3(1.0f, 0.0f, 0.0f),
-                glm::vec3(1.0f, 1.0, 0.0),
-                glm::vec3(0.2f, 0.2f, 1.0f)
-            };
+                glm::vec3 pointLightColors[] = {
+                    glm::vec3(1.0f, 0.6f, 0.0f),
+                    glm::vec3(1.0f, 0.0f, 0.0f),
+                    glm::vec3(1.0f, 1.0, 0.0),
+                    glm::vec3(0.2f, 0.2f, 1.0f)
+                };
 
-            // Directional light
-            ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-            ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
-            ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-            ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-            // Point light 1
-            ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+                // Directional light
+                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+                ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
+                ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
+                ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+                // Point light 1
+                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
 
-            ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
 
-            ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
 
-            ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
 
-            ourShader.setFloat("pointLights[0].constant", 1.0f);
+                ourShader.setFloat("pointLights[0].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[0].linear", 0.09);
+                ourShader.setFloat("pointLights[0].linear", 0.09);
 
-            ourShader.setFloat("pointLights[0].quadratic", 0.032);
-            // Point light 2
+                ourShader.setFloat("pointLights[0].quadratic", 0.032);
+                // Point light 2
 
-            ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
 
-            ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
 
-            ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
 
-            ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
 
-            ourShader.setFloat("pointLights[1].constant", 1.0f);
+                ourShader.setFloat("pointLights[1].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[1].linear", 0.09);
+                ourShader.setFloat("pointLights[1].linear", 0.09);
 
-            ourShader.setFloat("pointLights[1].quadratic", 0.032);
-            // Point light 3
+                ourShader.setFloat("pointLights[1].quadratic", 0.032);
+                // Point light 3
 
-            ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
 
-            ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
 
-            ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
 
-            ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
 
-            ourShader.setFloat("pointLights[2].constant", 1.0f);
+                ourShader.setFloat("pointLights[2].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[2].linear", 0.09);
+                ourShader.setFloat("pointLights[2].linear", 0.09);
 
-            ourShader.setFloat("pointLights[2].quadratic", 0.032);
-            // Point light 4
+                ourShader.setFloat("pointLights[2].quadratic", 0.032);
+                // Point light 4
 
-            ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
 
-            ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
 
-            ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
 
-            ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
 
-            ourShader.setFloat("pointLights[3].constant", 1.0f);
+                ourShader.setFloat("pointLights[3].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[3].linear", 0.09);
+                ourShader.setFloat("pointLights[3].linear", 0.09);
 
-            ourShader.setFloat("pointLights[3].quadratic", 0.032);
-            // SpotLight
+                ourShader.setFloat("pointLights[3].quadratic", 0.032);
+                // SpotLight
 
-            ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
 
-            ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
+                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
 
-            ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 
-            ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
+                ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
 
-            ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
+                ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
 
-            ourShader.setFloat("spotLight.constant", 1.0f);
+                ourShader.setFloat("spotLight.constant", 1.0f);
 
-            ourShader.setFloat("spotLight.linear", 0.09);
+                ourShader.setFloat("spotLight.linear", 0.09);
 
-            ourShader.setFloat("spotLight.quadratic", 0.032);
+                ourShader.setFloat("spotLight.quadratic", 0.032);
 
-            ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 
-            ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
+                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
 
-/////////////////////////////////////////camera 2 ///////////////////////////////////////////////
+                /////////////////////////////////////////camera 2 ///////////////////////////////////////////////
 
-            ourShader.use();
-            ourShader.setVec3("viewPos", camera2.Position);
-            ourShader.setFloat("material.shininess", 32.0f);
+                ourShader.use();
+                ourShader.setVec3("viewPos", camera2.Position);
+                ourShader.setFloat("material.shininess", 32.0f);
 
-            // Directional light
-            ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-            ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
-            ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-            ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-            // Point light 1
-            ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+                // Directional light
+                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+                ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
+                ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
+                ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+                // Point light 1
+                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
 
-            ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
 
-            ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
 
-            ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
 
-            ourShader.setFloat("pointLights[0].constant", 1.0f);
+                ourShader.setFloat("pointLights[0].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[0].linear", 0.09);
+                ourShader.setFloat("pointLights[0].linear", 0.09);
 
-            ourShader.setFloat("pointLights[0].quadratic", 0.032);
-            // Point light 2
+                ourShader.setFloat("pointLights[0].quadratic", 0.032);
+                // Point light 2
 
-            ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
 
-            ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
 
-            ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
 
-            ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
 
-            ourShader.setFloat("pointLights[1].constant", 1.0f);
+                ourShader.setFloat("pointLights[1].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[1].linear", 0.09);
+                ourShader.setFloat("pointLights[1].linear", 0.09);
 
-            ourShader.setFloat("pointLights[1].quadratic", 0.032);
-            // Point light 3
+                ourShader.setFloat("pointLights[1].quadratic", 0.032);
+                // Point light 3
 
-            ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
 
-            ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
 
-            ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
 
-            ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
 
-            ourShader.setFloat("pointLights[2].constant", 1.0f);
+                ourShader.setFloat("pointLights[2].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[2].linear", 0.09);
+                ourShader.setFloat("pointLights[2].linear", 0.09);
 
-            ourShader.setFloat("pointLights[2].quadratic", 0.032);
-            // Point light 4
+                ourShader.setFloat("pointLights[2].quadratic", 0.032);
+                // Point light 4
 
-            ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
 
-            ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
 
-            ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
 
-            ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
 
-            ourShader.setFloat("pointLights[3].constant", 1.0f);
+                ourShader.setFloat("pointLights[3].constant", 1.0f);
 
-            ourShader.setFloat("pointLights[3].linear", 0.09);
+                ourShader.setFloat("pointLights[3].linear", 0.09);
 
-            ourShader.setFloat("pointLights[3].quadratic", 0.032);
-            // SpotLight
+                ourShader.setFloat("pointLights[3].quadratic", 0.032);
+                // SpotLight
 
-            ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
+                ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
 
-            ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
+                ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
 
-            ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
 
-            ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
+                ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
 
-            ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
+                ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
 
-            ourShader.setFloat("spotLight.constant", 1.0f);
+                ourShader.setFloat("spotLight.constant", 1.0f);
 
-            ourShader.setFloat("spotLight.linear", 0.09);
+                ourShader.setFloat("spotLight.linear", 0.09);
 
-            ourShader.setFloat("spotLight.quadratic", 0.032);
+                ourShader.setFloat("spotLight.quadratic", 0.032);
 
-            ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
+                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
 
-            ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
+                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
 
+            }
+            if (key == 2)
+            {
+                // == ==============================================================================================
+                //       FACTORY
+                // == ==============================================================================================
+
+                glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+                glm::vec3 pointLightColors[] = {
+                    glm::vec3(0.2f, 0.2f, 0.6f),
+                    glm::vec3(0.3f, 0.3f, 0.7f),
+                    glm::vec3(0.0f, 0.0f, 0.3f),
+                    glm::vec3(0.4f, 0.4f, 0.4f)
+                };
+
+                // Directional light
+
+                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+
+                ourShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.1f);
+
+                ourShader.setVec3("dirLight.diffuse", 0.2f, 0.2f, 0.7);
+
+                ourShader.setVec3("dirLight.specular", 0.7f, 0.7f, 0.7f);
+                // Point light 1
+
+                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+
+                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+
+                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setFloat("pointLights[0].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[0].linear", 0.09);
+
+                ourShader.setFloat("pointLights[0].quadratic", 0.032);
+                // Point light 2
+
+                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+
+                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+
+                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setFloat("pointLights[1].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[1].linear", 0.09);
+
+                ourShader.setFloat("pointLights[1].quadratic", 0.032);
+                // Point light 3
+
+                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+
+                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+
+                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setFloat("pointLights[2].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[2].linear", 0.09);
+
+                ourShader.setFloat("pointLights[2].quadratic", 0.032);
+                // Point light 4
+
+                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+
+                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+
+                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setFloat("pointLights[3].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[3].linear", 0.09);
+
+                ourShader.setFloat("pointLights[3].quadratic", 0.032);
+                // SpotLight
+
+                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+
+                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
+
+                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+
+                ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+
+                ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+
+                ourShader.setFloat("spotLight.constant", 1.0f);
+
+                ourShader.setFloat("spotLight.linear", 0.009);
+
+                ourShader.setFloat("spotLight.quadratic", 0.0032);
+
+                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
+
+                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
+            }
+            if (key == 3)
+            {
+                // == ==============================================================================================
+                //       HORROR
+                // == ==============================================================================================
+
+                glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+                glm::vec3 pointLightColors[] = {
+                    glm::vec3(0.1f, 0.1f, 0.1f),
+                    glm::vec3(0.1f, 0.1f, 0.1f),
+                    glm::vec3(0.1f, 0.1f, 0.1f),
+                    glm::vec3(0.3f, 0.1f, 0.1f)
+                };
+
+                // Directional light
+
+                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+
+                ourShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
+
+                ourShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
+
+                ourShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
+                // Point light 1
+
+                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+
+                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+
+                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setFloat("pointLights[0].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[0].linear", 0.14);
+
+                ourShader.setFloat("pointLights[0].quadratic", 0.07);
+                // Point light 2
+
+                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+
+                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+
+                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setFloat("pointLights[1].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[1].linear", 0.14);
+
+                ourShader.setFloat("pointLights[1].quadratic", 0.07);
+                // Point light 3
+
+                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+
+                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+
+                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setFloat("pointLights[2].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[2].linear", 0.22);
+
+                ourShader.setFloat("pointLights[2].quadratic", 0.20);
+                // Point light 4
+
+                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+
+                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+
+                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setFloat("pointLights[3].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[3].linear", 0.14);
+
+                ourShader.setFloat("pointLights[3].quadratic", 0.07);
+                // SpotLight
+
+                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+
+                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
+
+                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+
+                ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
+
+                ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+
+                ourShader.setFloat("spotLight.constant", 1.0f);
+
+                ourShader.setFloat("spotLight.linear", 0.09);
+
+                ourShader.setFloat("spotLight.quadratic", 0.032);
+
+                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
+
+                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
+            }
+            if (key == 4)
+            {
+                // == ==============================================================================================
+                //       BIOCHEMICAL LAB
+                // == ==============================================================================================
+
+                glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
+
+                glm::vec3 pointLightColors[] = {
+                    glm::vec3(0.4f, 0.7f, 0.1f),
+                    glm::vec3(0.4f, 0.7f, 0.1f),
+                    glm::vec3(0.4f, 0.7f, 0.1f),
+                    glm::vec3(0.4f, 0.7f, 0.1f)
+                };
+
+                // Directional light
+
+                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
+
+                ourShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
+
+                ourShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
+
+                ourShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
+                // Point light 1
+
+                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
+
+                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
+
+                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
+
+                ourShader.setFloat("pointLights[0].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[0].linear", 0.07);
+
+                ourShader.setFloat("pointLights[0].quadratic", 0.017);
+                // Point light 2
+
+                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
+
+                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
+
+                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
+
+                ourShader.setFloat("pointLights[1].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[1].linear", 0.07);
+
+                ourShader.setFloat("pointLights[1].quadratic", 0.017);
+                // Point light 3
+
+                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
+
+                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
+
+                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
+
+                ourShader.setFloat("pointLights[2].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[2].linear", 0.07);
+
+                ourShader.setFloat("pointLights[2].quadratic", 0.017);
+                // Point light 4
+
+                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
+
+                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
+
+                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
+
+                ourShader.setFloat("pointLights[3].constant", 1.0f);
+
+                ourShader.setFloat("pointLights[3].linear", 0.07);
+
+                ourShader.setFloat("pointLights[3].quadratic", 0.017);
+                // SpotLight
+
+                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
+
+                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
+
+                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
+
+                ourShader.setVec3("spotLight.diffuse", 0.0f, 1.0f, 0.0f);
+
+                ourShader.setVec3("spotLight.specular", 0.0f, 1.0f, 0.0f);
+
+                ourShader.setFloat("spotLight.constant", 1.0f);
+
+                ourShader.setFloat("spotLight.linear", 0.07);
+
+                ourShader.setFloat("spotLight.quadratic", 0.017);
+
+                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(7.0f)));
+
+                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(10.0f)));
+            }
         }
-        if (key == 2)
-        {
-            // == ==============================================================================================
-            //       FACTORY
-            // == ==============================================================================================
 
-            glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-            glm::vec3 pointLightColors[] = {
-                glm::vec3(0.2f, 0.2f, 0.6f),
-                glm::vec3(0.3f, 0.3f, 0.7f),
-                glm::vec3(0.0f, 0.0f, 0.3f),
-                glm::vec3(0.4f, 0.4f, 0.4f)
-            };
-
-            // Directional light
-
-            ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-            ourShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.1f);
-
-            ourShader.setVec3("dirLight.diffuse", 0.2f, 0.2f, 0.7);
-
-            ourShader.setVec3("dirLight.specular", 0.7f, 0.7f, 0.7f);
-            // Point light 1
-
-            ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-            ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-            ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[0].linear", 0.09);
-
-            ourShader.setFloat("pointLights[0].quadratic", 0.032);
-            // Point light 2
-
-            ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-            ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-            ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[1].linear", 0.09);
-
-            ourShader.setFloat("pointLights[1].quadratic", 0.032);
-            // Point light 3
-
-            ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-            ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-            ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[2].linear", 0.09);
-
-            ourShader.setFloat("pointLights[2].quadratic", 0.032);
-            // Point light 4
-
-            ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-            ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-            ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[3].linear", 0.09);
-
-            ourShader.setFloat("pointLights[3].quadratic", 0.032);
-            // SpotLight
-
-            ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-            ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-            ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-            ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-            ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-            ourShader.setFloat("spotLight.constant", 1.0f);
-
-            ourShader.setFloat("spotLight.linear", 0.009);
-
-            ourShader.setFloat("spotLight.quadratic", 0.0032);
-
-            ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-            ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
-        }
-        if (key == 3)
-        {
-            // == ==============================================================================================
-            //       HORROR
-            // == ==============================================================================================
-
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-            glm::vec3 pointLightColors[] = {
-                glm::vec3(0.1f, 0.1f, 0.1f),
-                glm::vec3(0.1f, 0.1f, 0.1f),
-                glm::vec3(0.1f, 0.1f, 0.1f),
-                glm::vec3(0.3f, 0.1f, 0.1f)
-            };
-
-            // Directional light
-
-            ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-            ourShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-
-            ourShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
-
-            ourShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
-            // Point light 1
-
-            ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-            ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-            ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[0].linear", 0.14);
-
-            ourShader.setFloat("pointLights[0].quadratic", 0.07);
-            // Point light 2
-
-            ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-            ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-            ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[1].linear", 0.14);
-
-            ourShader.setFloat("pointLights[1].quadratic", 0.07);
-            // Point light 3
-
-            ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-            ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-            ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[2].linear", 0.22);
-
-            ourShader.setFloat("pointLights[2].quadratic", 0.20);
-            // Point light 4
-
-            ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-            ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-            ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[3].linear", 0.14);
-
-            ourShader.setFloat("pointLights[3].quadratic", 0.07);
-            // SpotLight
-
-            ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-            ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-            ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-            ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-            ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-            ourShader.setFloat("spotLight.constant", 1.0f);
-
-            ourShader.setFloat("spotLight.linear", 0.09);
-
-            ourShader.setFloat("spotLight.quadratic", 0.032);
-
-            ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-            ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-        }
-        if (key == 4)
-        {
-            // == ==============================================================================================
-            //       BIOCHEMICAL LAB
-            // == ==============================================================================================
-
-            glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
-
-            glm::vec3 pointLightColors[] = {
-                glm::vec3(0.4f, 0.7f, 0.1f),
-                glm::vec3(0.4f, 0.7f, 0.1f),
-                glm::vec3(0.4f, 0.7f, 0.1f),
-                glm::vec3(0.4f, 0.7f, 0.1f)
-            };
-
-            // Directional light
-
-            ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-            ourShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
-
-            ourShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-            ourShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
-            // Point light 1
-
-            ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-            ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-            ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-            ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[0].linear", 0.07);
-
-            ourShader.setFloat("pointLights[0].quadratic", 0.017);
-            // Point light 2
-
-            ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-            ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-            ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-            ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[1].linear", 0.07);
-
-            ourShader.setFloat("pointLights[1].quadratic", 0.017);
-            // Point light 3
-
-            ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-            ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-            ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-            ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[2].linear", 0.07);
-
-            ourShader.setFloat("pointLights[2].quadratic", 0.017);
-            // Point light 4
-
-            ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-            ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-            ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-            ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-            ourShader.setFloat("pointLights[3].linear", 0.07);
-
-            ourShader.setFloat("pointLights[3].quadratic", 0.017);
-            // SpotLight
-
-            ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-            ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-            ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-            ourShader.setVec3("spotLight.diffuse", 0.0f, 1.0f, 0.0f);
-
-            ourShader.setVec3("spotLight.specular", 0.0f, 1.0f, 0.0f);
-
-            ourShader.setFloat("spotLight.constant", 1.0f);
-
-            ourShader.setFloat("spotLight.linear", 0.07);
-
-            ourShader.setFloat("spotLight.quadratic", 0.017);
-
-            ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(7.0f)));
-
-            ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(10.0f)));
-        }
-    }
-
-
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH/ (float)SCR_HEIGHT * numberOfPlayers, 1.0f, 10000.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT * numberOfPlayers, 1.0f, 10000.0f);
         glm::mat4 view = camera.GetViewMatrixAtPlayer(player1.playerPosition);
 
         ourShader.setMat4("projection", projection);
@@ -1111,45 +1111,42 @@ int main()
         ourShader.setMat4("model", victorianHouse);
         victorianHouseModel.Draw(ourShader);
 
-    //road was here
+        //road was here
 
-        //Background Loader
+            //Background Loader
         backgroundShader.use();
         backgroundShader.setMat4("view", view);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
         renderSphere();
 
-       //draw model using normal shader
+        //draw model using normal shader
         float tiltRotation = 1;
 
 
-       /* ourShader.use();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, playerPosition);
-        if (playerCurrentTurnSpeed > 0.0f)//left
-        {
-            camera.changeCamYaw(50);
-
-
-            //glPushMatrix(); // Save ModelView
-           //  model = glm::rotate(model, tiltRotation, glm::vec3(0.0f, 0.0f, 1.0f));
-           // glPopMatrix(); // Restore ModelView
-
-        }
-        else  if (playerCurrentTurnSpeed < 0.0f)//right
-        {
-           // model = glm::translate(model, -playerPosition);
-               // model = glm::rotate(model, -tiltRotation* playerRotation, glm::vec3(1.0f, 0.0f, 1.0f));
-            //    model = glm::translate(model, playerPosition);
-        }     
-            //    model = glm::translate(model, playerPosition); 
-        model = glm::rotate(model, playerRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        ourShader.setMat4("model", model);
-        RedCar.Draw(ourShader); */
+        /* ourShader.use();
+         ourShader.setMat4("projection", projection);
+         ourShader.setMat4("view", view);
+         glm::mat4 model = glm::mat4(1.0f);
+         model = glm::translate(model, playerPosition);
+         if (playerCurrentTurnSpeed > 0.0f)//left
+         {
+             camera.changeCamYaw(50);
+             //glPushMatrix(); // Save ModelView
+            //  model = glm::rotate(model, tiltRotation, glm::vec3(0.0f, 0.0f, 1.0f));
+            // glPopMatrix(); // Restore ModelView
+         }
+         else  if (playerCurrentTurnSpeed < 0.0f)//right
+         {
+            // model = glm::translate(model, -playerPosition);
+                // model = glm::rotate(model, -tiltRotation* playerRotation, glm::vec3(1.0f, 0.0f, 1.0f));
+             //    model = glm::translate(model, playerPosition);
+         }
+             //    model = glm::translate(model, playerPosition);
+         model = glm::rotate(model, playerRotation, glm::vec3(0.0f, 1.0f, 0.0f));
+         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+         ourShader.setMat4("model", model);
+         RedCar.Draw(ourShader); */
 
         ourShader.use();
         ourShader.setMat4("projection", projection);
@@ -1179,13 +1176,13 @@ int main()
 
         if (numberOfPlayers == 2.0f)
         {
-                // setup your right view projection:
-            glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT/2);
-               /* glMatrixMode(GL_PROJECTION);
-                glLoadIdentity();
-                glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
-                glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-                glMatrixMode(GL_MODELVIEW);*/
+            // setup your right view projection:
+            glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT / 2);
+            /* glMatrixMode(GL_PROJECTION);
+             glLoadIdentity();
+             glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
+             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
+             glMatrixMode(GL_MODELVIEW);*/
 
 
             camera2.Position = glm::vec3(player2.playerPosition.x + 10.0f,
@@ -1195,8 +1192,8 @@ int main()
 
             camera2.move(player2.playerRotation, player2.playerPosition, player2.pressed);
 
-///////////////////////////////////////player1
-//move
+            ///////////////////////////////////////player1
+            //move
             if (player1.playerCurrentSpeed < -530)
                 player1.playerCurrentSpeed = -530;
 
@@ -1222,30 +1219,30 @@ int main()
             player1.Right = glm::normalize(glm::cross(player1.Front, player1.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
             player1.Up = glm::normalize(glm::cross(player1.Right, player1.Front));
 
-/////////////////////////player2
-//move
-                if (player2.playerCurrentSpeed < -530)
-                    player2.playerCurrentSpeed = -530;
+            /////////////////////////player2
+            //move
+            if (player2.playerCurrentSpeed < -530)
+                player2.playerCurrentSpeed = -530;
 
-                if (player2.playerCurrentSpeed > 530)
-                    player2.playerCurrentSpeed = 530;
+            if (player2.playerCurrentSpeed > 530)
+                player2.playerCurrentSpeed = 530;
 
-                player2.playerRotation += player2.playerCurrentTurnSpeed / 100;
-                double distance2 = player2.playerCurrentSpeed / 100;// *deltaTime;
-                double dx2 = (double)(distance2 * sin(player2.playerRotation + M_PI / 2));
-                double dz2 = (double)(distance2 * cos(player2.playerRotation + M_PI / 2));
-                player2.playerPosition += glm::vec3(dx2, 0.0f, dz2);
+            player2.playerRotation += player2.playerCurrentTurnSpeed / 100;
+            double distance2 = player2.playerCurrentSpeed / 100;// *deltaTime;
+            double dx2 = (double)(distance2 * sin(player2.playerRotation + M_PI / 2));
+            double dz2 = (double)(distance2 * cos(player2.playerRotation + M_PI / 2));
+            player2.playerPosition += glm::vec3(dx2, 0.0f, dz2);
 
             // calculate the new Front vector
-                glm::vec3 front2;
-                front2.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-                front2.y = sin(glm::radians(0.0f));
-                front2.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
-                player2.Front = glm::normalize(front);
-                // also re-calculate the Right and Up vector
-                player2.Right = glm::normalize(glm::cross(player2.Front, player2.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-                player2.Up = glm::normalize(glm::cross(player2.Right, player2.Front));
-            
+            glm::vec3 front2;
+            front2.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
+            front2.y = sin(glm::radians(0.0f));
+            front2.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
+            player2.Front = glm::normalize(front);
+            // also re-calculate the Right and Up vector
+            player2.Right = glm::normalize(glm::cross(player2.Front, player2.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+            player2.Up = glm::normalize(glm::cross(player2.Right, player2.Front));
+
             // render
             // ------
             //gltBeginDraw();
@@ -1281,7 +1278,7 @@ int main()
                         glm::vec3(1.0f, 1.0, 0.0),
                         glm::vec3(0.2f, 0.2f, 1.0f)
                     };
-                
+
                     // Directional light
                     ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
                     ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
@@ -1693,7 +1690,7 @@ int main()
 
             glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT * numberOfPlayers, 1.0f, 10000.0f);
             glm::mat4 view = camera2.GetViewMatrixAtPlayer(player2.playerPosition);
-             
+
 
 
             //  glm::mat4 projection2 = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / numberOfPlayers / (float)SCR_HEIGHT, 1.0f, 10000.0f);
@@ -1781,7 +1778,7 @@ int main()
             GLT_CENTER, GLT_CENTER);
         // end 2d
         glDisable2D();
-        
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -1807,7 +1804,7 @@ void glEnable2D()
     glPushMatrix();
     glLoadIdentity();
 
-  //  glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
+    //  glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
     glOrtho(0.0, SCR_WIDTH, 0.0, SCR_HEIGHT, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -1835,16 +1832,16 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     //forward / backward player1
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed<=0.0 )//forward
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0)//forward
     {
-        player1.playerCurrentSpeed -= player1.playerAcceleration* deltaTime ;
+        player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
         //playerCurrentSpeed = -MovementSpeed;
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0)//backward
     {
-        player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime  * 0.7 ;
+        player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
         //playerCurrentSpeed = MovementSpeed * 0.7f;
-    }     
+    }
     else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0)//forward while still going backward
     {
         player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
@@ -1857,7 +1854,7 @@ void processInput(GLFWwindow* window)
     }
     else if (player1.playerCurrentSpeed > 0.0)//drag force when w key is relesed
     {
-        player1.playerCurrentSpeed -= 18000/ player1.playerCurrentSpeed  * deltaTime;
+        player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
         if (player1.playerCurrentSpeed < 0.0)
         {
             player1.playerCurrentSpeed = 0.0;
@@ -1865,18 +1862,18 @@ void processInput(GLFWwindow* window)
     }
     else if (player1.playerCurrentSpeed < 0.0)//drag force when s key is relesed
     {
-        player1.playerCurrentSpeed -= 18000/ player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
         if (player1.playerCurrentSpeed > 0.0)
         {
             player1.playerCurrentSpeed = 0.0;
-       }
+        }
     }
 
 
 
     //left / right player 1
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-        player1.playerCurrentSpeed<0.0 && player1.playerCurrentTurnSpeed>=0.0)//turn left when going forward
+        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
     {
         player1.playerCurrentTurnSpeed += -0.005 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
@@ -1884,7 +1881,7 @@ void processInput(GLFWwindow* window)
         player1.pressed = true;
         if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
             player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
-    }      
+    }
     else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
         player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
     {
@@ -1896,7 +1893,7 @@ void processInput(GLFWwindow* window)
             player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
     }
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-        player1.playerCurrentSpeed > 0.0&& player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
+        player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
     {
         player1.playerCurrentTurnSpeed += -0.008 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
@@ -1905,7 +1902,7 @@ void processInput(GLFWwindow* window)
         if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
             player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
     }
-    else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS 
+    else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
         && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when backward
     {
         player1.playerCurrentTurnSpeed += 0.008 * player1.playerCurrentSpeed * deltaTime;
@@ -1915,12 +1912,12 @@ void processInput(GLFWwindow* window)
         if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
             player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
     }
-    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS 
+    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
         && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
     {
         player1.playerCurrentTurnSpeed = 15 * deltaTime;
     }
-    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS 
+    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS
         && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
     {
         player1.playerCurrentTurnSpeed -= 15 * deltaTime;
@@ -1937,7 +1934,7 @@ void processInput(GLFWwindow* window)
     }
     else if (player1.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
     {
-        player1.playerCurrentTurnSpeed -= 9* deltaTime;
+        player1.playerCurrentTurnSpeed -= 9 * deltaTime;
         if (player1.playerCurrentTurnSpeed < 0.0)
         {
             player1.playerCurrentTurnSpeed = 0.0;
@@ -1947,7 +1944,7 @@ void processInput(GLFWwindow* window)
     }
     else if (player1.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
     {
-        player1.playerCurrentTurnSpeed += 9* deltaTime;
+        player1.playerCurrentTurnSpeed += 9 * deltaTime;
         if (player1.playerCurrentTurnSpeed > 0.0)
         {
             player1.playerCurrentTurnSpeed = 0.0;
@@ -1958,221 +1955,221 @@ void processInput(GLFWwindow* window)
 
 
     //brake player1
-    if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
     {
-      // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
-        player1.playerCurrentSpeed -= 80000/ player1.playerCurrentSpeed *deltaTime;
+        // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
+        player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
 
         if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
         {
-          //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
         }
         if (player1.playerCurrentSpeed < 0.0)
         {
             player1.playerCurrentSpeed = 0.0;
         }
     }
-     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
-     {
-         player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
+    {
+        player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
         if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
         {
-           // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
         }
         if (player1.playerCurrentSpeed > 0.0)
         {
             player1.playerCurrentSpeed = 0.0;
         }
-     }
+    }
 
-////////////////////////player 2/////////////////////////////////////
+    ////////////////////////player 2/////////////////////////////////////
 
-     //forward / backward player2
-     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//forward
-     {
-         player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
-         //playerCurrentSpeed = -MovementSpeed;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//backward
-     {
-         player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
-         //playerCurrentSpeed = MovementSpeed * 0.7f;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//forward while still going backward
-     {
-         player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
-         //playerCurrentSpeed = -MovementSpeed;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//backward while still going forward
-     {
-         player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
-         //playerCurrentSpeed = MovementSpeed * 0.7f;
-     }
-     else if (player2.playerCurrentSpeed > 0.0)//drag force when w key is relesed
-     {
-         player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
-         if (player2.playerCurrentSpeed < 0.0)
-         {
-             player2.playerCurrentSpeed = 0.0;
-         }
-     }
-     else if (player2.playerCurrentSpeed < 0.0)//drag force when s key is relesed
-     {
-         player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
-         if (player2.playerCurrentSpeed > 0.0)
-         {
-             player2.playerCurrentSpeed = 0.0;
-         }
-     }
-
-
-
-     //left / right player 2
-     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
-         player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
-     {
-         player2.playerCurrentTurnSpeed += -0.005 * player2.playerCurrentSpeed * deltaTime;
-         player2.playerCurrentSpeed *= 0.9999;
-         player2.playerAcceleration = 30.00;
-         player2.pressed = true;
-         if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
-             player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
-     }
-     else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-         player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
-     {
-         player2.playerCurrentTurnSpeed += 0.005 * player2.playerCurrentSpeed * deltaTime;
-         player2.playerCurrentSpeed *= 0.9999;
-         player2.playerAcceleration = 30.00;
-         player2.pressed = true;
-         if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
-             player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
-     {
-         player2.playerCurrentTurnSpeed += -0.008 * player2.playerCurrentSpeed * deltaTime;
-         player2.playerCurrentSpeed *= 0.9999;
-         player2.playerAcceleration = 30.00;
-         player2.pressed = true;
-         if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
-             player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
-     }
-     else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
-         && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
-     {
-         player2.playerCurrentTurnSpeed += 0.008 * player2.playerCurrentSpeed * deltaTime;
-         player2.playerCurrentSpeed *= 0.9999;
-         player2.playerAcceleration = 30.00;
-         player2.pressed = true;
-         if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
-             player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
-         && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
-     {
-         player2.playerCurrentTurnSpeed = 15 * deltaTime;
-     }
-     else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS
-         && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
-     {
-         player2.playerCurrentTurnSpeed -= 15 * deltaTime;
-     }
-     else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
-     {
-         player2.playerCurrentTurnSpeed = 16 * deltaTime;
-     }
-     else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
-         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
-     {
-         player2.playerCurrentTurnSpeed -= 16 * deltaTime;
-     }
-     else if (player2.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
-     {
-         player2.playerCurrentTurnSpeed -= 9 * deltaTime;
-         if (player2.playerCurrentTurnSpeed < 0.0)
-         {
-             player2.playerCurrentTurnSpeed = 0.0;
-             player2.playerAcceleration = 100.0;
-             player2.pressed = false;
-         }
-     }
-     else if (player2.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
-     {
-         player2.playerCurrentTurnSpeed += 9 * deltaTime;
-         if (player2.playerCurrentTurnSpeed > 0.0)
-         {
-             player2.playerCurrentTurnSpeed = 0.0;
-             player2.playerAcceleration = 100.0;
-             player2.pressed = false;
-         }
-     }
+         //forward / backward player2
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//forward
+    {
+        player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
+        //playerCurrentSpeed = -MovementSpeed;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//backward
+    {
+        player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
+        //playerCurrentSpeed = MovementSpeed * 0.7f;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//forward while still going backward
+    {
+        player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
+        //playerCurrentSpeed = -MovementSpeed;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//backward while still going forward
+    {
+        player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
+        //playerCurrentSpeed = MovementSpeed * 0.7f;
+    }
+    else if (player2.playerCurrentSpeed > 0.0)//drag force when w key is relesed
+    {
+        player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
+        if (player2.playerCurrentSpeed < 0.0)
+        {
+            player2.playerCurrentSpeed = 0.0;
+        }
+    }
+    else if (player2.playerCurrentSpeed < 0.0)//drag force when s key is relesed
+    {
+        player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
+        if (player2.playerCurrentSpeed > 0.0)
+        {
+            player2.playerCurrentSpeed = 0.0;
+        }
+    }
 
 
-     //brake player2
-     if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0)
-     {
-         // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
-         player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
 
-         if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
-         {
-             //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
-         }
-         if (player2.playerCurrentSpeed < 0.0)
-         {
-             player2.playerCurrentSpeed = 0.0;
-         }
-     }
-     if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0)
-     {
-         player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
-         if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
-         {
-             // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
-         }
-         if (player2.playerCurrentSpeed > 0.0)
-         {
-             player2.playerCurrentSpeed = 0.0;
-         }
-     }
+    //left / right player 2
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
+        player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
+    {
+        player2.playerCurrentTurnSpeed += -0.005 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentSpeed *= 0.9999;
+        player2.playerAcceleration = 30.00;
+        player2.pressed = true;
+        if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
+            player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+        player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
+    {
+        player2.playerCurrentTurnSpeed += 0.005 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentSpeed *= 0.9999;
+        player2.playerAcceleration = 30.00;
+        player2.pressed = true;
+        if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
+            player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
+    {
+        player2.playerCurrentTurnSpeed += -0.008 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentSpeed *= 0.9999;
+        player2.playerAcceleration = 30.00;
+        player2.pressed = true;
+        if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
+            player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
+        && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
+    {
+        player2.playerCurrentTurnSpeed += 0.008 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentSpeed *= 0.9999;
+        player2.playerAcceleration = 30.00;
+        player2.pressed = true;
+        if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
+            player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
+        && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
+    {
+        player2.playerCurrentTurnSpeed = 15 * deltaTime;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS
+        && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
+    {
+        player2.playerCurrentTurnSpeed -= 15 * deltaTime;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
+    {
+        player2.playerCurrentTurnSpeed = 16 * deltaTime;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
+        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
+    {
+        player2.playerCurrentTurnSpeed -= 16 * deltaTime;
+    }
+    else if (player2.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
+    {
+        player2.playerCurrentTurnSpeed -= 9 * deltaTime;
+        if (player2.playerCurrentTurnSpeed < 0.0)
+        {
+            player2.playerCurrentTurnSpeed = 0.0;
+            player2.playerAcceleration = 100.0;
+            player2.pressed = false;
+        }
+    }
+    else if (player2.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
+    {
+        player2.playerCurrentTurnSpeed += 9 * deltaTime;
+        if (player2.playerCurrentTurnSpeed > 0.0)
+        {
+            player2.playerCurrentTurnSpeed = 0.0;
+            player2.playerAcceleration = 100.0;
+            player2.pressed = false;
+        }
+    }
 
-    
-     //drift Does not work yet. Idea for futer;
-     // lower playerTurnSpeed growth and maxTurnSpeed so drifting seems more useful,
-     // figure out nice camera movement (disconect player and camera ?) 
-     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-         player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 &&
-         glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)//turn left when going forward
-     {
-         player1.playerCurrentTurnSpeed *= 70 * deltaTime;
-         player1.playerMaxTurnSpeed = 4.0f;
-     }
-     else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-         player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 &&
-         glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) //turn right when going forward
-     {
-         player1.playerCurrentTurnSpeed *= 70 * deltaTime;
-         player1.playerMaxTurnSpeed = 4.0f;
-     }
-     else
-         player1.playerMaxTurnSpeed = 3.2f;
+
+    //brake player2
+    if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0)
+    {
+        // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
+        player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
+
+        if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+        {
+            //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+        }
+        if (player2.playerCurrentSpeed < 0.0)
+        {
+            player2.playerCurrentSpeed = 0.0;
+        }
+    }
+    if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0)
+    {
+        player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
+        if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+        {
+            // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+        }
+        if (player2.playerCurrentSpeed > 0.0)
+        {
+            player2.playerCurrentSpeed = 0.0;
+        }
+    }
 
 
-     //Press P for two players mode
-     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-     {
-         PisPressed = true;
-     }
-     if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
-     {
-         PisPressed = false;
-         if (numberOfPlayers == 1.0f)
-             numberOfPlayers = 2.0f;
-         else
-             numberOfPlayers = 1.0f;
-     }
+    //drift Does not work yet. Idea for futer;
+    // lower playerTurnSpeed growth and maxTurnSpeed so drifting seems more useful,
+    // figure out nice camera movement (disconect player and camera ?) 
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
+        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 &&
+        glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)//turn left when going forward
+    {
+        player1.playerCurrentTurnSpeed *= 70 * deltaTime;
+        player1.playerMaxTurnSpeed = 4.0f;
+    }
+    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 &&
+        glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) //turn right when going forward
+    {
+        player1.playerCurrentTurnSpeed *= 70 * deltaTime;
+        player1.playerMaxTurnSpeed = 4.0f;
+    }
+    else
+        player1.playerMaxTurnSpeed = 3.2f;
+
+
+    //Press P for two players mode
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+    {
+        PisPressed = true;
+    }
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
+    {
+        PisPressed = false;
+        if (numberOfPlayers == 1.0f)
+            numberOfPlayers = 2.0f;
+        else
+            numberOfPlayers = 1.0f;
+    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -2195,16 +2192,12 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
         lastY = ypos;
         firstMouse = false;
     }
-
     float xoffset = xpos - lastX;
     float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-
     lastX = xpos;
     lastY = ypos;
-
   //  camera.ProcessMouseMovement(xoffset, yoffset);
 }
-
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 // ----------------------------------------------------------------------
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -2308,4 +2301,3 @@ void renderSphere()
     glBindVertexArray(sphereVAO);
     glDrawElements(GL_TRIANGLE_STRIP, indexCount, GL_UNSIGNED_INT, 0);
 }
-

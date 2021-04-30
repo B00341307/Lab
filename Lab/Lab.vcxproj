@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\include\irrKlang.h;$(SolutionDir)\Lab\gltext.h;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\lib\Winx64-visualStudio\irrKlang.lib;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Lab\freeglut\include\GL;$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\include;$(SolutionDir)\Lab\gltext.h;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lab\binaries-master\x86_64;$(SolutionDir)\Lab\freeglut\lib;$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\lib\Winx64-visualStudio;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

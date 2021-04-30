@@ -4,6 +4,9 @@
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
 
+//#include "freeglut/include/GL/glut.h" //not using 
+
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -16,6 +19,10 @@
 #include <vector>
 #include <math.h>
 
+#include <irrKlang.h>//audio
+
+
+
 #define GLT_IMPLEMENTATION//does not works
 #include "gltext.h"   //does not works
 
@@ -23,11 +30,74 @@
 
 #include <GL/glu.h>
 
+//////////////////////////////////////
+#include <ctime> //std::clock()
+
+
+#include <stdio.h>
+#include <irrKlang.h>
+
+// include console I/O methods (conio.h for windows, our wrapper in linux)
+#if defined(WIN32)
+#include <conio.h>
+#else
+#include "../common/conio.h"
+#endif
+
+// Also, we tell the compiler to use the namespaces 'irrklang'.
+// All classes and functions of irrKlang can be found in the namespace 'irrklang'.
+// If you want to use a class of the engine,
+// you'll have to type an irrklang:: before the name of the class.
+// For example, to use the ISoundEngine, write: irrklang::ISoundEngine. To avoid having
+// to put irrklang:: before of the name of every class, we tell the compiler that
+// we use that namespaces here.
+
+using namespace irrklang;
+
+// To be able to use the irrKlang.dll file, we need to link with the irrKlang.lib.
+// We could set this option in the project settings, but to make it easy we use
+// a pragma comment:
+
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+
+// Now lets start with irrKlang 3D sound engine example 01, demonstrating simple 2D sound.
+// Start up the sound engine using createIrrKlangDevice(). You can specify several
+// options as parameters when invoking that function, but for this example, the default
+// parameters are enough.
+
+//////////////////////////////////
+//temp
+glm::vec3 Ring2 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring3 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring4 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring5 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring6 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring7 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring8 = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Ring9 = glm::vec3(0.0f, 0.0f, 0.0f);
+
+
+   // sound set up
+ISoundEngine* engine2 = createIrrKlangDevice();
+bool engine2on = false;
+
+// sound set up
+ISoundEngine* engine2P2 = createIrrKlangDevice();
+bool engine2onP2 = false;
+
 float numberOfPlayers = 1.0f;
 bool PisPressed = false;
 
+void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation);
+void CollisonReaction(glm::vec3 corner);
+void CollisonDetection2(glm::vec3 corner, glm::vec3 rightTop1, glm::vec3 rightTop2,
+    glm::vec3 leftBottom1, glm::vec3 leftBottom2,
+    glm::vec3 rightBottom1, glm::vec3 rightBottom2,
+    glm::vec3 leftTop1, glm::vec3 leftTop2);
+
 void glDisable2D();
 void glEnable2D();
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -59,6 +129,10 @@ double deltaTime = 0.0000;
 double lastFrame = 0.0000;
 
 
+double explosionLenght = -1.0;
+bool explosionis = false;
+double explosionTime;
+
 class Player
 {
 public:
@@ -82,6 +156,19 @@ Player player2;
 
 int main()
 {
+    // sound set up
+    ISoundEngine* engine = createIrrKlangDevice();
+
+
+    // play some sound stream, looped
+    engine->play2D("resources/sounds/breakout.mp3", true);
+
+
+ 
+
+    // engine->drop(); // delete engine
+
+
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -153,6 +240,7 @@ int main()
     toonShader.use();
     toonShader.setInt("toon", 0);
 
+    Shader shader_explosion("Shaders/Geometry_shader.vs", "Shaders/Geometry_shader.fs", "Shaders/Geometry_shader.gs");
     // load models
     // -----------
 
@@ -164,9 +252,11 @@ int main()
     Model RedCar2("resources/objects/BlueCar/RedCar.obj");
 
     // hud
-    Model Shield("resources/HUD/shield/shield.obj");
+   // Model Shield("resources/HUD/shield/shield.obj");//did not work
 
     Model track("resources/objects/track/track.obj");
+
+    Model Ring("resources/objects/ring/ringobj.obj");
 
     // pbr: setup framebuffer
     // ----------------------
@@ -444,6 +534,9 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+      
+
+
         // input
         // -----     
         processInput(window);
@@ -542,7 +635,11 @@ int main()
 
         // render
         // ------
+
+     
+
         gltBeginDraw();
+
 
         // Draw Model
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -1174,9 +1271,84 @@ int main()
         ourShader.setMat4("model", newtrack);
         track.Draw(ourShader);
 
+        // ring
+        glm::vec3 ringPosition = glm::vec3(-60.5f, 0.0f, 10.0f);
+        glm::mat4 ring = glm::mat4(1.0f);
+        ring = glm::translate(ring, glm::vec3(-60.5f, 0.0f, 10.0f));
+        ring = glm::scale(ring, glm::vec3(1.5f, 1.5f, 1.5f));
+       
+        //chack collision
+        if (player1.playerPosition.x - ringPosition.x < 3.0f && player1.playerPosition.x - ringPosition.x > -3.0f &&
+            player1.playerPosition.y - ringPosition.y < 3.0f && player1.playerPosition.y - ringPosition.y > -3.0f &&
+            player1.playerPosition.z - ringPosition.z < 3.0f && player1.playerPosition.z - ringPosition.z > -3.0f &&
+            explosionis == false)
+        {
+            explosionTime = std::clock();
+            explosionis = true;
+           // ring = glm::scale(ring, glm::vec3(10.5f, 10.5f, 10.5f));
+                 // explosion
+
+        }
+
+        if (explosionis && std::clock() < explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring);
+            shader_explosion.setFloat("time", explosionLenght);
+            explosionLenght += deltaTime;
+            Ring.Draw(shader_explosion);
+        }
+        else 
+        {
+            explosionis = false;
+            explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring);
+            Ring.Draw(ourShader);
+        }
+      
+        //////////////////////////////////temp
+        glm::mat4 ring2 = glm::mat4(1.0f);
+        ring2 = glm::translate(ring2, Ring2);
+        ourShader.use();
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+        ourShader.setMat4("model", ring2);
+        Ring.Draw(ourShader);
+
+        glm::mat4 ring3 = glm::mat4(1.0f);
+        ring3 = glm::translate(ring3, Ring3);
+        ourShader.use();
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+        ourShader.setMat4("model", ring3);
+        Ring.Draw(ourShader);
+
+        glm::mat4 ring4 = glm::mat4(1.0f);
+        ring4 = glm::translate(ring4, Ring4);
+        ourShader.use();
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+        ourShader.setMat4("model", ring4);
+        Ring.Draw(ourShader);
+
+        glm::mat4 ring5 = glm::mat4(1.0f);
+        ring5 = glm::translate(ring5, Ring5);
+        ourShader.use();
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
+        ourShader.setMat4("model", ring5);
+        Ring.Draw(ourShader);
+
+      
+
         if (numberOfPlayers == 2.0f)
         {
-            // setup your right view projection:
+            //bottom view projection:
             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT / 2);
             /* glMatrixMode(GL_PROJECTION);
              glLoadIdentity();
@@ -1749,11 +1921,21 @@ int main()
             newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
             ourShader.setMat4("model", newtrack);
             track.Draw(ourShader);
+
+            CollisonDetection(player1.playerPosition, player2.playerPosition, player1.playerRotation, player2.playerRotation);
         }
+
+      
+
+
+
         //draw hud
         //----------------------------------
-        glEnable2D();
+
+       
+        /*   glEnable2D();
         //do 2d stuff 
+
         glBegin(GL_QUADS);
         glColor3f(1.0f, 0.0f, 0.0);
         glVertex2f(0.0, 0.0);
@@ -1776,22 +1958,270 @@ int main()
             (GLfloat)(SCR_HEIGHT / 2),
             3.0f,
             GLT_CENTER, GLT_CENTER);
+
+
+        glBegin(GL_TRIANGLES);
+        glColor3ub(255, 0, 0);
+        glVertex2d(0, 0);
+        glColor3ub(0, 255, 0);
+        glVertex2d(100, 0);
+        glColor3ub(0, 0, 255);
+        glVertex2d(50, 50);
+        glEnd();
+
+       // output(100, 100, 0.5, 0.5, 0.5, "Hello");
+
+
         // end 2d
         glDisable2D();
+*/
 
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+
+glfwSwapBuffers(window);
+glfwPollEvents();
     }
     //text
     gltDeleteText(text1);
     gltDeleteText(text2);
+
+
 
     gltTerminate();
 
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
+}
+
+
+void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation)
+{
+    //check just x and z as the game is flat
+
+    bool collisionX = false;
+    bool collisionZ = false;
+
+    float distance1 = 6.5f;
+    float distance2 = 1.5f;
+    glm::vec3 bottom1, bottom2, leftBottom1, leftBottom2, rightBottom1, rightBottom2;
+    glm::vec3 leftTop1, leftTop2, rightTop1, rightTop2;
+
+
+    double dx2 = (double)(distance1 * sin(p1Rotation + M_PI / 2));
+    double dz2 = (double)(distance1 * cos(p1Rotation + M_PI / 2));
+    bottom1 = one + glm::vec3(dx2, 0.0f, dz2);
+
+    dx2 = (double)(distance1 * sin(p2Rotation + M_PI / 2));
+    dz2 = (double)(distance1 * cos(p2Rotation + M_PI / 2));
+
+    bottom2 = two + glm::vec3(dx2, 0.0f, dz2);
+
+
+    dx2 = (double)(distance2 * sin(p1Rotation));
+    dz2 = (double)(distance2 * cos(p1Rotation));
+
+    leftBottom1 = bottom1 + glm::vec3(dx2, 0.0f, dz2);
+    rightBottom1 = bottom1 - glm::vec3(dx2, 0.0f, dz2);
+
+    leftTop1 = one + glm::vec3(dx2, 0.0f, dz2);
+    rightTop1 = one - glm::vec3(dx2, 0.0f, dz2);
+
+    dx2 = (double)(distance2 * sin(p2Rotation));
+    dz2 = (double)(distance2 * cos(p2Rotation));
+
+    leftBottom2 = bottom2 + glm::vec3(dx2, 0.0f, dz2);
+    rightBottom2 = bottom2 - glm::vec3(dx2, 0.0f, dz2);
+
+    leftTop2 = two + glm::vec3(dx2, 0.0f, dz2);
+    rightTop2 = two - glm::vec3(dx2, 0.0f, dz2);
+
+
+    if (leftTop1.x >= leftBottom2.x && leftTop1.x <= rightBottom2.x ||
+        leftTop1.x <= leftBottom2.x && leftTop1.x >= rightBottom2.x ||
+        leftTop1.x >= leftBottom2.x && leftTop1.x <= rightTop2.x ||
+        leftTop1.x <= leftBottom2.x && leftTop1.x >= rightTop2.x ||
+        leftTop1.x >= leftTop2.x && leftTop1.x <= rightTop2.x ||
+        leftTop1.x <= leftTop2.x && leftTop1.x >= rightTop2.x ||
+        leftTop1.x >= rightTop2.x && leftTop1.x <= rightBottom2.x ||
+        leftTop1.x <= rightTop2.x && leftTop1.x >= rightBottom2.x)
+    {
+        CollisonDetection2(leftTop1, rightTop1, rightTop2,
+            leftBottom1, leftBottom2,
+             rightBottom1,  rightBottom2,
+             leftTop1,  leftTop2);
+    }
+    else if (rightTop1.x >= leftBottom2.x && rightTop1.x <= rightBottom2.x ||
+        rightTop1.x <= leftBottom2.x && rightTop1.x >= rightBottom2.x ||
+        rightTop1.x >= leftBottom2.x && rightTop1.x <= rightTop2.x ||
+        rightTop1.x <= leftBottom2.x && rightTop1.x >= rightTop2.x ||
+        rightTop1.x >= leftTop2.x && rightTop1.x <= rightTop2.x ||
+        rightTop1.x <= leftTop2.x && rightTop1.x >= rightTop2.x ||
+        rightTop1.x >= rightTop2.x && rightTop1.x <= rightBottom2.x ||
+        rightTop1.x <= rightTop2.x && rightTop1.x >= rightBottom2.x)
+    {
+        CollisonDetection2(rightTop1, rightTop1, rightTop2,
+            leftBottom1, leftBottom2,
+            rightBottom1, rightBottom2,
+            leftTop1, leftTop2);
+    }
+    else if (
+        rightBottom1.x >= leftBottom2.x && rightBottom1.x <= rightBottom2.x ||
+        rightBottom1.x <= leftBottom2.x && rightBottom1.x >= rightBottom2.x ||
+        rightBottom1.x >= leftBottom2.x && rightBottom1.x <= rightTop2.x ||
+        rightBottom1.x <= leftBottom2.x && rightBottom1.x >= rightTop2.x ||
+        rightBottom1.x >= leftTop2.x && rightBottom1.x <= rightTop2.x ||
+        rightBottom1.x <= leftTop2.x && rightBottom1.x >= rightTop2.x ||
+        rightBottom1.x >= rightTop2.x && rightBottom1.x <= rightBottom2.x ||
+        rightBottom1.x <= rightTop2.x && rightBottom1.x >= rightBottom2.x)
+    {
+        CollisonDetection2(rightBottom1, rightTop1, rightTop2,
+            leftBottom1, leftBottom2,
+            rightBottom1, rightBottom2,
+            leftTop1, leftTop2);
+    }
+    else if (
+        leftBottom1.x >= leftBottom2.x && leftBottom1.x <= rightBottom2.x ||
+        leftBottom1.x <= leftBottom2.x && leftBottom1.x >= rightBottom2.x ||
+        leftBottom1.x >= leftBottom2.x && leftBottom1.x <= rightTop2.x ||
+        leftBottom1.x <= leftBottom2.x && leftBottom1.x >= rightTop2.x ||
+        leftBottom1.x >= leftTop2.x && leftBottom1.x <= rightTop2.x ||
+        leftBottom1.x <= leftTop2.x && leftBottom1.x >= rightTop2.x ||
+        leftBottom1.x >= rightTop2.x && leftBottom1.x <= rightBottom2.x ||
+        leftBottom1.x <= rightTop2.x && leftBottom1.x >= rightBottom2.x)
+    {
+        CollisonDetection2(leftBottom1, rightTop1, rightTop2,
+            leftBottom1, leftBottom2,
+            rightBottom1, rightBottom2,
+            leftTop1, leftTop2);
+    }
+
+    
+       
+    
+}
+
+void CollisonDetection2(glm::vec3 corner, glm::vec3 rightTop1, glm::vec3 rightTop2,
+    glm::vec3 leftBottom1, glm::vec3 leftBottom2,
+    glm::vec3 rightBottom1, glm::vec3 rightBottom2,
+    glm::vec3 leftTop1, glm::vec3 leftTop2)
+{
+    glm::vec3 Tempvar;
+    float tempx, tempz;
+    if (leftTop1.z >= leftBottom2.z && leftTop1.z <= rightBottom2.z ||
+        leftTop1.z <= leftBottom2.z && leftTop1.z >= rightBottom2.z ||
+        leftTop1.z >= leftBottom2.z && leftTop1.z <= rightTop2.z ||
+        leftTop1.z <= leftBottom2.z && leftTop1.z >= rightTop2.z ||
+        leftTop1.z >= leftTop2.z && leftTop1.z <= rightTop2.z ||
+        leftTop1.z <= leftTop2.z && leftTop1.z >= rightTop2.z ||
+        leftTop1.z >= rightTop2.z && leftTop1.z <= rightBottom2.z ||
+        leftTop1.z <= rightTop2.z && leftTop1.z >= rightBottom2.z ||
+
+        rightTop1.z >= leftBottom2.z && rightTop1.z <= rightBottom2.z ||
+        rightTop1.z <= leftBottom2.z && rightTop1.z >= rightBottom2.z ||
+        rightTop1.z >= leftBottom2.z && rightTop1.z <= rightTop2.z ||
+        rightTop1.z <= leftBottom2.z && rightTop1.z >= rightTop2.z ||
+        rightTop1.z >= leftTop2.z && rightTop1.z <= rightTop2.z ||
+        rightTop1.z <= leftTop2.z && rightTop1.z >= rightTop2.z ||
+        rightTop1.z >= rightTop2.z && rightTop1.z <= rightBottom2.z ||
+        rightTop1.z <= rightTop2.z && rightTop1.z >= rightBottom2.z ||
+
+        rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightBottom2.z ||
+        rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightBottom2.z ||
+        rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightTop2.z ||
+        rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightTop2.z ||
+        rightBottom1.z >= leftTop2.z && rightBottom1.z <= rightTop2.z ||
+        rightBottom1.z <= leftTop2.z && rightBottom1.z >= rightTop2.z ||
+        rightBottom1.z >= rightTop2.z && rightBottom1.z <= rightBottom2.z ||
+        rightBottom1.z <= rightTop2.z && rightBottom1.z >= rightBottom2.z ||
+
+        leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightBottom2.z ||
+        leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightBottom2.z ||
+        leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightTop2.z ||
+        leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightTop2.z ||
+        leftBottom1.z >= leftTop2.z && leftBottom1.z <= rightTop2.z ||
+        leftBottom1.z <= leftTop2.z && leftBottom1.z >= rightTop2.z ||
+        leftBottom1.z >= rightTop2.z && leftBottom1.z <= rightBottom2.z ||
+        leftBottom1.z <= rightTop2.z && leftBottom1.z >= rightBottom2.z)
+    {
+        //CollisonReaction(corner);
+
+        Tempvar = leftBottom2;
+        if (sqrt(pow((leftBottom2.x - corner.x), 2) + pow((leftBottom2.z - corner.z), 2)) >
+            sqrt(pow((rightBottom2.x - corner.x), 2) + pow((rightBottom2.z - corner.z), 2)))
+        {
+            Tempvar = rightBottom2;
+        }
+        else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
+            sqrt(pow((rightTop2.x - corner.x), 2) + pow((rightTop2.z - corner.z), 2)))
+        {
+            Tempvar = rightTop2;
+        }
+        else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
+            sqrt(pow((leftTop2.x - corner.x), 2) + pow((leftTop2.z - corner.z), 2)))
+        {
+            Tempvar = leftTop2;
+        }
+
+        if (Tempvar.x > corner.x)
+        {
+            tempx = Tempvar.x - corner.x;
+        }
+        else
+            tempx = corner.x - Tempvar.x;
+
+        if (Tempvar.z > corner.z)
+        {
+            tempz = Tempvar.z - corner.z;
+        }
+        else
+            tempz = corner.z - Tempvar.z;
+
+        if (abs(tempx) > abs(tempz))
+        {
+            if (corner.x < Tempvar.x)
+            {
+                player1.playerPosition.x += (Tempvar.x - corner.x)/2;
+                player2.playerPosition.x -= (Tempvar.x - corner.x)/2;
+
+            }
+            else
+            {
+                player1.playerPosition.x += (corner.x - Tempvar.x) / 2;
+                player2.playerPosition.x -= (corner.x - Tempvar.x) / 2;
+            }
+                
+
+
+        }
+        else
+        {
+            if (corner.z < Tempvar.z)
+            {
+                player1.playerPosition.x += (Tempvar.x - corner.x) / 2;
+                player2.playerPosition.x -= (Tempvar.x - corner.x) / 2;
+            }
+            else
+            {
+                player1.playerPosition.z += (corner.z - Tempvar.z) / 2;
+                player2.playerPosition.z -= (corner.z - Tempvar.z) / 2;
+            }
+                
+        }
+
+        player1.playerCurrentSpeed *= 0.5f;
+        player2.playerCurrentSpeed *= 0.5f;
+    }
+
+   
+}
+void CollisonReaction(glm::vec3 corner)
+{
+    player1.playerCurrentSpeed = 0.0f;
+    player2.playerCurrentSpeed = 0.0f;
+
+
+
 }
 
 void glEnable2D()
@@ -1804,8 +2234,8 @@ void glEnable2D()
     glPushMatrix();
     glLoadIdentity();
 
-    //  glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
-    glOrtho(0.0, SCR_WIDTH, 0.0, SCR_HEIGHT, 0.0, 1.0);
+      glOrtho(0, vPort[2],  vPort[3], 0, -1, 1);
+    //glOrtho(0.0, SCR_WIDTH, 0.0, SCR_HEIGHT, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
@@ -1827,14 +2257,33 @@ void glDisable2D()
 void processInput(GLFWwindow* window)
 {
 
+
+   // engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+
+    // engine2->drop(); // delete engine
+
+   // ISoundEngine* engine3 = createIrrKlangDevice();
+
+   // engine3->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+
+    // engine2->drop(); // delete engine
+
+
+  
+
+
     //escape
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+
+
 
     //forward / backward player1
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0)//forward
     {
         player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
+
         //playerCurrentSpeed = -MovementSpeed;
     }
     else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0)//backward
@@ -1868,6 +2317,21 @@ void processInput(GLFWwindow* window)
             player1.playerCurrentSpeed = 0.0;
         }
     }
+
+    //Engine sound p1
+    if(player1.playerCurrentSpeed != 0.0 && engine2on == false)
+    {    
+        engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
+        engine2on = true;
+    }
+
+    if (player1.playerCurrentSpeed == 0.0 && engine2on == true)
+    {
+        engine2->stopAllSounds();
+        //engine2->drop();
+        engine2on = false;
+    }
+
 
 
 
@@ -1957,6 +2421,7 @@ void processInput(GLFWwindow* window)
     //brake player1
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
     {
+       // cout << player1.playerRotation << "\n";
         // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
         player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
 
@@ -1971,6 +2436,8 @@ void processInput(GLFWwindow* window)
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
     {
+       // int pr = player1.playerRotation;
+      //  cout << player1.playerRotation << "  " << pr <<"\n";
         player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
         if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
         {
@@ -1983,6 +2450,8 @@ void processInput(GLFWwindow* window)
     }
 
     ////////////////////////player 2/////////////////////////////////////
+
+
 
          //forward / backward player2
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//forward
@@ -2020,6 +2489,20 @@ void processInput(GLFWwindow* window)
         {
             player2.playerCurrentSpeed = 0.0;
         }
+    }
+
+    //Engine sound p2
+    if (player2.playerCurrentSpeed != 0.0 && engine2onP2 == false)
+    {
+        engine2P2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
+        engine2onP2 = true;
+    }
+
+    if (player2.playerCurrentSpeed == 0.0 && engine2onP2 == true)
+    {
+        engine2P2->stopAllSounds();
+        //engine2->drop();
+        engine2onP2 = false;
     }
 
 
@@ -2170,6 +2653,12 @@ void processInput(GLFWwindow* window)
         else
             numberOfPlayers = 1.0f;
     }
+
+    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+    {
+       // SoundEngine->play2D("C:/Users/Pawel/Desktop/UNI/3rd_YEAR_20_21/TERM2_20_21/GROUP_PROJECT/3011/Lab/Lab/resources/sounds/breakout.mp3", true);
+    }
+
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

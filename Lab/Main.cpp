@@ -825,80 +825,535 @@ int main()
         victorianHouseModel.Draw(ourShader);
 
         //Road Loader
-        int i = 0;
-        int amount = 4;
-        float offset = 25.0f;
-
+        
+        //1st loop
         glm::mat4 countryRoad = glm::mat4(1.0f);
-        countryRoad = glm::translate(countryRoad, glm::vec3(0.0f, -1.75f, 0.0f));
-        countryRoad = glm::scale(countryRoad, glm::vec3(1.0f, 0.2f, 1.0f));
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        countryRoad = glm::scale(countryRoad, glm::vec3(1.0f, 0.2f, 1.5f));
         ourShader.setMat4("model", countryRoad);
         countryRoadModel.Draw(ourShader);
 
-        while (i != amount)
-        {
-            //pos
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + offset, 0.00f, 0.0f));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - (offset), 0.00f, 0.0f));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f, 0.00f, 0.0f + (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f, 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + offset, 0.00f, 0.0f + (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - (offset), 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            //neg
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - offset, 0.00f, 0.0f));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + (offset), 0.00f, 0.0f));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f, 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f, 0.00f, 0.0f + (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - offset, 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + (offset), 0.00f, 0.0f + (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            //mix
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + offset, 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - (offset), 0.00f, 0.0f + (offset / 1.45)));
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f - offset, 0.00f, 0.0f + (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
-            countryRoadModel.Draw(ourShader);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            countryRoad = glm::translate(countryRoad, glm::vec3(0.0f + (offset), 0.00f, 0.0f - (offset / 1.45)));
-            ourShader.setMat4("model", countryRoad);
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
 
-            i++;
-            offset = offset + 25.0f;
-        }
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, 1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-137.5f, -1.75f, -14.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, -1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-22.5f, -1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, -1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-22.5f, -1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, -1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-22.5f, -1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, -1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-22.5f, -1.75f, -8.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(22.5f, -1.75f, 6.5f));
+        countryRoad = glm::rotate(countryRoad, 10.0f, glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, -1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
+        countryRoad = glm::translate(countryRoad, glm::vec3(-25.0f, 1.75f, 0.0f));
+        ourShader.setMat4("model", countryRoad);
+        countryRoadModel.Draw(ourShader);
+
 
         //Background Loader
         backgroundShader.use();

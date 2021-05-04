@@ -4,9 +4,6 @@
 #include <GLFW/glfw3.h>
 #include "stb_image.h"
 
-//#include "freeglut/include/GL/glut.h" //not using 
-
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -19,85 +16,41 @@
 #include <vector>
 #include <math.h>
 
-#include <irrKlang.h>//audio
-
-
-
-#define GLT_IMPLEMENTATION//does not works
-#include "gltext.h"   //does not works
-
-//#include "lodepng.h" //does not works
-
 #include <GL/glu.h>
 
-//////////////////////////////////////
 #include <ctime> //std::clock()
 
-
 #include <stdio.h>
-#include <irrKlang.h>
 
-// include console I/O methods (conio.h for windows, our wrapper in linux)
-#if defined(WIN32)
-#include <conio.h>
-#else
-#include "../common/conio.h"
-#endif
-
-// Also, we tell the compiler to use the namespaces 'irrklang'.
-// All classes and functions of irrKlang can be found in the namespace 'irrklang'.
-// If you want to use a class of the engine,
-// you'll have to type an irrklang:: before the name of the class.
-// For example, to use the ISoundEngine, write: irrklang::ISoundEngine. To avoid having
-// to put irrklang:: before of the name of every class, we tell the compiler that
-// we use that namespaces here.
-
+#include <irrKlang.h>//audio
 using namespace irrklang;
-
-// To be able to use the irrKlang.dll file, we need to link with the irrKlang.lib.
-// We could set this option in the project settings, but to make it easy we use
-// a pragma comment:
-
 #pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 
-// Now lets start with irrKlang 3D sound engine example 01, demonstrating simple 2D sound.
-// Start up the sound engine using createIrrKlangDevice(). You can specify several
-// options as parameters when invoking that function, but for this example, the default
-// parameters are enough.
+#include "Player.h"
 
-//////////////////////////////////
-//temp
-glm::vec3 Ring2 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring3 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring4 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring5 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring6 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring7 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring8 = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 Ring9 = glm::vec3(0.0f, 0.0f, 0.0f);
-
-
-   // sound set up
+// sound set up
 ISoundEngine* engine2 = createIrrKlangDevice();
 bool engine2on = false;
 
-// sound set up
 ISoundEngine* engine2P2 = createIrrKlangDevice();
 bool engine2onP2 = false;
+
+ISoundEngine* ringSound = createIrrKlangDevice();
+bool ringSoundon = false;
+
+ISoundEngine* newLapsound = createIrrKlangDevice();
+
+ISoundEngine* Winnersound = createIrrKlangDevice();
 
 float numberOfPlayers = 1.0f;
 bool PisPressed = false;
 
-void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation);
-void CollisonReaction(glm::vec3 corner);
-void CollisonDetection2(glm::vec3 corner, glm::vec3 rightTop1, glm::vec3 rightTop2,
-    glm::vec3 leftBottom1, glm::vec3 leftBottom2,
-    glm::vec3 rightBottom1, glm::vec3 rightBottom2,
-    glm::vec3 leftTop1, glm::vec3 leftTop2);
+
+bool CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation);
+glm::vec3 CollisonResult1, CollisonResult2;
 
 void glDisable2D();
 void glEnable2D();
-
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -108,8 +61,9 @@ void renderSphere();
 int key = 1;
 
 double tempdp;
+
 // settings                     2k:     wide 2k:    fullhd:
-const unsigned int SCR_WIDTH = 2560;    //3440;     // 1920;// 
+const unsigned int SCR_WIDTH = 2560;    //3440;     //1920;// 
 const unsigned int SCR_HEIGHT = 1440;   //1440      //1080;// 
 
 // camera
@@ -129,45 +83,40 @@ double deltaTime = 0.0000;
 double lastFrame = 0.0000;
 
 
-double explosionLenght = -1.0;
-bool explosionis = false;
-double explosionTime;
 
-class Player
+class Ring
 {
 public:
-    bool pressed = false;
-    glm::vec3 playerPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-    float playerRotation = 0.0f;
-    double MovementSpeed = 20.00000000000;
-    double playerCurrentSpeed = 0.00000000000;
-    double TurnSpeed = 1.00000;
-    double playerCurrentTurnSpeed = 0.00000;
-    double playerAcceleration = 100.000;
+    glm::vec3 ringPosition;
+    float ringRoatation;
 
-    glm::vec3 Front = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 Right = glm::normalize(glm::cross(Front, Up));
 
-    float playerMaxTurnSpeed = 3.2f;
+    //For Ring Explosion effect
+    double explosionLenght = -1.0;
+    bool explosionis = false;
+    double explosionTime;
+
 };
+
+
+
 Player player1;
 Player player2;
+ 
+
+//Game Loop
+bool gameStarted = false;
+bool gameFinnished = false;
 
 int main()
 {
+    player1.playerPosition = glm::vec3(5.0f, 0.0f, -53.0f);
+    player2.playerPosition = glm::vec3(-15.0f, 0.0f, -33.0f);
     // sound set up
     ISoundEngine* engine = createIrrKlangDevice();
 
-
-    // play some sound stream, looped
+    // play background sound, looped
     engine->play2D("resources/sounds/breakout.mp3", true);
-
-
- 
-
-    // engine->drop(); // delete engine
-
 
     // glfw: initialize and configure
     // ------------------------------
@@ -189,18 +138,15 @@ int main()
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     //   glfwSetCursorPosCallback(window, mouse_callback);
      //  glfwSetScrollCallback(window, scroll_callback);
-
        // tell GLFW to capture our mouse
      //  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
        // glad: load all OpenGL function pointers
-       // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
-
 
     // configure opengl state
     glEnable(GL_DEPTH_TEST);
@@ -219,18 +165,15 @@ int main()
 
 
     // build and compile shaders
-    // -------------------------
   //  Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
  //  Shader shader2("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
   //  Shader normalShader("Shaders/9.3.normal_visualization.vs", "Shaders/9.3.normal_visualization.fs", "Shaders/9.3.normal_visualization.gs");
   //  Shader shader_explosion("Shaders/9.2.geometry_shader.vs", "Shaders/9.2.geometry_shader.fs", "Shaders/9.2.geometry_shader.gs");
-
-
     Shader ourShader("1.model_loading.v2.vs", "1.model_loading.v2.fs");
     Shader equirectangularToCubemapShader("2.2.2.cubemap.vs", "2.2.2.equirectangular_to_cubemap.fs");
     Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
-
     Shader toonShader("Shaders/Toon.vs", "Toon.fs");
+    Shader shader_explosion("Shaders/Geometry_shader.vs", "Shaders/Geometry_shader.fs", "Shaders/Geometry_shader.gs");
 
     ourShader.use();
     ourShader.setInt("material.diffuse", 0);
@@ -240,24 +183,25 @@ int main()
     toonShader.use();
     toonShader.setInt("toon", 0);
 
-    Shader shader_explosion("Shaders/Geometry_shader.vs", "Shaders/Geometry_shader.fs", "Shaders/Geometry_shader.gs");
-    // load models
-    // -----------
 
+    // load models-
     Model victorianHouseModel("resources/objects/Victorian House/Victorian House 2 8 edit 2.obj");
     Model countryRoadModel("resources/objects/country road/terreno02.obj");
 
     stbi_set_flip_vertically_on_load(true);
     Model RedCar("resources/objects/RedCarColours/RedCar.obj");
     Model RedCar2("resources/objects/BlueCar/RedCar.obj");
-
-    // hud
-   // Model Shield("resources/HUD/shield/shield.obj");//did not work
-
     Model track("resources/objects/track/track.obj");
+    Model RingObj("resources/objects/ring/ringobj.obj");
 
-    Model Ring("resources/objects/ring/ringobj.obj");
+    Model NewTrack("resources/NewTrack2/track2.obj");
+    Model Walls("resources/Walls/track2walls.obj");
+    Model InnerWalls("resources/InnerWalls/track2walls2.obj");
 
+    //Hud
+    Model startHud("resources/HUD/start/startHud.obj");
+    Model winner("resources/HUD/Winner/startHud.obj");
+    Model looser("resources/HUD/Looser/startHud.obj");
     // pbr: setup framebuffer
     // ----------------------
     unsigned int captureFBO;
@@ -267,7 +211,7 @@ int main()
 
     glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
     glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, SCR_WIDTH, SCR_HEIGHT);
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, captureRBO);
 
     // pbr: load the HDR environment map
@@ -447,11 +391,6 @@ int main()
     glViewport(0, 0, scrWidth, scrHeight);
 
 
-    GLTtext* text1 = gltCreateText();
-    gltSetText(text1, "Hello World!");
-
-    GLTtext* text2 = gltCreateText();
-
     double time = 1000;
     char str[30];
     /////////////////////////////////////////////////////////////////////////
@@ -491,9 +430,6 @@ int main()
     glEnableVertexAttribArray(2);
 
 
-
-
-
     // load and create a texture ////////////////////////////////////////////////////////////
 // -------------------------
     unsigned int texture;
@@ -523,9 +459,10 @@ int main()
     stbi_image_free(tdata);
 
 
-
-    // render loop
-    // -----------
+    Ring Ring1; Ring Ring2; Ring Ring3; Ring Ring4; Ring Ring5; Ring Ring6;  Ring Ring7;  Ring Ring8;
+    //----------------------------------------------------------------------------------
+    // render loop----------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------
     while (!glfwWindowShouldClose(window))
     {
         // per-frame time logic
@@ -534,8 +471,8 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-      
-
+        CollisonResult1 = glm::vec3(0.f, 0.f, 0.f);
+        CollisonResult2 = CollisonResult1;
 
         // input
         // -----     
@@ -543,120 +480,41 @@ int main()
 
         if (numberOfPlayers == 2.0f)
         {
-            //top screen
+            //top screen for 2player mode
             glViewport(0, SCR_HEIGHT / 2, SCR_WIDTH, SCR_HEIGHT / 2);
-            /* glMatrixMode(GL_PROJECTION);
-             glLoadIdentity();
-             glViewport(0, 0, SCR_WIDTH / 2, SCR_HEIGHT);
-             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-             glMatrixMode(GL_MODELVIEW);*/
-             /*
-             // setup your right view projection:
-             glMatrixMode(GL_PROJECTION);
-             glLoadIdentity();
-             glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
-             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-             glMatrixMode(GL_MODELVIEW);
-             */
         }
         else
         {
             //normal screen
             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-            /* glMatrixMode(GL_PROJECTION);
-             glLoadIdentity();
-             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-             glMatrixMode(GL_MODELVIEW);*/
         }
-
 
         camera.Position = glm::vec3(player1.playerPosition.x + 10.0f,
             player1.playerPosition.y + 5.0f,
             player1.playerPosition.z);
 
-
         camera.move(player1.playerRotation, player1.playerPosition, player1.pressed);
 
-        //move
-        if (player1.playerCurrentSpeed < -530)
-            player1.playerCurrentSpeed = -530;
-
-        if (player1.playerCurrentSpeed > 530)
-            player1.playerCurrentSpeed = 530;
-
-        player1.playerRotation += player1.playerCurrentTurnSpeed / 100;
-        double distance = player1.playerCurrentSpeed / 100;// *deltaTime;
-        double dx = (double)(distance * sin(player1.playerRotation + M_PI / 2));
-        double dz = (double)(distance * cos(player1.playerRotation + M_PI / 2));
-        player1.playerPosition += glm::vec3(dx, 0.0f, dz);
-
-        // camera.Yaw = playerRotation;
-
-     //  camera = glm::rotate(camera, playerRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-       //camera.Front = camera.GetViewMatrixAtPlayer(playerPosition);
-
-        // calculate the new Front vector
-        glm::vec3 front;
-        front.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-        front.y = sin(glm::radians(0.0f));
-        front.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
-        player1.Front = glm::normalize(front);
-        // also re-calculate the Right and Up vector
-        player1.Right = glm::normalize(glm::cross(player1.Front, player1.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        player1.Up = glm::normalize(glm::cross(player1.Right, player1.Front));
+        player1.PlayerMove();
+        player1.PlayerNewFront();
 
 
         if (numberOfPlayers == 2.0f)
         {
-            //move
-            if (player2.playerCurrentSpeed < -530)
-                player2.playerCurrentSpeed = -530;
-
-            if (player2.playerCurrentSpeed > 530)
-                player2.playerCurrentSpeed = 530;
-
-            player2.playerRotation += player2.playerCurrentTurnSpeed / 100;
-            double distance2 = player2.playerCurrentSpeed / 100;// *deltaTime;
-            double dx2 = (double)(distance2 * sin(player2.playerRotation + M_PI / 2));
-            double dz2 = (double)(distance2 * cos(player2.playerRotation + M_PI / 2));
-            player2.playerPosition += glm::vec3(dx2, 0.0f, dz2);
-
-            // calculate the new Front vector
-            glm::vec3 front2;
-            front2.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-            front2.y = sin(glm::radians(0.0f));
-            front2.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
-            player2.Front = glm::normalize(front2);
-            // also re-calculate the Right and Up vector
-            player2.Right = glm::normalize(glm::cross(player2.Front, player2.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-            player2.Up = glm::normalize(glm::cross(player2.Right, player2.Front));
+            player2.PlayerMove();
+            player2.PlayerNewFront();
         }
 
         // render
         // ------
-
-     
-
-        gltBeginDraw();
-
-
-        // Draw Model
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        gltDrawText2D(text1, 10.0f, 10.0f, 1000000.0f); // x=0.0, y=0.0, scale=1.0
-
-        gltDrawText2DAligned(text1,
-            (GLfloat)(SCR_WIDTH / 2),
-            (GLfloat)(SCR_HEIGHT / 2),
-            3.0f,
-            GLT_CENTER, GLT_CENTER);
-
 
         ourShader.use();
         ourShader.setVec3("viewPos", camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
 
+        //Kamil's lightning modes
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
         {
             key = 1;
@@ -1202,48 +1060,24 @@ int main()
         // bind diffuse map
         glActiveTexture(GL_TEXTURE0);
 
-        glm::mat4 victorianHouse = glm::mat4(1.0f);
+       /* glm::mat4 victorianHouse = glm::mat4(1.0f);
         victorianHouse = glm::translate(victorianHouse, glm::vec3(0.0f, -1.75f, 0.0f));
         victorianHouse = glm::scale(victorianHouse, glm::vec3(0.05f, 0.05f, 0.05f));
         ourShader.setMat4("model", victorianHouse);
-        victorianHouseModel.Draw(ourShader);
+        victorianHouseModel.Draw(ourShader);*/
 
         //road was here
 
-            //Background Loader
-        backgroundShader.use();
-        backgroundShader.setMat4("view", view);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
-        renderSphere();
+        //Background Loader
+            backgroundShader.use();
+            backgroundShader.setMat4("view", view);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+            renderSphere();
+       
 
         //draw model using normal shader
         float tiltRotation = 1;
-
-
-        /* ourShader.use();
-         ourShader.setMat4("projection", projection);
-         ourShader.setMat4("view", view);
-         glm::mat4 model = glm::mat4(1.0f);
-         model = glm::translate(model, playerPosition);
-         if (playerCurrentTurnSpeed > 0.0f)//left
-         {
-             camera.changeCamYaw(50);
-             //glPushMatrix(); // Save ModelView
-            //  model = glm::rotate(model, tiltRotation, glm::vec3(0.0f, 0.0f, 1.0f));
-            // glPopMatrix(); // Restore ModelView
-         }
-         else  if (playerCurrentTurnSpeed < 0.0f)//right
-         {
-            // model = glm::translate(model, -playerPosition);
-                // model = glm::rotate(model, -tiltRotation* playerRotation, glm::vec3(1.0f, 0.0f, 1.0f));
-             //    model = glm::translate(model, playerPosition);
-         }
-             //    model = glm::translate(model, playerPosition);
-         model = glm::rotate(model, playerRotation, glm::vec3(0.0f, 1.0f, 0.0f));
-         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-         ourShader.setMat4("model", model);
-         RedCar.Draw(ourShader); */
 
         ourShader.use();
         ourShader.setMat4("projection", projection);
@@ -1255,6 +1089,30 @@ int main()
         ourShader.setMat4("model", model);
         RedCar.Draw(ourShader);
 
+    
+
+        glm::mat4 newtrack = glm::mat4(1.0f);
+        newtrack = glm::translate(newtrack, glm::vec3(0.0f, 0.0f, 0.0f));
+        newtrack = glm::scale(newtrack, glm::vec3(1.0f, 1.0f, 1.0f));
+        ourShader.setMat4("model", newtrack);
+        NewTrack.Draw(ourShader);
+
+
+        glm::mat4 walls = glm::mat4(1.0f);
+        walls = glm::translate(walls, glm::vec3(0.0f, -0.3f, -595.0f));
+        walls = glm::scale(walls, glm::vec3(1.0f, 1.0f, 1.0f));
+        ourShader.setMat4("model", walls);
+        Walls.Draw(ourShader);
+         
+        glm::mat4 walls2 = glm::mat4(1.0f);
+        walls2 = glm::translate(walls2, glm::vec3(0.0f, 0.0f, -660.0f));
+        walls2 = glm::rotate(walls2, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        walls2 = glm::scale(walls2, glm::vec3(1.0f, 1.0f, 1.0f));
+        ourShader.setMat4("model", walls2);
+        InnerWalls.Draw(ourShader);
+
+      
+
         if (numberOfPlayers == 2.0f)
         {
             glm::mat4 model2 = glm::mat4(1.0f);
@@ -1263,639 +1121,476 @@ int main()
             model2 = glm::scale(model2, glm::vec3(1.0f, 1.0f, 1.0f));
             ourShader.setMat4("model", model2);
             RedCar2.Draw(ourShader);
+      
         }
-
-        glm::mat4 newtrack = glm::mat4(1.0f);
-        newtrack = glm::translate(newtrack, glm::vec3(100.0f, 11.0f, -400.0f));
-        newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
-        ourShader.setMat4("model", newtrack);
-        track.Draw(ourShader);
-
-        // ring
-        glm::vec3 ringPosition = glm::vec3(-60.5f, 0.0f, 10.0f);
-        glm::mat4 ring = glm::mat4(1.0f);
-        ring = glm::translate(ring, glm::vec3(-60.5f, 0.0f, 10.0f));
-        ring = glm::scale(ring, glm::vec3(1.5f, 1.5f, 1.5f));
-       
-        //chack collision
-        if (player1.playerPosition.x - ringPosition.x < 3.0f && player1.playerPosition.x - ringPosition.x > -3.0f &&
-            player1.playerPosition.y - ringPosition.y < 3.0f && player1.playerPosition.y - ringPosition.y > -3.0f &&
-            player1.playerPosition.z - ringPosition.z < 3.0f && player1.playerPosition.z - ringPosition.z > -3.0f &&
-            explosionis == false)
+        // rings
         {
-            explosionTime = std::clock();
-            explosionis = true;
-           // ring = glm::scale(ring, glm::vec3(10.5f, 10.5f, 10.5f));
-                 // explosion
+            Ring1.ringPosition = glm::vec3(179.0f, -0.3f, 161.5f);
+            glm::mat4 ring = glm::mat4(1.0f);
+            ring = glm::translate(ring, Ring1.ringPosition);
+            ring = glm::scale(ring, glm::vec3(2.0f, 2.0f, 2.0f));
 
+            //chack collision with ring      
+            if (player1.playerPosition.x - Ring1.ringPosition.x < 6.0f && player1.playerPosition.x - Ring1.ringPosition.x > -6.0f &&
+                player1.playerPosition.z - Ring1.ringPosition.z < 6.0f && player1.playerPosition.z - Ring1.ringPosition.z > -6.0f &&
+                Ring1.explosionis == false)
+            {
+                Ring1.explosionTime = std::clock();
+                Ring1.explosionis = true;
+                ringSound->play2D("resources/sounds/coin.wav");
+                player1.PlayerGotBoost();
+            }
+
+            if (Ring1.explosionis && std::clock() < Ring1.explosionTime + 1000)
+            {
+                shader_explosion.use();
+                shader_explosion.setMat4("projection", projection);
+                shader_explosion.setMat4("view", view);
+                shader_explosion.setMat4("model", ring);
+                shader_explosion.setFloat("time", Ring1.explosionLenght);
+                Ring1.explosionLenght += deltaTime;
+                RingObj.Draw(shader_explosion);
+            }
+            else
+            {
+                Ring1.explosionis = false;
+                Ring1.explosionLenght = -1.0f;
+                ourShader.use();
+                ourShader.setMat4("projection", projection);
+                ourShader.setMat4("view", view);
+                ourShader.setMat4("model", ring);
+                RingObj.Draw(ourShader);
+            }
+        
+
+        //ring2
+        Ring2.ringPosition = glm::vec3(250.0f, -0.3f, 161.5f);
+        glm::mat4 ring2 = glm::mat4(1.0f);
+        ring2 = glm::translate(ring2, Ring2.ringPosition);
+        ring2 = glm::scale(ring2, glm::vec3(2.0f, 2.0f, 2.0f));
+
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring2.ringPosition.x < 6.0f && player1.playerPosition.x - Ring2.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring2.ringPosition.z < 6.0f && player1.playerPosition.z - Ring2.ringPosition.z > -6.0f &&
+            Ring2.explosionis == false)
+        {
+            Ring2.explosionTime = std::clock();
+            Ring2.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
         }
 
-        if (explosionis && std::clock() < explosionTime + 1000)
+        if (Ring2.explosionis && std::clock() < Ring2.explosionTime + 1000)
         {
             shader_explosion.use();
             shader_explosion.setMat4("projection", projection);
             shader_explosion.setMat4("view", view);
-            shader_explosion.setMat4("model", ring);
-            shader_explosion.setFloat("time", explosionLenght);
-            explosionLenght += deltaTime;
-            Ring.Draw(shader_explosion);
+            shader_explosion.setMat4("model", ring2);
+            shader_explosion.setFloat("time", Ring2.explosionLenght);
+            Ring2.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);         
         }
-        else 
+        else
         {
-            explosionis = false;
-            explosionLenght = -1.0f;
+            Ring2.explosionis = false;
+            Ring2.explosionLenght = -1.0f;
             ourShader.use();
             ourShader.setMat4("projection", projection);
             ourShader.setMat4("view", view);
-            ourShader.setMat4("model", ring);
-            Ring.Draw(ourShader);
+            ourShader.setMat4("model", ring2);
+            RingObj.Draw(ourShader);
         }
-      
-        //////////////////////////////////temp
-        glm::mat4 ring2 = glm::mat4(1.0f);
-        ring2 = glm::translate(ring2, Ring2);
-        ourShader.use();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        ourShader.setMat4("model", ring2);
-        Ring.Draw(ourShader);
 
+
+        //ring3
+        Ring3.ringPosition = glm::vec3(536.0f, -0.3f, -464.2f);
         glm::mat4 ring3 = glm::mat4(1.0f);
-        ring3 = glm::translate(ring3, Ring3);
-        ourShader.use();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        ourShader.setMat4("model", ring3);
-        Ring.Draw(ourShader);
+        ring3 = glm::translate(ring3, Ring3.ringPosition);
+        ring3 = glm::scale(ring3, glm::vec3(2.0f, 2.0f, 2.0f));
 
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring3.ringPosition.x < 6.0f && player1.playerPosition.x - Ring3.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring3.ringPosition.z < 6.0f && player1.playerPosition.z - Ring3.ringPosition.z > -6.0f &&
+            Ring3.explosionis == false)
+        {
+            Ring3.explosionTime = std::clock();
+            Ring3.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+        }
+
+        if (Ring3.explosionis && std::clock() < Ring3.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring3);
+            shader_explosion.setFloat("time", Ring3.explosionLenght);
+            Ring3.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ring3.explosionis = false;
+            Ring3.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring3);
+            RingObj.Draw(ourShader);
+        }
+        
+        //ring4
+        Ring4.ringPosition = glm::vec3(337.34f, -0.3f, 33.2f);
         glm::mat4 ring4 = glm::mat4(1.0f);
-        ring4 = glm::translate(ring4, Ring4);
-        ourShader.use();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        ourShader.setMat4("model", ring4);
-        Ring.Draw(ourShader);
+        ring4 = glm::translate(ring4, Ring4.ringPosition);
+        ring4 = glm::scale(ring4, glm::vec3(2.0f, 2.0f, 2.0f));
 
+       //chack collision with ring      
+        if (player1.playerPosition.x - Ring4.ringPosition.x < 6.0f && player1.playerPosition.x - Ring4.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring4.ringPosition.z < 6.0f && player1.playerPosition.z - Ring4.ringPosition.z > -6.0f &&
+            Ring4.explosionis == false)
+        {
+            Ring4.explosionTime = std::clock();
+            Ring4.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+        }
+        if (Ring4.explosionis && std::clock() < Ring4.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring4);
+            shader_explosion.setFloat("time", Ring4.explosionLenght);
+            Ring4.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ring4.explosionis = false;
+            Ring4.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring4);
+            RingObj.Draw(ourShader);
+        }
+
+        //ring5
+        Ring5.ringPosition = glm::vec3(458.0f, -0.3f, -464.2f);
         glm::mat4 ring5 = glm::mat4(1.0f);
-        ring5 = glm::translate(ring5, Ring5);
-        ourShader.use();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        ourShader.setMat4("model", ring5);
-        Ring.Draw(ourShader);
+        ring5 = glm::translate(ring5, Ring5.ringPosition);
+        ring5 = glm::scale(ring5, glm::vec3(2.0f, 2.0f, 2.0f));
 
-      
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring5.ringPosition.x < 6.0f && player1.playerPosition.x - Ring5.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring5.ringPosition.z < 6.0f && player1.playerPosition.z - Ring5.ringPosition.z > -6.0f &&
+            Ring5.explosionis == false)
+        {
+            Ring5.explosionTime = std::clock();
+            Ring5.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+        }
+
+        if (Ring5.explosionis && std::clock() < Ring5.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring5);
+            shader_explosion.setFloat("time", Ring5.explosionLenght);
+            Ring5.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ring5.explosionis = false;
+            Ring5.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring5);
+            RingObj.Draw(ourShader);
+        }
+        
+        //ring6
+        Ring6.ringPosition = glm::vec3(496.34f, -0.3f, -464.2f);
+        glm::mat4 ring6 = glm::mat4(1.0f);
+        ring6 = glm::translate(ring6, Ring6.ringPosition);
+        ring6 = glm::scale(ring6, glm::vec3(2.0f, 2.0f, 2.0f));
+
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring6.ringPosition.x < 6.0f && player1.playerPosition.x - Ring6.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring6.ringPosition.z < 6.0f && player1.playerPosition.z - Ring6.ringPosition.z > -6.0f &&
+            Ring6.explosionis == false)
+        {
+            Ring6.explosionTime = std::clock();
+            Ring6.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+        }
+        if (Ring6.explosionis && std::clock() < Ring6.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring6);
+            shader_explosion.setFloat("time", Ring6.explosionLenght);
+            Ring6.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ring6.explosionis = false;
+            Ring6.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring6);
+            RingObj.Draw(ourShader);
+        }
+
+        //ring7
+        Ring7.ringPosition = glm::vec3(276.34f, -0.3f, -158.1f);
+        glm::mat4 ring7 = glm::mat4(1.0f);
+        ring7 = glm::translate(ring7, Ring7.ringPosition);
+        ring7 = glm::scale(ring7, glm::vec3(2.0f, 2.0f, 2.0f));
+
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring7.ringPosition.x < 6.0f && player1.playerPosition.x - Ring7.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring7.ringPosition.z < 6.0f && player1.playerPosition.z - Ring7.ringPosition.z > -6.0f &&
+            Ring7.explosionis == false)
+        {
+            Ring7.explosionTime = std::clock();
+            Ring7.explosionis = true;
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+        }
+        if (Ring7.explosionis && std::clock() < Ring7.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring7);
+            shader_explosion.setFloat("time", Ring7.explosionLenght);
+            Ring7.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ring7.explosionis = false;
+            Ring7.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring7);
+            RingObj.Draw(ourShader);
+        }
+
+        //ring8
+        Ring8.ringPosition = glm::vec3(40.2f, -0.3f,-208.0f);
+        glm::mat4 ring8 = glm::mat4(1.0f);
+
+        ring8 = glm::translate(ring8, Ring8.ringPosition);
+        ring8 = glm::rotate(ring8, 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+        ring8 = glm::scale(ring8, glm::vec3(2.0f, 2.0f, 2.0f));
+
+        //chack collision with ring      
+        if (player1.playerPosition.x - Ring8.ringPosition.x < 6.0f && player1.playerPosition.x - Ring8.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ring8.ringPosition.z < 6.0f && player1.playerPosition.z - Ring8.ringPosition.z > -6.0f &&
+            Ring8.explosionis == false)
+        {
+            Ring8.explosionTime = std::clock();
+            Ring8.explosionis = true;
+
+            ringSound->play2D("resources/sounds/coin.wav");
+            player1.PlayerGotBoost();
+           // ringSoundon = true;
+
+            // engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+   // engine2->drop(); // delete engine
+      //  ISoundEngine* engine4 = createIrrKlangDevice();
+      //  engine4->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+        }
+        if (Ring8.explosionis && std::clock() < Ring8.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ring8);
+            shader_explosion.setFloat("time", Ring8.explosionLenght);
+            Ring8.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+               // ringSound->stopAllSounds();
+              //  ringSoundon = false;
+            
+            Ring8.explosionis = false;
+            Ring8.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ring8);
+            RingObj.Draw(ourShader);
+        }
+
+        if (player1.BoostTimer > 0 && std::clock() > player1.BoostTimer + 1800)
+        {
+            player1.playerMaxSpeed = 150.0f;
+            player1.PlayerBoost = 0;
+            player1.BoostTimer = 0;
+        }
+
+        /*   //ring4
+        Ring Ringg;
+        Ringg.ringPosition = glm::vec3(337.34f, -0.3f, 33.2f);
+        glm::mat4 ringg = glm::mat4(1.0f);
+        ringg = glm::translate(ringg, Ringg.ringPosition);
+        ringg = glm::scale(ringg, glm::vec3(2.0f, 2.0f, 2.0f));
+
+       //chack collision with ring      
+        if (player1.playerPosition.x - Ringg.ringPosition.x < 6.0f && player1.playerPosition.x - Ringg.ringPosition.x > -6.0f &&
+            player1.playerPosition.z - Ringg.ringPosition.z < 6.0f && player1.playerPosition.z - Ringg.ringPosition.z > -6.0f &&
+            Ringg.explosionis == false)
+        {
+            Ringg.explosionTime = std::clock();
+            Ringg.explosionis = true;
+        }
+        if (Ringg.explosionis && std::clock() < Ringg.explosionTime + 1000)
+        {
+            shader_explosion.use();
+            shader_explosion.setMat4("projection", projection);
+            shader_explosion.setMat4("view", view);
+            shader_explosion.setMat4("model", ringg);
+            shader_explosion.setFloat("time", Ringg.explosionLenght);
+            Ringg.explosionLenght += deltaTime;
+            RingObj.Draw(shader_explosion);
+        }
+        else
+        {
+            Ringg.explosionis = false;
+            Ringg.explosionLenght = -1.0f;
+            ourShader.use();
+            ourShader.setMat4("projection", projection);
+            ourShader.setMat4("view", view);
+            ourShader.setMat4("model", ringg);
+            RingObj.Draw(ourShader);
+        }*/
+        }
+
+       
+
+        //check collsion with gate 1     
+      if (player1.playerPosition.x > -98.0f && player1.playerPosition.x < 90.0f &&
+            player1.playerPosition.z - 13.0f < 12.0f && player1.playerPosition.z - 13.0f > -12.0f &&
+          player1.points == 0 ||
+          player1.playerPosition.x > -98.0f && player1.playerPosition.x < 90.0f &&
+          player1.playerPosition.z - 13.0f < 12.0f && player1.playerPosition.z - 13.0f > -12.0f && 
+          player1.points == 3)
+        {
+          player1.points++;
+        } 
+
+      //check collsion with gate 2     
+      if (player1.playerPosition.x - 285.0f < 12.0f && player1.playerPosition.x - 285.0f > -12.0f &&
+          player1.playerPosition.z > -246.0f && player1.playerPosition.z < - 82.0f &&
+          player1.points == 1)
+      {
+          player1.points++;
+      }
+
+      //check collsion with gate 3     
+      if (player1.playerPosition.x - 320.0f < 12.0f && player1.playerPosition.x - 320.0f > -12.0f &&
+          player1.playerPosition.z > -482.0f && player1.playerPosition.z < -390.0f &&
+          player1.points == 2)
+      {
+          player1.points++;
+      }
+
+      //Count Laps
+      if (player1.points == 4)
+      {
+          player1.points = 1;
+          player1.Laps++;
+          newLapsound->play2D("resources/sounds/337049__shinephoenixstormcrow__320655-rhodesmas-level-up-01.mp3");
+      }
+
+      if (player1.Laps == 2)
+      {
+          gameFinnished = true;
+          player1.playerCurrentSpeed = 0.0f;
+          player2.playerCurrentSpeed = 0.0f;
+          Winnersound->play2D("resources/sounds/applause3.wav");
+          player1.Laps++;
+      }
+
+        //draw hud
+        //----------------------------------    
+        glEnable2D();
+        glm::mat4 hud1 = glm::mat4(1.0f);
+        hud1 = glm::translate(hud1, player1.playerPosition);
+        hud1 = glm::rotate(hud1, player1.playerRotation - 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+        hud1 = glm::scale(hud1, glm::vec3(1.5f, 1.5f, 1.5f));
+        ourShader.setMat4("model", hud1);
+        if (gameStarted == false)
+        {
+            startHud.Draw(ourShader);
+        }
+        if (gameFinnished && gameStarted)
+        {
+            if (player1.Laps == 3)
+            winner.Draw(ourShader);
+            else
+            looser.Draw(ourShader);
+        }
+
+       glDisable2D();
 
         if (numberOfPlayers == 2.0f)
         {
+           
             //bottom view projection:
             glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT / 2);
-            /* glMatrixMode(GL_PROJECTION);
-             glLoadIdentity();
-             glViewport(SCR_WIDTH / 2, 0, SCR_WIDTH, SCR_HEIGHT);
-             glOrtho(0, SCR_WIDTH, SCR_WIDTH, 0, -1, 1);
-             glMatrixMode(GL_MODELVIEW);*/
-
 
             camera2.Position = glm::vec3(player2.playerPosition.x + 10.0f,
                 player2.playerPosition.y + 5.0f,
                 player2.playerPosition.z);
 
-
             camera2.move(player2.playerRotation, player2.playerPosition, player2.pressed);
-
-            ///////////////////////////////////////player1
-            //move
-            if (player1.playerCurrentSpeed < -530)
-                player1.playerCurrentSpeed = -530;
-
-            if (player1.playerCurrentSpeed > 530)
-                player1.playerCurrentSpeed = 530;
-
-
-
-
-            player1.playerRotation += player1.playerCurrentTurnSpeed / 100;
-            double distance = player1.playerCurrentSpeed / 100;// *deltaTime;
-            double dx = (double)(distance * sin(player1.playerRotation + M_PI / 2));
-            double dz = (double)(distance * cos(player1.playerRotation + M_PI / 2));
-            player1.playerPosition += glm::vec3(dx, 0.0f, dz);
-
-            // calculate the new Front vector
-            glm::vec3 front;
-            front.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-            front.y = sin(glm::radians(0.0f));
-            front.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
-            player1.Front = glm::normalize(front);
-            // also re-calculate the Right and Up vector
-            player1.Right = glm::normalize(glm::cross(player1.Front, player1.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-            player1.Up = glm::normalize(glm::cross(player1.Right, player1.Front));
-
-            /////////////////////////player2
-            //move
-            if (player2.playerCurrentSpeed < -530)
-                player2.playerCurrentSpeed = -530;
-
-            if (player2.playerCurrentSpeed > 530)
-                player2.playerCurrentSpeed = 530;
-
-            player2.playerRotation += player2.playerCurrentTurnSpeed / 100;
-            double distance2 = player2.playerCurrentSpeed / 100;// *deltaTime;
-            double dx2 = (double)(distance2 * sin(player2.playerRotation + M_PI / 2));
-            double dz2 = (double)(distance2 * cos(player2.playerRotation + M_PI / 2));
-            player2.playerPosition += glm::vec3(dx2, 0.0f, dz2);
-
-            // calculate the new Front vector
-            glm::vec3 front2;
-            front2.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-            front2.y = sin(glm::radians(0.0f));
-            front2.z = sin(glm::radians(-90.0f)) * cos(glm::radians((0.0f)));
-            player2.Front = glm::normalize(front);
-            // also re-calculate the Right and Up vector
-            player2.Right = glm::normalize(glm::cross(player2.Front, player2.Up));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-            player2.Up = glm::normalize(glm::cross(player2.Right, player2.Front));
-
-            // render
-            // ------
-            //gltBeginDraw();
-
-            // Draw Model
-          //  glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-          //  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-          //  gltDrawText2D(text1, 10.0f, 10.0f, 1000000.0f); // x=0.0, y=0.0, scale=1.0
-
-          //  gltDrawText2DAligned(text1,
-          //      (GLfloat)(SCR_WIDTH / 2),
-          //      (GLfloat)(SCR_HEIGHT / 2),
-          //      3.0f,
-          //      GLT_CENTER, GLT_CENTER);
-
+          
+            // render          
 
             ourShader.use();
             ourShader.setVec3("viewPos", camera2.Position);
             ourShader.setFloat("material.shininess", 32.0f);
 
-            {
-                if (key == 1)
-                {
-                    // == ==============================================================================================
-                    //       DESERT
-                    // == ==============================================================================================
-
-                    glClearColor(0.75f, 0.52f, 0.3f, 1.0f);
-
-                    glm::vec3 pointLightColors[] = {
-                        glm::vec3(1.0f, 0.6f, 0.0f),
-                        glm::vec3(1.0f, 0.0f, 0.0f),
-                        glm::vec3(1.0f, 1.0, 0.0),
-                        glm::vec3(0.2f, 0.2f, 1.0f)
-                    };
-
-                    // Directional light
-                    ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-                    ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
-                    ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-                    ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-
-                    // Point light 1
-                    ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                    ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                    ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[0].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[0].quadratic", 0.032);
-                    // Point light 2
-
-                    ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                    ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                    ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[1].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[1].quadratic", 0.032);
-                    // Point light 3
-
-                    ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                    ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                    ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[2].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[2].quadratic", 0.032);
-                    // Point light 4
-
-                    ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                    ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                    ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[3].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[3].quadratic", 0.032);
-                    // SpotLight
-
-                    ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
-
-                    ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
-
-                    ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                    ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
-
-                    ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
-
-                    ourShader.setFloat("spotLight.constant", 1.0f);
-
-                    ourShader.setFloat("spotLight.linear", 0.09);
-
-                    ourShader.setFloat("spotLight.quadratic", 0.032);
-
-                    ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-
-                    ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
-
-                }
-                if (key == 2)
-                {
-                    // == ==============================================================================================
-                    //       FACTORY
-                    // == ==============================================================================================
-
-                    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-                    glm::vec3 pointLightColors[] = {
-                        glm::vec3(0.2f, 0.2f, 0.6f),
-                        glm::vec3(0.3f, 0.3f, 0.7f),
-                        glm::vec3(0.0f, 0.0f, 0.3f),
-                        glm::vec3(0.4f, 0.4f, 0.4f)
-                    };
-
-                    // Directional light
-
-                    ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-                    ourShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.1f);
-
-                    ourShader.setVec3("dirLight.diffuse", 0.2f, 0.2f, 0.7);
-
-                    ourShader.setVec3("dirLight.specular", 0.7f, 0.7f, 0.7f);
-                    // Point light 1
-
-                    ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                    ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                    ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[0].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[0].quadratic", 0.032);
-                    // Point light 2
-
-                    ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                    ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                    ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[1].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[1].quadratic", 0.032);
-                    // Point light 3
-
-                    ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                    ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                    ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[2].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[2].quadratic", 0.032);
-                    // Point light 4
-
-                    ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                    ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                    ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[3].linear", 0.09);
-
-                    ourShader.setFloat("pointLights[3].quadratic", 0.032);
-                    // SpotLight
-
-                    ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
-
-                    ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
-
-                    ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                    ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                    ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-                    ourShader.setFloat("spotLight.constant", 1.0f);
-
-                    ourShader.setFloat("spotLight.linear", 0.009);
-
-                    ourShader.setFloat("spotLight.quadratic", 0.0032);
-
-                    ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-                    ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
-                }
-                if (key == 3)
-                {
-                    // == ==============================================================================================
-                    //       HORROR
-                    // == ==============================================================================================
-
-                    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-                    glm::vec3 pointLightColors[] = {
-                        glm::vec3(0.1f, 0.1f, 0.1f),
-                        glm::vec3(0.1f, 0.1f, 0.1f),
-                        glm::vec3(0.1f, 0.1f, 0.1f),
-                        glm::vec3(0.3f, 0.1f, 0.1f)
-                    };
-
-                    // Directional light
-
-                    ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-                    ourShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                    ourShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
-
-                    ourShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
-                    // Point light 1
-
-                    ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                    ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                    ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[0].linear", 0.14);
-
-                    ourShader.setFloat("pointLights[0].quadratic", 0.07);
-                    // Point light 2
-
-                    ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                    ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                    ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[1].linear", 0.14);
-
-                    ourShader.setFloat("pointLights[1].quadratic", 0.07);
-                    // Point light 3
-
-                    ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                    ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                    ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[2].linear", 0.22);
-
-                    ourShader.setFloat("pointLights[2].quadratic", 0.20);
-                    // Point light 4
-
-                    ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                    ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                    ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[3].linear", 0.14);
-
-                    ourShader.setFloat("pointLights[3].quadratic", 0.07);
-                    // SpotLight
-
-                    ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
-
-                    ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
-
-                    ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                    ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                    ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-                    ourShader.setFloat("spotLight.constant", 1.0f);
-
-                    ourShader.setFloat("spotLight.linear", 0.09);
-
-                    ourShader.setFloat("spotLight.quadratic", 0.032);
-
-                    ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-                    ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
-                }
-                if (key == 4)
-                {
-                    // == ==============================================================================================
-                    //       BIOCHEMICAL LAB
-                    // == ==============================================================================================
-
-                    glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
-
-                    glm::vec3 pointLightColors[] = {
-                        glm::vec3(0.4f, 0.7f, 0.1f),
-                        glm::vec3(0.4f, 0.7f, 0.1f),
-                        glm::vec3(0.4f, 0.7f, 0.1f),
-                        glm::vec3(0.4f, 0.7f, 0.1f)
-                    };
-
-                    // Directional light
-
-                    ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
-                    ourShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
-
-                    ourShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                    ourShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
-                    // Point light 1
-
-                    ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                    ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                    ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                    ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[0].linear", 0.07);
-
-                    ourShader.setFloat("pointLights[0].quadratic", 0.017);
-                    // Point light 2
-
-                    ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                    ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                    ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                    ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[1].linear", 0.07);
-
-                    ourShader.setFloat("pointLights[1].quadratic", 0.017);
-                    // Point light 3
-
-                    ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                    ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                    ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                    ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[2].linear", 0.07);
-
-                    ourShader.setFloat("pointLights[2].quadratic", 0.017);
-                    // Point light 4
-
-                    ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                    ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                    ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                    ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                    ourShader.setFloat("pointLights[3].linear", 0.07);
-
-                    ourShader.setFloat("pointLights[3].quadratic", 0.017);
-                    // SpotLight
-
-                    ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
-
-                    ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
-
-                    ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                    ourShader.setVec3("spotLight.diffuse", 0.0f, 1.0f, 0.0f);
-
-                    ourShader.setVec3("spotLight.specular", 0.0f, 1.0f, 0.0f);
-
-                    ourShader.setFloat("spotLight.constant", 1.0f);
-
-                    ourShader.setFloat("spotLight.linear", 0.07);
-
-                    ourShader.setFloat("spotLight.quadratic", 0.017);
-
-                    ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(7.0f)));
-
-                    ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(10.0f)));
-                }
-            }
-
-
             glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT * numberOfPlayers, 1.0f, 10000.0f);
             glm::mat4 view = camera2.GetViewMatrixAtPlayer(player2.playerPosition);
 
 
-
-            //  glm::mat4 projection2 = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / numberOfPlayers / (float)SCR_HEIGHT, 1.0f, 10000.0f);
-           //   glm::mat4 view2 = camera2.GetViewMatrixAtPlayer(player2.playerPosition);
-
-
             ourShader.setMat4("projection", projection);
             ourShader.setMat4("view", view);
-
-
-
-
+ 
             // bind diffuse map
             glActiveTexture(GL_TEXTURE0);
 
-            glm::mat4 victorianHouse = glm::mat4(1.0f);
+          /*  glm::mat4 victorianHouse = glm::mat4(1.0f);
             victorianHouse = glm::translate(victorianHouse, glm::vec3(0.0f, -1.75f, 0.0f));
             victorianHouse = glm::scale(victorianHouse, glm::vec3(0.05f, 0.05f, 0.05f));
             ourShader.setMat4("model", victorianHouse);
-            victorianHouseModel.Draw(ourShader);
+            victorianHouseModel.Draw(ourShader); */
 
             //road was here
-
-                //Background Loader
+             //Background Loader
             backgroundShader.use();
-
             backgroundShader.setMat4("view", view);
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
-
             renderSphere();
-
-            float tiltRotation = 1;
 
             //Draw models
             ourShader.use();
@@ -1916,86 +1611,440 @@ int main()
             ourShader.setMat4("model", model2);
             RedCar2.Draw(ourShader);
 
-            glm::mat4 newtrack = glm::mat4(1.0f);
-            newtrack = glm::translate(newtrack, glm::vec3(100.0f, 11.0f, -400.0f));
-            newtrack = glm::scale(newtrack, glm::vec3(3.5f, 3.5f, 3.5f));
-            ourShader.setMat4("model", newtrack);
-            track.Draw(ourShader);
+            glm::mat4 newtrack2 = glm::mat4(1.0f);
+            newtrack2 = glm::translate(newtrack2, glm::vec3(0.0f, 0.0f, 0.0f));
+            newtrack2 = glm::scale(newtrack2, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", newtrack2);
+            NewTrack.Draw(ourShader);
 
-            CollisonDetection(player1.playerPosition, player2.playerPosition, player1.playerRotation, player2.playerRotation);
+            glm::mat4 walls2 = glm::mat4(1.0f);
+            walls2 = glm::translate(walls2, glm::vec3(0.0f, -0.3f, -595.0f));
+            walls2 = glm::scale(walls2, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", walls2);
+            Walls.Draw(ourShader);
+
+            glm::mat4 innerWalls2 = glm::mat4(1.0f);
+            innerWalls2 = glm::translate(innerWalls2, glm::vec3(0.0f, 0.0f, -660.0f));
+            innerWalls2 = glm::rotate(innerWalls2, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+            innerWalls2 = glm::scale(innerWalls2, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", innerWalls2);
+            InnerWalls.Draw(ourShader);
+
+
+            if (CollisonDetection(player1.playerPosition, player2.playerPosition,
+                player1.playerRotation, player2.playerRotation))
+            {
+                player1.playerPosition += CollisonResult1;
+                player2.playerPosition += CollisonResult2;
+
+                player1.playerCurrentSpeed *= 0.5f;
+                player2.playerCurrentSpeed *= 0.5f;
+            }
+
+            // rings
+            {
+                Ring1.ringPosition = glm::vec3(179.0f, -0.3f, 161.5f);
+                glm::mat4 ring = glm::mat4(1.0f);
+                ring = glm::translate(ring, Ring1.ringPosition);
+                ring = glm::scale(ring, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring1.ringPosition.x < 6.0f && player2.playerPosition.x - Ring1.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring1.ringPosition.z < 6.0f && player2.playerPosition.z - Ring1.ringPosition.z > -6.0f &&
+                    Ring1.explosionis == false)
+                {
+                    Ring1.explosionTime = std::clock();
+                    Ring1.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+
+                if (Ring1.explosionis && std::clock() < Ring1.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring);
+                    shader_explosion.setFloat("time", Ring1.explosionLenght);
+                    Ring1.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring1.explosionis = false;
+                    Ring1.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring);
+                    RingObj.Draw(ourShader);
+                }
+
+
+                //ring2
+                Ring2.ringPosition = glm::vec3(250.0f, -0.3f, 161.5f);
+                glm::mat4 ring2 = glm::mat4(1.0f);
+                ring2 = glm::translate(ring2, Ring2.ringPosition);
+                ring2 = glm::scale(ring2, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring2.ringPosition.x < 6.0f && player2.playerPosition.x - Ring2.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring2.ringPosition.z < 6.0f && player2.playerPosition.z - Ring2.ringPosition.z > -6.0f &&
+                    Ring2.explosionis == false)
+                {
+                    Ring2.explosionTime = std::clock();
+                    Ring2.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+
+                if (Ring2.explosionis && std::clock() < Ring2.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring2);
+                    shader_explosion.setFloat("time", Ring2.explosionLenght);
+                    Ring2.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring2.explosionis = false;
+                    Ring2.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring2);
+                    RingObj.Draw(ourShader);
+                }
+
+
+                //ring3
+                Ring3.ringPosition = glm::vec3(536.0f, -0.3f, -464.2f);
+                glm::mat4 ring3 = glm::mat4(1.0f);
+                ring3 = glm::translate(ring3, Ring3.ringPosition);
+                ring3 = glm::scale(ring3, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring3.ringPosition.x < 6.0f && player2.playerPosition.x - Ring3.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring3.ringPosition.z < 6.0f && player2.playerPosition.z - Ring3.ringPosition.z > -6.0f &&
+                    Ring3.explosionis == false)
+                {
+                    Ring3.explosionTime = std::clock();
+                    Ring3.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+
+                if (Ring3.explosionis && std::clock() < Ring3.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring3);
+                    shader_explosion.setFloat("time", Ring3.explosionLenght);
+                    Ring3.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring3.explosionis = false;
+                    Ring3.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring3);
+                    RingObj.Draw(ourShader);
+                }
+
+                //ring4
+                Ring4.ringPosition = glm::vec3(337.34f, -0.3f, 33.2f);
+                glm::mat4 ring4 = glm::mat4(1.0f);
+                ring4 = glm::translate(ring4, Ring4.ringPosition);
+                ring4 = glm::scale(ring4, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring4.ringPosition.x < 6.0f && player2.playerPosition.x - Ring4.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring4.ringPosition.z < 6.0f && player2.playerPosition.z - Ring4.ringPosition.z > -6.0f &&
+                    Ring4.explosionis == false)
+                {
+                    Ring4.explosionTime = std::clock();
+                    Ring4.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+                if (Ring4.explosionis && std::clock() < Ring4.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring4);
+                    shader_explosion.setFloat("time", Ring4.explosionLenght);
+                    Ring4.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring4.explosionis = false;
+                    Ring4.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring4);
+                    RingObj.Draw(ourShader);
+                }
+
+                //ring5
+                Ring5.ringPosition = glm::vec3(458.0f, -0.3f, -464.2f);
+                glm::mat4 ring5 = glm::mat4(1.0f);
+                ring5 = glm::translate(ring5, Ring5.ringPosition);
+                ring5 = glm::scale(ring5, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring5.ringPosition.x < 6.0f && player2.playerPosition.x - Ring5.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring5.ringPosition.z < 6.0f && player2.playerPosition.z - Ring5.ringPosition.z > -6.0f &&
+                    Ring5.explosionis == false)
+                {
+                    Ring5.explosionTime = std::clock();
+                    Ring5.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+
+                if (Ring5.explosionis && std::clock() < Ring5.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring5);
+                    shader_explosion.setFloat("time", Ring5.explosionLenght);
+                    Ring5.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring5.explosionis = false;
+                    Ring5.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring5);
+                    RingObj.Draw(ourShader);
+                }
+
+                //ring6
+                Ring6.ringPosition = glm::vec3(496.34f, -0.3f, -464.2f);
+                glm::mat4 ring6 = glm::mat4(1.0f);
+                ring6 = glm::translate(ring6, Ring6.ringPosition);
+                ring6 = glm::scale(ring6, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring6.ringPosition.x < 6.0f && player2.playerPosition.x - Ring6.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring6.ringPosition.z < 6.0f && player2.playerPosition.z - Ring6.ringPosition.z > -6.0f &&
+                    Ring6.explosionis == false)
+                {
+                    Ring6.explosionTime = std::clock();
+                    Ring6.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+                if (Ring6.explosionis && std::clock() < Ring6.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring6);
+                    shader_explosion.setFloat("time", Ring6.explosionLenght);
+                    Ring6.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring6.explosionis = false;
+                    Ring6.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring6);
+                    RingObj.Draw(ourShader);
+                }
+
+                //ring7
+                Ring7.ringPosition = glm::vec3(276.34f, -0.3f, -158.1f);
+                glm::mat4 ring7 = glm::mat4(1.0f);
+                ring7 = glm::translate(ring7, Ring7.ringPosition);
+                ring7 = glm::scale(ring7, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring7.ringPosition.x < 6.0f && player2.playerPosition.x - Ring7.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring7.ringPosition.z < 6.0f && player2.playerPosition.z - Ring7.ringPosition.z > -6.0f &&
+                    Ring7.explosionis == false)
+                {
+                    Ring7.explosionTime = std::clock();
+                    Ring7.explosionis = true;
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                }
+                if (Ring7.explosionis && std::clock() < Ring7.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring7);
+                    shader_explosion.setFloat("time", Ring7.explosionLenght);
+                    Ring7.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    Ring7.explosionis = false;
+                    Ring7.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring7);
+                    RingObj.Draw(ourShader);
+                }
+
+                //ring8
+                Ring8.ringPosition = glm::vec3(40.2f, -0.3f, -208.0f);
+                glm::mat4 ring8 = glm::mat4(1.0f);
+
+                ring8 = glm::translate(ring8, Ring8.ringPosition);
+                ring8 = glm::rotate(ring8, 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+                ring8 = glm::scale(ring8, glm::vec3(2.0f, 2.0f, 2.0f));
+
+                //chack collision with ring      
+                if (player2.playerPosition.x - Ring8.ringPosition.x < 6.0f && player2.playerPosition.x - Ring8.ringPosition.x > -6.0f &&
+                    player2.playerPosition.z - Ring8.ringPosition.z < 6.0f && player2.playerPosition.z - Ring8.ringPosition.z > -6.0f &&
+                    Ring8.explosionis == false)
+                {
+                    Ring8.explosionTime = std::clock();
+                    Ring8.explosionis = true;
+
+                    ringSound->play2D("resources/sounds/coin.wav");
+                    player2.PlayerGotBoost();
+                    // ringSoundon = true;
+
+                     // engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+            // engine2->drop(); // delete engine
+               //  ISoundEngine* engine4 = createIrrKlangDevice();
+               //  engine4->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
+                }
+                if (Ring8.explosionis && std::clock() < Ring8.explosionTime + 1000)
+                {
+                    shader_explosion.use();
+                    shader_explosion.setMat4("projection", projection);
+                    shader_explosion.setMat4("view", view);
+                    shader_explosion.setMat4("model", ring8);
+                    shader_explosion.setFloat("time", Ring8.explosionLenght);
+                    Ring8.explosionLenght += deltaTime;
+                    RingObj.Draw(shader_explosion);
+                }
+                else
+                {
+                    // ringSound->stopAllSounds();
+                   //  ringSoundon = false;
+
+                    Ring8.explosionis = false;
+                    Ring8.explosionLenght = -1.0f;
+                    ourShader.use();
+                    ourShader.setMat4("projection", projection);
+                    ourShader.setMat4("view", view);
+                    ourShader.setMat4("model", ring8);
+                    RingObj.Draw(ourShader);
+                }
+
+                if (player2.BoostTimer > 0 && std::clock() > player2.BoostTimer + 1800)
+                {
+                    player2.playerMaxSpeed = 150.0f;
+                    player2.PlayerBoost = 0;
+                    player2.BoostTimer = 0;
+                }
+            }
+
+            //check collsion with gate 1     
+            if (player2.playerPosition.x > -98.0f && player2.playerPosition.x < 90.0f &&
+                player2.playerPosition.z - 13.0f < 12.0f && player2.playerPosition.z - 13.0f > -12.0f &&
+                player2.points == 0 ||
+                player2.playerPosition.x > -98.0f && player2.playerPosition.x < 90.0f &&
+                player2.playerPosition.z - 13.0f < 12.0f && player2.playerPosition.z - 13.0f > -12.0f &&
+                player2.points == 3)
+            {
+                player2.points++;
+            }
+
+            //check collsion with gate 2     
+            if (player2.playerPosition.x - 285.0f < 12.0f && player2.playerPosition.x - 285.0f > -12.0f &&
+                player2.playerPosition.z > -246.0f && player2.playerPosition.z < -82.0f &&
+                player2.points == 1)
+            {
+                player2.points++;
+            }
+
+            //check collsion with gate 3     
+            if (player2.playerPosition.x - 320.0f < 12.0f && player2.playerPosition.x - 320.0f > -12.0f &&
+                player2.playerPosition.z > -482.0f && player2.playerPosition.z < -390.0f &&
+                player2.points == 2)
+            {
+                player2.points++;
+            }
+
+            //Count Laps
+            if (player2.points == 4)
+            {
+                player2.points = 1;
+                player2.Laps++;
+                newLapsound->play2D("resources/sounds/337049__shinephoenixstormcrow__320655-rhodesmas-level-up-01.mp3");
+            }
+
+            if (player2.Laps == 2)
+            {
+                gameFinnished = true;
+                player1.playerCurrentSpeed = 0.0f;
+                player2.playerCurrentSpeed = 0.0f;
+                Winnersound->play2D("resources/sounds/applause3.wav");
+                player2.Laps++;
+            }
+
+            //draw hud
+            //----------------------------------    
+            glEnable2D();
+            glm::mat4 hud1 = glm::mat4(1.0f);
+            hud1 = glm::translate(hud1, player2.playerPosition);
+            hud1 = glm::rotate(hud1, player2.playerRotation - 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+            hud1 = glm::scale(hud1, glm::vec3(1.5f, 1.5f, 1.5f));
+            ourShader.setMat4("model", hud1);
+            if (gameStarted == false)
+            {
+                startHud.Draw(ourShader);
+            }
+            if (gameFinnished && gameStarted)
+            {
+                if (player2.Laps == 3)
+                    winner.Draw(ourShader);
+                else
+                    looser.Draw(ourShader);
+            }
+            glDisable2D();
+
         }
 
-      
-
-
-
-        //draw hud
-        //----------------------------------
-
        
-        /*   glEnable2D();
-        //do 2d stuff 
-
-        glBegin(GL_QUADS);
-        glColor3f(1.0f, 0.0f, 0.0);
-        glVertex2f(0.0, 0.0);
-        glVertex2f(10.0, 0.0);
-        glVertex2f(10.0, 10.0);
-        glVertex2f(0.0, 10.0);
-        glEnd();
-
-        // bind Texture
-        glBindTexture(GL_TEXTURE_2D, texture);
-        // render container
-    //    ourShader.use();
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 8, GL_UNSIGNED_INT, 0);
-
-        gltDrawText2D(text1, 10.0f, 10.0f, 1000000.0f); // x=0.0, y=0.0, scale=1.0
-
-        gltDrawText2DAligned(text1,
-            (GLfloat)(SCR_WIDTH / 2),
-            (GLfloat)(SCR_HEIGHT / 2),
-            3.0f,
-            GLT_CENTER, GLT_CENTER);
-
-
-        glBegin(GL_TRIANGLES);
-        glColor3ub(255, 0, 0);
-        glVertex2d(0, 0);
-        glColor3ub(0, 255, 0);
-        glVertex2d(100, 0);
-        glColor3ub(0, 0, 255);
-        glVertex2d(50, 50);
-        glEnd();
-
-       // output(100, 100, 0.5, 0.5, 0.5, "Hello");
-
-
-        // end 2d
-        glDisable2D();
-*/
-
-
-
-glfwSwapBuffers(window);
-glfwPollEvents();
+        
+        glfwSwapBuffers(window);
+        glfwPollEvents();
     }
-    //text
-    gltDeleteText(text1);
-    gltDeleteText(text2);
-
-
-
-    gltTerminate();
+    
 
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
 }
 
-
-void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation)
+// car to car
+bool CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2Rotation)
 {
     //check just x and z as the game is flat
 
@@ -2007,6 +2056,8 @@ void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
     glm::vec3 bottom1, bottom2, leftBottom1, leftBottom2, rightBottom1, rightBottom2;
     glm::vec3 leftTop1, leftTop2, rightTop1, rightTop2;
 
+    glm::vec3 corner;
+    bool IsColl1 = false;
 
     double dx2 = (double)(distance1 * sin(p1Rotation + M_PI / 2));
     double dz2 = (double)(distance1 * cos(p1Rotation + M_PI / 2));
@@ -2046,10 +2097,8 @@ void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
         leftTop1.x >= rightTop2.x && leftTop1.x <= rightBottom2.x ||
         leftTop1.x <= rightTop2.x && leftTop1.x >= rightBottom2.x)
     {
-        CollisonDetection2(leftTop1, rightTop1, rightTop2,
-            leftBottom1, leftBottom2,
-             rightBottom1,  rightBottom2,
-             leftTop1,  leftTop2);
+        IsColl1 = true;
+        corner = leftTop1;
     }
     else if (rightTop1.x >= leftBottom2.x && rightTop1.x <= rightBottom2.x ||
         rightTop1.x <= leftBottom2.x && rightTop1.x >= rightBottom2.x ||
@@ -2060,10 +2109,8 @@ void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
         rightTop1.x >= rightTop2.x && rightTop1.x <= rightBottom2.x ||
         rightTop1.x <= rightTop2.x && rightTop1.x >= rightBottom2.x)
     {
-        CollisonDetection2(rightTop1, rightTop1, rightTop2,
-            leftBottom1, leftBottom2,
-            rightBottom1, rightBottom2,
-            leftTop1, leftTop2);
+        IsColl1 = true;
+        corner = rightTop1;
     }
     else if (
         rightBottom1.x >= leftBottom2.x && rightBottom1.x <= rightBottom2.x ||
@@ -2075,10 +2122,8 @@ void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
         rightBottom1.x >= rightTop2.x && rightBottom1.x <= rightBottom2.x ||
         rightBottom1.x <= rightTop2.x && rightBottom1.x >= rightBottom2.x)
     {
-        CollisonDetection2(rightBottom1, rightTop1, rightTop2,
-            leftBottom1, leftBottom2,
-            rightBottom1, rightBottom2,
-            leftTop1, leftTop2);
+        IsColl1 = true;
+        corner = rightBottom1;
     }
     else if (
         leftBottom1.x >= leftBottom2.x && leftBottom1.x <= rightBottom2.x ||
@@ -2090,139 +2135,118 @@ void CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
         leftBottom1.x >= rightTop2.x && leftBottom1.x <= rightBottom2.x ||
         leftBottom1.x <= rightTop2.x && leftBottom1.x >= rightBottom2.x)
     {
-        CollisonDetection2(leftBottom1, rightTop1, rightTop2,
-            leftBottom1, leftBottom2,
-            rightBottom1, rightBottom2,
-            leftTop1, leftTop2);
+        IsColl1 = true;
+        corner = leftBottom1;
     }
 
-    
-       
-    
-}
-
-void CollisonDetection2(glm::vec3 corner, glm::vec3 rightTop1, glm::vec3 rightTop2,
-    glm::vec3 leftBottom1, glm::vec3 leftBottom2,
-    glm::vec3 rightBottom1, glm::vec3 rightBottom2,
-    glm::vec3 leftTop1, glm::vec3 leftTop2)
-{
-    glm::vec3 Tempvar;
-    float tempx, tempz;
-    if (leftTop1.z >= leftBottom2.z && leftTop1.z <= rightBottom2.z ||
-        leftTop1.z <= leftBottom2.z && leftTop1.z >= rightBottom2.z ||
-        leftTop1.z >= leftBottom2.z && leftTop1.z <= rightTop2.z ||
-        leftTop1.z <= leftBottom2.z && leftTop1.z >= rightTop2.z ||
-        leftTop1.z >= leftTop2.z && leftTop1.z <= rightTop2.z ||
-        leftTop1.z <= leftTop2.z && leftTop1.z >= rightTop2.z ||
-        leftTop1.z >= rightTop2.z && leftTop1.z <= rightBottom2.z ||
-        leftTop1.z <= rightTop2.z && leftTop1.z >= rightBottom2.z ||
-
-        rightTop1.z >= leftBottom2.z && rightTop1.z <= rightBottom2.z ||
-        rightTop1.z <= leftBottom2.z && rightTop1.z >= rightBottom2.z ||
-        rightTop1.z >= leftBottom2.z && rightTop1.z <= rightTop2.z ||
-        rightTop1.z <= leftBottom2.z && rightTop1.z >= rightTop2.z ||
-        rightTop1.z >= leftTop2.z && rightTop1.z <= rightTop2.z ||
-        rightTop1.z <= leftTop2.z && rightTop1.z >= rightTop2.z ||
-        rightTop1.z >= rightTop2.z && rightTop1.z <= rightBottom2.z ||
-        rightTop1.z <= rightTop2.z && rightTop1.z >= rightBottom2.z ||
-
-        rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightBottom2.z ||
-        rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightBottom2.z ||
-        rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightTop2.z ||
-        rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightTop2.z ||
-        rightBottom1.z >= leftTop2.z && rightBottom1.z <= rightTop2.z ||
-        rightBottom1.z <= leftTop2.z && rightBottom1.z >= rightTop2.z ||
-        rightBottom1.z >= rightTop2.z && rightBottom1.z <= rightBottom2.z ||
-        rightBottom1.z <= rightTop2.z && rightBottom1.z >= rightBottom2.z ||
-
-        leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightBottom2.z ||
-        leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightBottom2.z ||
-        leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightTop2.z ||
-        leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightTop2.z ||
-        leftBottom1.z >= leftTop2.z && leftBottom1.z <= rightTop2.z ||
-        leftBottom1.z <= leftTop2.z && leftBottom1.z >= rightTop2.z ||
-        leftBottom1.z >= rightTop2.z && leftBottom1.z <= rightBottom2.z ||
-        leftBottom1.z <= rightTop2.z && leftBottom1.z >= rightBottom2.z)
+    if (IsColl1)
     {
-        //CollisonReaction(corner);
+        glm::vec3 Tempvar;
+        float tempx, tempz;
+        if (leftTop1.z >= leftBottom2.z && leftTop1.z <= rightBottom2.z ||
+            leftTop1.z <= leftBottom2.z && leftTop1.z >= rightBottom2.z ||
+            leftTop1.z >= leftBottom2.z && leftTop1.z <= rightTop2.z ||
+            leftTop1.z <= leftBottom2.z && leftTop1.z >= rightTop2.z ||
+            leftTop1.z >= leftTop2.z && leftTop1.z <= rightTop2.z ||
+            leftTop1.z <= leftTop2.z && leftTop1.z >= rightTop2.z ||
+            leftTop1.z >= rightTop2.z && leftTop1.z <= rightBottom2.z ||
+            leftTop1.z <= rightTop2.z && leftTop1.z >= rightBottom2.z ||
 
-        Tempvar = leftBottom2;
-        if (sqrt(pow((leftBottom2.x - corner.x), 2) + pow((leftBottom2.z - corner.z), 2)) >
-            sqrt(pow((rightBottom2.x - corner.x), 2) + pow((rightBottom2.z - corner.z), 2)))
-        {
-            Tempvar = rightBottom2;
-        }
-        else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
-            sqrt(pow((rightTop2.x - corner.x), 2) + pow((rightTop2.z - corner.z), 2)))
-        {
-            Tempvar = rightTop2;
-        }
-        else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
-            sqrt(pow((leftTop2.x - corner.x), 2) + pow((leftTop2.z - corner.z), 2)))
-        {
-            Tempvar = leftTop2;
-        }
+            rightTop1.z >= leftBottom2.z && rightTop1.z <= rightBottom2.z ||
+            rightTop1.z <= leftBottom2.z && rightTop1.z >= rightBottom2.z ||
+            rightTop1.z >= leftBottom2.z && rightTop1.z <= rightTop2.z ||
+            rightTop1.z <= leftBottom2.z && rightTop1.z >= rightTop2.z ||
+            rightTop1.z >= leftTop2.z && rightTop1.z <= rightTop2.z ||
+            rightTop1.z <= leftTop2.z && rightTop1.z >= rightTop2.z ||
+            rightTop1.z >= rightTop2.z && rightTop1.z <= rightBottom2.z ||
+            rightTop1.z <= rightTop2.z && rightTop1.z >= rightBottom2.z ||
 
-        if (Tempvar.x > corner.x)
-        {
-            tempx = Tempvar.x - corner.x;
-        }
-        else
-            tempx = corner.x - Tempvar.x;
+            rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightBottom2.z ||
+            rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightBottom2.z ||
+            rightBottom1.z >= leftBottom2.z && rightBottom1.z <= rightTop2.z ||
+            rightBottom1.z <= leftBottom2.z && rightBottom1.z >= rightTop2.z ||
+            rightBottom1.z >= leftTop2.z && rightBottom1.z <= rightTop2.z ||
+            rightBottom1.z <= leftTop2.z && rightBottom1.z >= rightTop2.z ||
+            rightBottom1.z >= rightTop2.z && rightBottom1.z <= rightBottom2.z ||
+            rightBottom1.z <= rightTop2.z && rightBottom1.z >= rightBottom2.z ||
 
-        if (Tempvar.z > corner.z)
+            leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightBottom2.z ||
+            leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightBottom2.z ||
+            leftBottom1.z >= leftBottom2.z && leftBottom1.z <= rightTop2.z ||
+            leftBottom1.z <= leftBottom2.z && leftBottom1.z >= rightTop2.z ||
+            leftBottom1.z >= leftTop2.z && leftBottom1.z <= rightTop2.z ||
+            leftBottom1.z <= leftTop2.z && leftBottom1.z >= rightTop2.z ||
+            leftBottom1.z >= rightTop2.z && leftBottom1.z <= rightBottom2.z ||
+            leftBottom1.z <= rightTop2.z && leftBottom1.z >= rightBottom2.z)
         {
-            tempz = Tempvar.z - corner.z;
-        }
-        else
-            tempz = corner.z - Tempvar.z;
 
-        if (abs(tempx) > abs(tempz))
-        {
-            if (corner.x < Tempvar.x)
+
+            Tempvar = leftBottom2;
+            if (sqrt(pow((leftBottom2.x - corner.x), 2) + pow((leftBottom2.z - corner.z), 2)) >
+                sqrt(pow((rightBottom2.x - corner.x), 2) + pow((rightBottom2.z - corner.z), 2)))
             {
-                player1.playerPosition.x += (Tempvar.x - corner.x)/2;
-                player2.playerPosition.x -= (Tempvar.x - corner.x)/2;
+                Tempvar = rightBottom2;
+            }
+            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
+                sqrt(pow((rightTop2.x - corner.x), 2) + pow((rightTop2.z - corner.z), 2)))
+            {
+                Tempvar = rightTop2;
+            }
+            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
+                sqrt(pow((leftTop2.x - corner.x), 2) + pow((leftTop2.z - corner.z), 2)))
+            {
+                Tempvar = leftTop2;
+            }
 
+            if (Tempvar.x > corner.x)
+            {
+                tempx = Tempvar.x - corner.x;
+            }
+            else
+                tempx = corner.x - Tempvar.x;
+
+            if (Tempvar.z > corner.z)
+            {
+                tempz = Tempvar.z - corner.z;
+            }
+            else
+                tempz = corner.z - Tempvar.z;
+
+            if (abs(tempx) > abs(tempz))
+            {
+                if (corner.x < Tempvar.x)
+                {
+                    CollisonResult1.x = (Tempvar.x - corner.x) / 2;
+                    CollisonResult2.x = (Tempvar.x - corner.x) / -2;
+                }
+                else
+                {
+                    CollisonResult1.x = (corner.x - Tempvar.x) / 2;
+                    CollisonResult2.x = (corner.x - Tempvar.x) / -2;
+                }
             }
             else
             {
-                player1.playerPosition.x += (corner.x - Tempvar.x) / 2;
-                player2.playerPosition.x -= (corner.x - Tempvar.x) / 2;
+                if (corner.z < Tempvar.z)
+                {
+                    CollisonResult1.z = (Tempvar.z - corner.z) / 2;
+                    CollisonResult2.z = (Tempvar.z - corner.z) / -2;
+                }
+                else
+                {
+                    CollisonResult1.z = (corner.z - Tempvar.z) / 2;
+                    CollisonResult2.z = (corner.z - Tempvar.z) / -2;
+                }
             }
-                
-
-
         }
         else
-        {
-            if (corner.z < Tempvar.z)
-            {
-                player1.playerPosition.x += (Tempvar.x - corner.x) / 2;
-                player2.playerPosition.x -= (Tempvar.x - corner.x) / 2;
-            }
-            else
-            {
-                player1.playerPosition.z += (corner.z - Tempvar.z) / 2;
-                player2.playerPosition.z -= (corner.z - Tempvar.z) / 2;
-            }
-                
-        }
-
-        player1.playerCurrentSpeed *= 0.5f;
-        player2.playerCurrentSpeed *= 0.5f;
+            IsColl1 = false;
     }
-
-   
+    return IsColl1;
 }
-void CollisonReaction(glm::vec3 corner)
-{
-    player1.playerCurrentSpeed = 0.0f;
-    player2.playerCurrentSpeed = 0.0f;
 
 
 
-}
 
 void glEnable2D()
 {
@@ -2234,7 +2258,7 @@ void glEnable2D()
     glPushMatrix();
     glLoadIdentity();
 
-      glOrtho(0, vPort[2],  vPort[3], 0, -1, 1);
+    glOrtho(0, vPort[2], vPort[3], 0, -1, 1);
     //glOrtho(0.0, SCR_WIDTH, 0.0, SCR_HEIGHT, 0.0, 1.0);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -2252,32 +2276,86 @@ void glDisable2D()
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 }
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
+
 void processInput(GLFWwindow* window)
 {
+    if (gameStarted == false)
+    {
+        //escape
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, true);
 
+        //Press P for two players mode
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        {
+            PisPressed = true;
+        }
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
+        {
+            PisPressed = false;
+            if (numberOfPlayers == 1.0f)
+                numberOfPlayers = 2.0f;
+            else
+                numberOfPlayers = 1.0f;
+        }
+        //start
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        {
+            gameStarted = true;
+        }
+    }
+    else if (gameStarted && gameFinnished)
+    {
+        //escape
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, true);
 
+        //Press P for two players mode
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        {
+            PisPressed = true;
+        }
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
+        {
+            PisPressed = false;
+            if (numberOfPlayers == 1.0f)
+                numberOfPlayers = 2.0f;
+            else
+                numberOfPlayers = 1.0f;
+        }
+        //start
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        {
+            gameFinnished = false;
+            player1.playerPosition = glm::vec3(5.0f, 0.0f, -53.0f);
+            player2.playerPosition = glm::vec3(-15.0f, 0.0f, -33.0f);
+            player1.points = 0;
+            player1.Laps = 0;
+            player2.points = 0;
+            player2.Laps = 0;
+            player1.playerRotation = 1.5f;
+            player2.playerRotation = 1.5f;
+        }
+
+    }
+    else
+    {
+    //leave this comment i need it
    // engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
-
     // engine2->drop(); // delete engine
-
    // ISoundEngine* engine3 = createIrrKlangDevice();
-
    // engine3->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
-
     // engine2->drop(); // delete engine
 
-
-  
-
+    //print location and rotation
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        cout << player1.playerPosition.x << " " << player1.playerPosition.z << " " << player1.playerRotation << "\n";
+    }
 
     //escape
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-
-
 
     //forward / backward player1
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0)//forward
@@ -2319,8 +2397,8 @@ void processInput(GLFWwindow* window)
     }
 
     //Engine sound p1
-    if(player1.playerCurrentSpeed != 0.0 && engine2on == false)
-    {    
+    if (player1.playerCurrentSpeed != 0.0 && engine2on == false)
+    {
         engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
         engine2on = true;
     }
@@ -2332,14 +2410,11 @@ void processInput(GLFWwindow* window)
         engine2on = false;
     }
 
-
-
-
     //left / right player 1
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
         player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
     {
-        player1.playerCurrentTurnSpeed += -0.005 * player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentTurnSpeed += -0.05 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
         player1.playerAcceleration = 30.00;
         player1.pressed = true;
@@ -2349,7 +2424,7 @@ void processInput(GLFWwindow* window)
     else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
         player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
     {
-        player1.playerCurrentTurnSpeed += 0.005 * player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentTurnSpeed += 0.05 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
         player1.playerAcceleration = 30.00;
         player1.pressed = true;
@@ -2359,7 +2434,7 @@ void processInput(GLFWwindow* window)
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
         player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
     {
-        player1.playerCurrentTurnSpeed += -0.008 * player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentTurnSpeed += -0.08 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
         player1.playerAcceleration = 30.00;
         player1.pressed = true;
@@ -2369,7 +2444,7 @@ void processInput(GLFWwindow* window)
     else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
         && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when backward
     {
-        player1.playerCurrentTurnSpeed += 0.008 * player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentTurnSpeed += 0.08 * player1.playerCurrentSpeed * deltaTime;
         player1.playerCurrentSpeed *= 0.9999;
         player1.playerAcceleration = 30.00;
         player1.pressed = true;
@@ -2389,12 +2464,12 @@ void processInput(GLFWwindow* window)
     else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
         player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
     {
-        player1.playerCurrentTurnSpeed = 16 * deltaTime;
+        player1.playerCurrentTurnSpeed = 15 * deltaTime;
     }
     else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
         player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
     {
-        player1.playerCurrentTurnSpeed -= 16 * deltaTime;
+        player1.playerCurrentTurnSpeed -= 15 * deltaTime;
     }
     else if (player1.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
     {
@@ -2421,9 +2496,7 @@ void processInput(GLFWwindow* window)
     //brake player1
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
     {
-       // cout << player1.playerRotation << "\n";
-        // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
-        player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
+        player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
 
         if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
         {
@@ -2436,9 +2509,7 @@ void processInput(GLFWwindow* window)
     }
     if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
     {
-       // int pr = player1.playerRotation;
-      //  cout << player1.playerRotation << "  " << pr <<"\n";
-        player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
+       player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
         if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
         {
             // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
@@ -2511,7 +2582,7 @@ void processInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
         player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
     {
-        player2.playerCurrentTurnSpeed += -0.005 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentTurnSpeed += -0.05 * player2.playerCurrentSpeed * deltaTime;
         player2.playerCurrentSpeed *= 0.9999;
         player2.playerAcceleration = 30.00;
         player2.pressed = true;
@@ -2521,7 +2592,7 @@ void processInput(GLFWwindow* window)
     else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
         player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
     {
-        player2.playerCurrentTurnSpeed += 0.005 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentTurnSpeed += 0.05 * player2.playerCurrentSpeed * deltaTime;
         player2.playerCurrentSpeed *= 0.9999;
         player2.playerAcceleration = 30.00;
         player2.pressed = true;
@@ -2531,7 +2602,7 @@ void processInput(GLFWwindow* window)
     else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
     {
-        player2.playerCurrentTurnSpeed += -0.008 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentTurnSpeed += -0.08 * player2.playerCurrentSpeed * deltaTime;
         player2.playerCurrentSpeed *= 0.9999;
         player2.playerAcceleration = 30.00;
         player2.pressed = true;
@@ -2541,7 +2612,7 @@ void processInput(GLFWwindow* window)
     else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
         && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
     {
-        player2.playerCurrentTurnSpeed += 0.008 * player2.playerCurrentSpeed * deltaTime;
+        player2.playerCurrentTurnSpeed += 0.08 * player2.playerCurrentSpeed * deltaTime;
         player2.playerCurrentSpeed *= 0.9999;
         player2.playerAcceleration = 30.00;
         player2.pressed = true;
@@ -2561,12 +2632,12 @@ void processInput(GLFWwindow* window)
     else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
     {
-        player2.playerCurrentTurnSpeed = 16 * deltaTime;
+        player2.playerCurrentTurnSpeed = 15 * deltaTime;
     }
     else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
         player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
     {
-        player2.playerCurrentTurnSpeed -= 16 * deltaTime;
+        player2.playerCurrentTurnSpeed -= 15 * deltaTime;
     }
     else if (player2.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
     {
@@ -2640,25 +2711,7 @@ void processInput(GLFWwindow* window)
         player1.playerMaxTurnSpeed = 3.2f;
 
 
-    //Press P for two players mode
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
-    {
-        PisPressed = true;
-    }
-    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
-    {
-        PisPressed = false;
-        if (numberOfPlayers == 1.0f)
-            numberOfPlayers = 2.0f;
-        else
-            numberOfPlayers = 1.0f;
-    }
-
-    if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-    {
-       // SoundEngine->play2D("C:/Users/Pawel/Desktop/UNI/3rd_YEAR_20_21/TERM2_20_21/GROUP_PROJECT/3011/Lab/Lab/resources/sounds/breakout.mp3", true);
-    }
-
+  }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

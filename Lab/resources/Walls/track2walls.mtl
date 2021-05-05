@@ -10,7 +10,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdabcdcement-wall-texture-1592721153lWF.jpg
+map_Kd abcdcement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.002
 Ns 225.000000
@@ -21,7 +21,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\2.png
+map_Kd ......\\NewTrack2\\2.png
 
 newmtl Material.012
 Ns 225.000000
@@ -32,7 +32,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\1.png
+map_Kd ......\\NewTrack2\\1.png
 
 newmtl Material.016
 Ns 225.000000
@@ -65,7 +65,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\3.png
+map_Kd ......\\NewTrack2\\3.png
 
 newmtl Material.019
 Ns 225.000000
@@ -76,7 +76,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\4.png
+map_Kd ......\\NewTrack2\\4.png
 
 newmtl Material.020
 Ns 225.000000
@@ -131,7 +131,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\5.png
+map_Kd ......\\NewTrack2\\5.png
 
 newmtl Material.025
 Ns 225.000000
@@ -142,7 +142,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\6.png
+map_Kd ......\\NewTrack2\\6.png
 
 newmtl Material.026
 Ns 225.000000
@@ -153,7 +153,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\7.png
+map_Kd ......\\NewTrack2\\7.png
 
 newmtl Material.027
 Ns 225.000000
@@ -164,7 +164,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\8.png
+map_Kd ......\\NewTrack2\\8.png
 
 newmtl Material.028
 Ns 225.000000
@@ -263,7 +263,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\9.png
+map_Kd ......\\NewTrack2\\9.png
 
 newmtl Material.037
 Ns 225.000000
@@ -274,7 +274,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\10.png
+map_Kd ......\\NewTrack2\\10.png
 
 newmtl Material.038
 Ns 225.000000
@@ -285,7 +285,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\11.png
+map_Kd ......\\NewTrack2\\11.png
 
 newmtl Material.039
 Ns 225.000000
@@ -296,7 +296,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\12.png
+map_Kd ......\\NewTrack2\\12.png
 
 newmtl Material.040
 Ns 225.000000
@@ -307,7 +307,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\13.png
+map_Kd ......\\NewTrack2\\13.png
 
 newmtl Material.041
 Ns 225.000000
@@ -318,7 +318,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\14.png
+map_Kd ......\\NewTrack2\\14.png
 
 newmtl Material.042
 Ns 225.000000
@@ -329,7 +329,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\15.png
+map_Kd ......\\NewTrack2\\15.png
 
 newmtl Material.043
 Ns 225.000000
@@ -340,7 +340,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\16.png
+map_Kd ......\\NewTrack2\\16.png
 
 newmtl Material.044
 Ns 225.000000
@@ -428,7 +428,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ..\\resources\\NewTrack2\\6.png
+map_Kd ......\\NewTrack2\\6.png
 
 newmtl Material.052
 Ns 225.000000

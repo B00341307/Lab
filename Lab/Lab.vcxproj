@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AI.cpp" />
+    <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -230,7 +231,6 @@
   <ItemGroup>
     <None Include="assimp\color4.inl" />
     <None Include="assimp\config.h.in" />
-    <None Include="assimp\material.inl" />
     <None Include="assimp\matrix3x3.inl" />
     <None Include="assimp\matrix4x4.inl" />
     <None Include="assimp\quaternion.inl" />

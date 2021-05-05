@@ -74,8 +74,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Lab\freeglut\include\GL;$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\include;$(SolutionDir)\Lab\gltext.h;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\glfw-3.3.2\include;$(SolutionDir)\Lab\glm\glm;$(SolutionDir)\Lab\glad\include;$(SolutionDir)\Lab\glad\include\KHR;$(SolutionDir)\Lab\glad\include\glad;$(SolutionDir)\Lab\assimp;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\Lab\binaries-master\x86_64;$(SolutionDir)\Lab\freeglut\lib;$(SolutionDir)\Lab\irrKlang-64bit-1.5.0\lib\Winx64-visualStudio;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;$(SolutionDir)\Lab\assimp\lib64;$(SolutionDir)\Lab\glfw-3.3.2\lib-vc2019;$(SolutionDir)\Lab\glfw-3.3.2;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Lab\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Lab\glm;$(SolutionDir)\Lab\soil.1.16.0\build\native\include\soil.h;$(SolutionDir)\Lab\soil.1.16.0\build\native\lib\x64\Release\soil.lib;$(SolutionDir)\Lab\freetype\ft2build.h.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,11 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="glad\src\glad.c" />
+    <ClCompile Include="AI.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AI.h" />
     <ClInclude Include="assimp\ai_assert.h" />
     <ClInclude Include="assimp\anim.h" />
     <ClInclude Include="assimp\BaseImporter.h" />
@@ -221,6 +223,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>

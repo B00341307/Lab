@@ -64,8 +64,8 @@ int key = 1;
 double tempdp;
 
 // settings                     2k:     wide 2k:    fullhd:
-const unsigned int SCR_WIDTH = 2560;    //3440;     //1920;// 
-const unsigned int SCR_HEIGHT = 1440;   //1440      //1080;// 
+const unsigned int SCR_WIDTH = /*2560;*/    /*3440;*/     1920;
+const unsigned int SCR_HEIGHT = /*1440;*/   /*1440;*/      1080;
 
 // camera
 Camera camera(glm::vec3(15.0f, 5.0f, 0.0f));
@@ -117,6 +117,7 @@ int main()
     ISoundEngine* engine = createIrrKlangDevice();
 
     // play background sound, looped
+    engine->setSoundVolume(0.4f);
     engine->play2D("resources/sounds/breakout.mp3", true);
 
     // glfw: initialize and configure
@@ -203,6 +204,7 @@ int main()
     Model startHud("resources/HUD/start/startHud.obj");
     Model winner("resources/HUD/Winner/startHud.obj");
     Model looser("resources/HUD/Looser/startHud.obj");
+
     // pbr: setup framebuffer
     // ----------------------
     unsigned int captureFBO;
@@ -444,9 +446,11 @@ int main()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // load image, create texture and generate mipmaps
     int tidth, theight, nrChannels;
+
     // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
     //unsigned char* tdata = stbi_load("resources\HUD\shield\shield.png", &tidth, &theight, &nrChannels, 0);
  //   float* tdata = stbi_loadf(("resources\HUD\shield\shield.png"), &tidth, &theight, &nrChannels, 0);
+
     unsigned char* tdata = stbi_load(("resources/HUD/shield/shield.png"), &tidth, &theight, &nrChannels, 0);
     if (tdata)
     {

@@ -10,7 +10,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd blue.png
+map_Kd abcdblue.png
 
 newmtl Carroserie
 Ns 96.078443
@@ -21,7 +21,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 0.000000
 illum 9
-map_Kd red2.png
+map_Kd abcdred2.png
 
 newmtl Chrome
 Ns 96.078443
@@ -32,7 +32,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Compteur
 Ns 96.078443
@@ -43,7 +43,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd blue.png
+map_Kd abcdblue.png
 
 newmtl Cuire
 Ns 96.078443
@@ -54,7 +54,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brown.png
+map_Kd abcdbrown.png
 
 newmtl Cuire_levier_de_vitesse_
 Ns 96.078443
@@ -65,7 +65,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Headlights__bottom
 Ns 96.078443
@@ -76,7 +76,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd red.png
+map_Kd abcdred.png
 
 newmtl Lamp
 Ns 96.078443
@@ -87,7 +87,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd yellow.png
+map_Kd abcdyellow.png
 
 newmtl Laniere
 Ns 96.078443
@@ -98,7 +98,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brown.png
+map_Kd abcdbrown.png
 
 newmtl Leather_volant
 Ns 96.078443
@@ -109,7 +109,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Material.001
 Ns 96.078443
@@ -120,7 +120,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brown.png
+map_Kd abcdbrown.png
 
 newmtl Material.002
 Ns 96.078443
@@ -131,7 +131,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brown.png
+map_Kd abcdbrown.png
 
 newmtl Mirror
 Ns 96.078443
@@ -142,7 +142,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd blue.png
+map_Kd abcdblue.png
 
 newmtl Pneu2
 Ns 96.078443
@@ -153,7 +153,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Tableau_de_bord
 Ns 96.078443
@@ -164,7 +164,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Tapis_sol
 Ns 96.078443
@@ -175,7 +175,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd black.png
+map_Kd abcdblack.png
 
 newmtl Verre
 Ns 96.078443
@@ -186,7 +186,7 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd blue.png
+map_Kd abcdblue.png
 
 newmtl Wood
 Ns 96.078443
@@ -197,4 +197,4 @@ Ke 0.0 0.0 0.0
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd brown.png
+map_Kd abcdbrown.png

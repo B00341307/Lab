@@ -296,6 +296,9 @@
       <Filter>Header Files\assimp</Filter>
     </None>
     <None Include="resources\objects\RedCar\RedCar.mtl" />
+    <None Include="assimp\material.inl">
+      <Filter>Header Files\assimp</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\objects\RedCar\red.png">

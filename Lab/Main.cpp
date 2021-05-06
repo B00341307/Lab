@@ -2235,18 +2235,15 @@ bool CollisonDetection(glm::vec3 one, glm::vec3 two, float p1Rotation, float p2R
 
 
             Tempvar = leftBottom2;
-            if (sqrt(pow((leftBottom2.x - corner.x), 2) + pow((leftBottom2.z - corner.z), 2)) >
-                sqrt(pow((rightBottom2.x - corner.x), 2) + pow((rightBottom2.z - corner.z), 2)))
+            if (sqrt(pow((leftBottom2.x - corner.x), 2) + pow((leftBottom2.z - corner.z), 2)) > sqrt(pow((rightBottom2.x - corner.x), 2) + pow((rightBottom2.z - corner.z), 2)))
             {
                 Tempvar = rightBottom2;
             }
-            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
-                sqrt(pow((rightTop2.x - corner.x), 2) + pow((rightTop2.z - corner.z), 2)))
+            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) > sqrt(pow((rightTop2.x - corner.x), 2) + pow((rightTop2.z - corner.z), 2)))
             {
                 Tempvar = rightTop2;
             }
-            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) >
-                sqrt(pow((leftTop2.x - corner.x), 2) + pow((leftTop2.z - corner.z), 2)))
+            else if (sqrt(pow((Tempvar.x - corner.x), 2) + pow((Tempvar.z - corner.z), 2)) > sqrt(pow((leftTop2.x - corner.x), 2) + pow((leftTop2.z - corner.z), 2)))
             {
                 Tempvar = leftTop2;
             }

@@ -10,7 +10,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdtrack1212.png
+map_Kd track1212.png
 
 newmtl Material.003
 Ns 225.000000
@@ -21,7 +21,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.004
 Ns 225.000000
@@ -32,7 +32,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.005
 Ns 225.000000
@@ -43,7 +43,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.006
 Ns 225.000000
@@ -54,7 +54,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.007
 Ns 225.000000
@@ -65,7 +65,7 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg
 
 newmtl Material.008
 Ns 225.000000
@@ -76,4 +76,4 @@ Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd abcdcement-wall-texture-1592721153lWF.jpg
+map_Kd cement-wall-texture-1592721153lWF.jpg

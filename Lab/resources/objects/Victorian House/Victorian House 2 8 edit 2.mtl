@@ -6,19 +6,19 @@ newmtl Roofing_Shingles_GAF_Estates
 Ka 0.000000 0.000000 0.000000
 Kd 0.317647 0.301961 0.290196
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Roofing_Shingles_GAF_Estates.jpg
+map_Kd Victorian House 2 8 edit 2/Roofing_Shingles_GAF_Estates.jpg
 
 newmtl _5
 Ka 0.000000 0.000000 0.000000
 Kd 0.478431 0.600000 0.600000
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_5.jpg
+map_Kd Victorian House 2 8 edit 2/_5.jpg
 
 newmtl Wood__Floor
 Ka 0.000000 0.000000 0.000000
 Kd 0.607843 0.411765 0.239216
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Wood__Floor.jpg
+map_Kd Victorian House 2 8 edit 2/Wood__Floor.jpg
 
 newmtl Color_001
 Ka 0.000000 0.000000 0.000000
@@ -29,7 +29,7 @@ newmtl _15
 Ka 0.000000 0.000000 0.000000
 Kd 0.337255 0.337255 0.337255
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_15.jpg
+map_Kd Victorian House 2 8 edit 2/_15.jpg
 
 newmtl Color_009
 Ka 0.000000 0.000000 0.000000
@@ -40,14 +40,14 @@ newmtl Sketchy_Siding_Scale
 Ka 0.000000 0.000000 0.000000
 Kd 0.478431 0.600000 0.600000
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Sketchy_Siding_Scale.jpg
+map_Kd Victorian House 2 8 edit 2/Sketchy_Siding_Scale.jpg
 
 newmtl Translucent_Glass_Sky_Reflection
 Ka 0.000000 0.000000 0.000000
 Kd 0.501961 0.501961 0.501961
 Ks 0.330000 0.330000 0.330000
 d 0.520000
-map_Kd abcdVictorian House 2 8 edit 2/Translucent_Glass_Sky_Reflection.jpg
+map_Kd Victorian House 2 8 edit 2/Translucent_Glass_Sky_Reflection.jpg
 
 newmtl Translucent_Glass_Gray
 Ka 0.000000 0.000000 0.000000
@@ -60,7 +60,7 @@ Ka 0.000000 0.000000 0.000000
 Kd 0.717647 0.717647 0.717647
 Ks 0.330000 0.330000 0.330000
 d 0.800000
-map_Kd abcdVictorian House 2 8 edit 2/Translucent_Resin_Crush_Gray.jpg
+map_Kd Victorian House 2 8 edit 2/Translucent_Resin_Crush_Gray.jpg
 
 newmtl Color_H20
 Ka 0.000000 0.000000 0.000000
@@ -91,68 +91,68 @@ newmtl Fencing_Railing_Metal
 Ka 0.000000 0.000000 0.000000
 Kd 0.000000 0.000000 0.000000
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Fencing_Railing_Metal.png
+map_Kd Victorian House 2 8 edit 2/Fencing_Railing_Metal.png
 
 newmtl _16
 Ka 0.000000 0.000000 0.000000
 Kd 0.815686 0.815686 0.819608
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_16.png
+map_Kd Victorian House 2 8 edit 2/_16.png
 
 newmtl _19
 Ka 0.000000 0.000000 0.000000
 Kd 0.000000 0.000000 0.000000
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_19.png
+map_Kd Victorian House 2 8 edit 2/_19.png
 
 newmtl Water_Pool_Light
 Ka 0.000000 0.000000 0.000000
 Kd 0.243137 0.584314 0.650980
 Ks 0.330000 0.330000 0.330000
 d 0.600000
-map_Kd abcdVictorian House 2 8 edit 2/Water_Pool_Light.jpg
+map_Kd Victorian House 2 8 edit 2/Water_Pool_Light.jpg
 
 newmtl _Wood_Cherry_Original_1
 Ka 0.000000 0.000000 0.000000
 Kd 0.596078 0.337255 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_Wood_Cherry_Original_1.jpg
+map_Kd Victorian House 2 8 edit 2/_Wood_Cherry_Original_1.jpg
 
 newmtl Wood_Cherry_Original
 Ka 0.000000 0.000000 0.000000
 Kd 0.596078 0.337255 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Wood_Cherry_Original.jpg
+map_Kd Victorian House 2 8 edit 2/Wood_Cherry_Original.jpg
 
 newmtl _11
 Ka 0.000000 0.000000 0.000000
 Kd 0.800000 0.717647 0.478431
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_11.jpg
+map_Kd Victorian House 2 8 edit 2/_11.jpg
 
 newmtl Cladding_Board_Batten_Siding
 Ka 0.000000 0.000000 0.000000
 Kd 0.596078 0.337255 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Cladding_Board_Batten_Siding.jpg
+map_Kd Victorian House 2 8 edit 2/Cladding_Board_Batten_Siding.jpg
 
 newmtl _10
 Ka 0.000000 0.000000 0.000000
 Kd 0.886275 0.886275 0.886275
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_10.jpg
+map_Kd Victorian House 2 8 edit 2/_10.jpg
 
 newmtl _Cladding_Stucco_White_1
 Ka 0.000000 0.000000 0.000000
 Kd 0.784314 0.784314 0.784314
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_Cladding_Stucco_White_1.jpg
+map_Kd Victorian House 2 8 edit 2/_Cladding_Stucco_White_1.jpg
 
 newmtl _21
 Ka 0.000000 0.000000 0.000000
 Kd 0.596078 0.337255 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_21.jpg
+map_Kd Victorian House 2 8 edit 2/_21.jpg
 
 newmtl Color_002
 Ka 0.000000 0.000000 0.000000
@@ -163,25 +163,25 @@ newmtl Stone_Marble
 Ka 0.000000 0.000000 0.000000
 Kd 0.560784 0.541176 0.533333
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Stone_Marble.jpg
+map_Kd Victorian House 2 8 edit 2/Stone_Marble.jpg
 
 newmtl _8
 Ka 0.000000 0.000000 0.000000
 Kd 0.356863 0.600000 0.117647
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_8.jpg
+map_Kd Victorian House 2 8 edit 2/_8.jpg
 
 newmtl Water_Pool
 Ka 0.000000 0.000000 0.000000
 Kd 0.250980 0.584314 0.654902
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Water_Pool.jpg
+map_Kd Victorian House 2 8 edit 2/Water_Pool.jpg
 
 newmtl Tile_Ceramic_Multi
 Ka 0.000000 0.000000 0.000000
 Kd 0.596078 0.337255 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Tile_Ceramic_Multi.jpg
+map_Kd Victorian House 2 8 edit 2/Tile_Ceramic_Multi.jpg
 
 newmtl Color_B18
 Ka 0.000000 0.000000 0.000000
@@ -192,37 +192,37 @@ newmtl _14
 Ka 0.000000 0.000000 0.000000
 Kd 0.337255 0.337255 0.337255
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_14.jpg
+map_Kd Victorian House 2 8 edit 2/_14.jpg
 
 newmtl _20
 Ka 0.000000 0.000000 0.000000
 Kd 0.400000 0.219608 0.156863
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_20.jpg
+map_Kd Victorian House 2 8 edit 2/_20.jpg
 
 newmtl _Wood_OSB_1
 Ka 0.000000 0.000000 0.000000
 Kd 0.941176 0.764706 0.478431
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_Wood_OSB_1.jpg
+map_Kd Victorian House 2 8 edit 2/_Wood_OSB_1.jpg
 
 newmtl Wood_Board_Cork
 Ka 0.000000 0.000000 0.000000
 Kd 0.843137 0.788235 0.450980
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Wood_Board_Cork.jpg
+map_Kd Victorian House 2 8 edit 2/Wood_Board_Cork.jpg
 
 newmtl _3
 Ka 0.000000 0.000000 0.000000
 Kd 0.239216 0.168627 0.113725
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_3.jpg
+map_Kd Victorian House 2 8 edit 2/_3.jpg
 
 newmtl Wood_OSB
 Ka 0.000000 0.000000 0.000000
 Kd 0.843137 0.788235 0.450980
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Wood_OSB.jpg
+map_Kd Victorian House 2 8 edit 2/Wood_OSB.jpg
 
 newmtl Color_D04
 Ka 0.000000 0.000000 0.000000
@@ -233,7 +233,7 @@ newmtl _17
 Ka 0.000000 0.000000 0.000000
 Kd 0.337255 0.337255 0.337255
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/_17.jpg
+map_Kd Victorian House 2 8 edit 2/_17.jpg
 
 newmtl Color_007
 Ka 0.000000 0.000000 0.000000
@@ -244,5 +244,5 @@ newmtl Wood_Floor_Dark
 Ka 0.000000 0.000000 0.000000
 Kd 0.600000 0.368627 0.164706
 Ks 0.330000 0.330000 0.330000
-map_Kd abcdVictorian House 2 8 edit 2/Wood_Floor_Dark.jpg
+map_Kd Victorian House 2 8 edit 2/Wood_Floor_Dark.jpg
 

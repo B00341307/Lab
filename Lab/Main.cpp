@@ -12,6 +12,8 @@
 #include "Camera.h"
 #include "Model.h"
 #include "AI.h"
+#include "Controller.h"
+
 
 #include <iostream>
 #include <vector>
@@ -83,6 +85,11 @@ bool firstMouse2 = true;
 double deltaTime = 0.0000;
 double lastFrame = 0.0000;
 
+//Controller Bool values;
+bool Con1_Present = false;
+bool Con2_Present = false;
+GLFWgamepadstate state;
+GLFWgamepadstate state2;
 
 
 class Ring
@@ -98,11 +105,12 @@ public:
     double explosionTime;
 
 };
-
+Controller TestController;
 
 
 Player player1;
 Player player2;
+AI* player_AI1 = NULL;
  
 
 //Game Loop
@@ -166,15 +174,10 @@ int main()
     };
 
 
-    // build and compile shaders
-  //  Shader shader("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
- //  Shader shader2("Shaders/9.3.default.vs", "Shaders/9.3.default.fs");
-  //  Shader normalShader("Shaders/9.3.normal_visualization.vs", "Shaders/9.3.normal_visualization.fs", "Shaders/9.3.normal_visualization.gs");
-  //  Shader shader_explosion("Shaders/9.2.geometry_shader.vs", "Shaders/9.2.geometry_shader.fs", "Shaders/9.2.geometry_shader.gs");
+ 
     Shader ourShader("1.model_loading.v2.vs", "1.model_loading.v2.fs");
     Shader equirectangularToCubemapShader("2.2.2.cubemap.vs", "2.2.2.equirectangular_to_cubemap.fs");
     Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
-    Shader toonShader("Shaders/Toon.vs", "Toon.fs");
     Shader shader_explosion("Shaders/Geometry_shader.vs", "Shaders/Geometry_shader.fs", "Shaders/Geometry_shader.gs");
 
     ourShader.use();
@@ -182,18 +185,14 @@ int main()
     backgroundShader.use();
     backgroundShader.setInt("environmentMap", 0);
 
-    toonShader.use();
-    toonShader.setInt("toon", 0);
 
 
     // load models-
-    Model victorianHouseModel("resources/objects/Victorian House/Victorian House 2 8 edit 2.obj");
-    Model countryRoadModel("resources/objects/country road/terreno02.obj");
+
 
     stbi_set_flip_vertically_on_load(true);
     Model RedCar("resources/objects/RedCarColours/RedCar.obj");
     Model RedCar2("resources/objects/BlueCar/RedCar.obj");
-    Model track("resources/objects/track/track.obj");
     Model RingObj("resources/objects/ring/ringobj.obj");
 
     Model NewTrack("resources/NewTrack2/track2.obj");
@@ -459,7 +458,7 @@ int main()
     }
     else
     {
-        std::cout << "QFailed to load texture" << std::endl;
+        //std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(tdata);
 
@@ -496,6 +495,12 @@ int main()
     Checkpoints.push_back(&V9);
     Checkpoints.push_back(&Ring8.ringPosition);
     AI playerAi_(Checkpoints, glm::vec3(0, 0, 0), &player1.playerPosition, &RedCar, &ourShader);
+    player_AI1 = &playerAi_;
+
+    
+    Con1_Present = TestController.Init(1);
+    Con2_Present = TestController.Init(3);
+
     //----------------------------------------------------------------------------------
     // render loop----------------------------------------------------------------------
     // ---------------------------------------------------------------------------------
@@ -1096,13 +1101,6 @@ int main()
         // bind diffuse map
         glActiveTexture(GL_TEXTURE0);
 
-       /* glm::mat4 victorianHouse = glm::mat4(1.0f);
-        victorianHouse = glm::translate(victorianHouse, glm::vec3(0.0f, -1.75f, 0.0f));
-        victorianHouse = glm::scale(victorianHouse, glm::vec3(0.05f, 0.05f, 0.05f));
-        ourShader.setMat4("model", victorianHouse);
-        victorianHouseModel.Draw(ourShader);*/
-
-        //road was here
 
         //Background Loader
             backgroundShader.use();
@@ -1482,39 +1480,7 @@ int main()
             player1.BoostTimer = 0;
         }
 
-        /*   //ring4
-        Ring Ringg;
-        Ringg.ringPosition = glm::vec3(337.34f, -0.3f, 33.2f);
-        glm::mat4 ringg = glm::mat4(1.0f);
-        ringg = glm::translate(ringg, Ringg.ringPosition);
-        ringg = glm::scale(ringg, glm::vec3(2.0f, 2.0f, 2.0f));
-
-       //chack collision with ring      
-        if (player1.playerPosition.x - Ringg.ringPosition.x < 6.0f && player1.playerPosition.x - Ringg.ringPosition.x > -6.0f &&
-            player1.playerPosition.z - Ringg.ringPosition.z < 6.0f && player1.playerPosition.z - Ringg.ringPosition.z > -6.0f &&
-            Ringg.explosionis == false)
-        {
-            Ringg.explosionTime = std::clock();
-        if (Ringg.explosionis && std::clock() < Ringg.explosionTime + 1000)
-        {
-            shader_explosion.use();
-            shader_explosion.setMat4("projection", projection);
-            shader_explosion.setMat4("view", view);
-            shader_explosion.setMat4("model", ringg);
-            shader_explosion.setFloat("time", Ringg.explosionLenght);
-            Ringg.explosionLenght += deltaTime;
-            RingObj.Draw(shader_explosion);
-        }
-        else
-        {
-            Ringg.explosionis = false;
-            Ringg.explosionLenght = -1.0f;
-            ourShader.use();
-            ourShader.setMat4("projection", projection);
-            ourShader.setMat4("view", view);
-            ourShader.setMat4("model", ringg);
-            RingObj.Draw(ourShader);
-        }*/
+      
         }
         //check collsion with gate 1     
         if (player1.playerPosition.x > -98.0f && player1.playerPosition.x < 90.0f &&
@@ -1560,16 +1526,7 @@ int main()
             Winnersound->play2D("resources/sounds/applause3.wav");
             player1.Laps++;
         }
-        //check collsion with gate 1     
-     /* if (player1.playerPosition.x > -98.0f && player1.playerPosition.x < -6.0f &&
-            player1.playerPosition.z - 13.0f < 12.0f && player1.playerPosition.z - 13.0f > -12.0f &&
-            Ring1.explosionis == false)
-        {
-            Ring1.explosionTime = std::clock();
-            Ring1.explosionis = true;
-            ringSound->play2D("resources/sounds/coin.wav");
-            player1.PlayerGotBoost();
-        }*/  
+      
 
 
         //draw hud
@@ -1625,13 +1582,7 @@ int main()
             // bind diffuse map
             glActiveTexture(GL_TEXTURE0);
 
-          /*  glm::mat4 victorianHouse = glm::mat4(1.0f);
-            victorianHouse = glm::translate(victorianHouse, glm::vec3(0.0f, -1.75f, 0.0f));
-            victorianHouse = glm::scale(victorianHouse, glm::vec3(0.05f, 0.05f, 0.05f));
-            ourShader.setMat4("model", victorianHouse);
-            victorianHouseModel.Draw(ourShader); */
-
-            //road was here
+        
              //Background Loader
             backgroundShader.use();
             backgroundShader.setMat4("view", view);
@@ -1651,7 +1602,7 @@ int main()
             ourShader.setMat4("model", model);
             RedCar.Draw(ourShader);
 
-            
+            playerAi_.BeginDrawTranslate();
 
             glm::mat4 model2 = glm::mat4(1.0f);
             model2 = glm::translate(model2, player2.playerPosition);
@@ -2329,18 +2280,23 @@ void glDisable2D()
 
 void processInput(GLFWwindow* window)
 {
+    glfwGetGamepadState(GLFW_JOYSTICK_1, &state);
+    glfwGetGamepadState(GLFW_JOYSTICK_2, &state2);
+
     if (gameStarted == false)
     {
+        
         //escape
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y] == GLFW_PRESS)
+        {
             glfwSetWindowShouldClose(window, true);
-
+        }
         //Press P for two players mode
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS)
         {
             PisPressed = true;
         }
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE && PisPressed == true)
         {
             PisPressed = false;
             if (numberOfPlayers == 1.0f)
@@ -2349,23 +2305,25 @@ void processInput(GLFWwindow* window)
                 numberOfPlayers = 1.0f;
         }
         //start
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS)
         {
             gameStarted = true;
         }
+
     }
     else if (gameStarted && gameFinnished)
     {
-        //escape
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, true);
+       
 
+        //escape
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y])
+            glfwSetWindowShouldClose(window, true);
         //Press P for two players mode
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS)
         {
             PisPressed = true;
         }
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true)
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE &&  PisPressed == true)
         {
             PisPressed = false;
             if (numberOfPlayers == 1.0f)
@@ -2374,7 +2332,7 @@ void processInput(GLFWwindow* window)
                 numberOfPlayers = 1.0f;
         }
         //start
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS)
         {
             gameFinnished = false;
             player1.playerPosition = glm::vec3(5.0f, 0.0f, -53.0f);
@@ -2385,6 +2343,8 @@ void processInput(GLFWwindow* window)
             player2.Laps = 0;
             player1.playerRotation = 1.5f;
             player2.playerRotation = 1.5f;
+            player_AI1->CurrentTarget = 0;
+            player_AI1->EntPos = glm::vec3(0, 0, -43);
         }
 
     }
@@ -2398,375 +2358,389 @@ void processInput(GLFWwindow* window)
         // engine2->drop(); // delete engine
 
 
+   
+        
 
 
-
-    //print location and rotation
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-    {
-        cout << player1.playerPosition.x << " " << player1.playerPosition.z << " " << player1.playerRotation << "\n";
-    }
-
-    //escape
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-    //forward / backward player1
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0)//forward
-    {
-        player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
-
-        //playerCurrentSpeed = -MovementSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0)//backward
-    {
-        player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
-        //playerCurrentSpeed = MovementSpeed * 0.7f;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0)//forward while still going backward
-    {
-        player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
-        //playerCurrentSpeed = -MovementSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0)//backward while still going forward
-    {
-        player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
-        //playerCurrentSpeed = MovementSpeed * 0.7f;
-    }
-    else if (player1.playerCurrentSpeed > 0.0)//drag force when w key is relesed
-    {
-        player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
-        if (player1.playerCurrentSpeed < 0.0)
+        //print location and rotation
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         {
-            player1.playerCurrentSpeed = 0.0;
+            cout << player1.playerPosition.x << " " << player1.playerPosition.z << " " << player1.playerRotation << "\n";
+
         }
-    }
-    else if (player1.playerCurrentSpeed < 0.0)//drag force when s key is relesed
-    {
-        player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
-        if (player1.playerCurrentSpeed > 0.0)
+
+        //escape
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y] == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, true);
+
+        //forward / backward player1
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//forward
         {
-            player1.playerCurrentSpeed = 0.0;
+            player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
+
+            //playerCurrentSpeed = -MovementSpeed;
         }
-    }
-
-    //Engine sound p1
-    if (player1.playerCurrentSpeed != 0.0 && engine2on == false)
-    {
-        engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
-        engine2on = true;
-    }
-
-    if (player1.playerCurrentSpeed == 0.0 && engine2on == true)
-    {
-        engine2->stopAllSounds();
-        //engine2->drop();
-        engine2on = false;
-    }
-
-    //left / right player 1
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
-    {
-        player1.playerCurrentTurnSpeed += -0.05 * player1.playerCurrentSpeed * deltaTime;
-        player1.playerCurrentSpeed *= 0.9999;
-        player1.playerAcceleration = 30.00;
-        player1.pressed = true;
-        if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
-            player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
-    {
-        player1.playerCurrentTurnSpeed += 0.05 * player1.playerCurrentSpeed * deltaTime;
-        player1.playerCurrentSpeed *= 0.9999;
-        player1.playerAcceleration = 30.00;
-        player1.pressed = true;
-        if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
-            player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-        player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
-    {
-        player1.playerCurrentTurnSpeed += -0.08 * player1.playerCurrentSpeed * deltaTime;
-        player1.playerCurrentSpeed *= 0.9999;
-        player1.playerAcceleration = 30.00;
-        player1.pressed = true;
-        if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
-            player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
-        && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when backward
-    {
-        player1.playerCurrentTurnSpeed += 0.08 * player1.playerCurrentSpeed * deltaTime;
-        player1.playerCurrentSpeed *= 0.9999;
-        player1.playerAcceleration = 30.00;
-        player1.pressed = true;
-        if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
-            player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS
-        && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
-    {
-        player1.playerCurrentTurnSpeed = 15 * deltaTime;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS
-        && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
-    {
-        player1.playerCurrentTurnSpeed -= 15 * deltaTime;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-        player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
-    {
-        player1.playerCurrentTurnSpeed = 15 * deltaTime;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-        player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
-    {
-        player1.playerCurrentTurnSpeed -= 15 * deltaTime;
-    }
-    else if (player1.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
-    {
-        player1.playerCurrentTurnSpeed -= 9 * deltaTime;
-        if (player1.playerCurrentTurnSpeed < 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS  &&player1.playerCurrentSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//backward
         {
-            player1.playerCurrentTurnSpeed = 0.0;
-            player1.playerAcceleration = 100.0;
-            player1.pressed = false;
+            player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
+            //playerCurrentSpeed = MovementSpeed * 0.7f;
         }
-    }
-    else if (player1.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
-    {
-        player1.playerCurrentTurnSpeed += 9 * deltaTime;
-        if (player1.playerCurrentTurnSpeed > 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//forward while still going backward
         {
-            player1.playerCurrentTurnSpeed = 0.0;
-            player1.playerAcceleration = 100.0;
-            player1.pressed = false;
+            player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
+            //playerCurrentSpeed = -MovementSpeed;
         }
-    }
-
-
-    //brake player1
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
-    {
-        player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
-
-        if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//backward while still going forward
         {
-            //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
+            //playerCurrentSpeed = MovementSpeed * 0.7f;
         }
-        if (player1.playerCurrentSpeed < 0.0)
+        else if (player1.playerCurrentSpeed > 0.0)//drag force when w key is relesed
         {
-            player1.playerCurrentSpeed = 0.0;
+            player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
+            if (player1.playerCurrentSpeed < 0.0)
+            {
+                player1.playerCurrentSpeed = 0.0;
+            }
         }
-    }
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
-    {
-       player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
-        if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
+        else if (player1.playerCurrentSpeed < 0.0)//drag force when s key is relesed
         {
-            // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            player1.playerCurrentSpeed -= 18000 / player1.playerCurrentSpeed * deltaTime;
+            if (player1.playerCurrentSpeed > 0.0)
+            {
+                player1.playerCurrentSpeed = 0.0;
+            }
         }
-        if (player1.playerCurrentSpeed > 0.0)
+
+        //Engine sound p1
+        if (player1.playerCurrentSpeed != 0.0 && engine2on == false)
         {
-            player1.playerCurrentSpeed = 0.0;
+            engine2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
+            engine2on = true;
         }
-    }
 
-    ////////////////////////player 2/////////////////////////////////////
-
-
-
-         //forward / backward player2
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//forward
-    {
-        player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
-        //playerCurrentSpeed = -MovementSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//backward
-    {
-        player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
-        //playerCurrentSpeed = MovementSpeed * 0.7f;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0)//forward while still going backward
-    {
-        player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
-        //playerCurrentSpeed = -MovementSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0)//backward while still going forward
-    {
-        player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
-        //playerCurrentSpeed = MovementSpeed * 0.7f;
-    }
-    else if (player2.playerCurrentSpeed > 0.0)//drag force when w key is relesed
-    {
-        player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
-        if (player2.playerCurrentSpeed < 0.0)
+        if (player1.playerCurrentSpeed == 0.0 && engine2on == true)
         {
-            player2.playerCurrentSpeed = 0.0;
+            engine2->stopAllSounds();
+            //engine2->drop();
+            engine2on = false;
         }
-    }
-    else if (player2.playerCurrentSpeed < 0.0)//drag force when s key is relesed
-    {
-        player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
-        if (player2.playerCurrentSpeed > 0.0)
+
+        //left / right player 1
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
         {
-            player2.playerCurrentSpeed = 0.0;
+            player1.playerCurrentTurnSpeed += -0.05 * player1.playerCurrentSpeed * deltaTime;
+            player1.playerCurrentSpeed *= 0.9999;
+            player1.playerAcceleration = 30.00;
+            player1.pressed = true;
+            if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
+                player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
         }
-    }
-
-    //Engine sound p2
-    if (player2.playerCurrentSpeed != 0.0 && engine2onP2 == false)
-    {
-        engine2P2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
-        engine2onP2 = true;
-    }
-
-    if (player2.playerCurrentSpeed == 0.0 && engine2onP2 == true)
-    {
-        engine2P2->stopAllSounds();
-        //engine2->drop();
-        engine2onP2 = false;
-    }
-
-
-
-    //left / right player 2
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
-        player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
-    {
-        player2.playerCurrentTurnSpeed += -0.05 * player2.playerCurrentSpeed * deltaTime;
-        player2.playerCurrentSpeed *= 0.9999;
-        player2.playerAcceleration = 30.00;
-        player2.pressed = true;
-        if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
-            player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-        player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
-    {
-        player2.playerCurrentTurnSpeed += 0.05 * player2.playerCurrentSpeed * deltaTime;
-        player2.playerCurrentSpeed *= 0.9999;
-        player2.playerAcceleration = 30.00;
-        player2.pressed = true;
-        if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
-            player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
-    {
-        player2.playerCurrentTurnSpeed += -0.08 * player2.playerCurrentSpeed * deltaTime;
-        player2.playerCurrentSpeed *= 0.9999;
-        player2.playerAcceleration = 30.00;
-        player2.pressed = true;
-        if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
-            player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
-        && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
-    {
-        player2.playerCurrentTurnSpeed += 0.08 * player2.playerCurrentSpeed * deltaTime;
-        player2.playerCurrentSpeed *= 0.9999;
-        player2.playerAcceleration = 30.00;
-        player2.pressed = true;
-        if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
-            player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
-        && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
-    {
-        player2.playerCurrentTurnSpeed = 15 * deltaTime;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS
-        && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
-    {
-        player2.playerCurrentTurnSpeed -= 15 * deltaTime;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
-        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
-    {
-        player2.playerCurrentTurnSpeed = 15 * deltaTime;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
-        player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
-    {
-        player2.playerCurrentTurnSpeed -= 15 * deltaTime;
-    }
-    else if (player2.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
-    {
-        player2.playerCurrentTurnSpeed -= 9 * deltaTime;
-        if (player2.playerCurrentTurnSpeed < 0.0)
+        else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
         {
-            player2.playerCurrentTurnSpeed = 0.0;
-            player2.playerAcceleration = 100.0;
-            player2.pressed = false;
+            player1.playerCurrentTurnSpeed += 0.05 * player1.playerCurrentSpeed * deltaTime;
+            player1.playerCurrentSpeed *= 0.9999;
+            player1.playerAcceleration = 30.00;
+            player1.pressed = true;
+            if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
+                player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
         }
-    }
-    else if (player2.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
-    {
-        player2.playerCurrentTurnSpeed += 9 * deltaTime;
-        if (player2.playerCurrentTurnSpeed > 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
         {
-            player2.playerCurrentTurnSpeed = 0.0;
-            player2.playerAcceleration = 100.0;
-            player2.pressed = false;
+            player1.playerCurrentTurnSpeed += -0.08 * player1.playerCurrentSpeed * deltaTime;
+            player1.playerCurrentSpeed *= 0.9999;
+            player1.playerAcceleration = 30.00;
+            player1.pressed = true;
+            if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
+                player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
         }
-    }
-
-
-    //brake player2
-    if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0)
-    {
-        // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
-        player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
-
-        if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+        else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+            && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when backward
         {
-            //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            player1.playerCurrentTurnSpeed += 0.08 * player1.playerCurrentSpeed * deltaTime;
+            player1.playerCurrentSpeed *= 0.9999;
+            player1.playerAcceleration = 30.00;
+            player1.pressed = true;
+            if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
+                player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
         }
-        if (player2.playerCurrentSpeed < 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+            && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
         {
-            player2.playerCurrentSpeed = 0.0;
+            player1.playerCurrentTurnSpeed = 15 * deltaTime;
         }
-    }
-    if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0)
-    {
-        player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
-        if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+        else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
+            && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
         {
-            // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            player1.playerCurrentTurnSpeed -= 15 * deltaTime;
         }
-        if (player2.playerCurrentSpeed > 0.0)
+        else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
         {
-            player2.playerCurrentSpeed = 0.0;
+            player1.playerCurrentTurnSpeed = 15 * deltaTime;
         }
+        else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
+        {
+            player1.playerCurrentTurnSpeed -= 15 * deltaTime;
+        }
+        else if (player1.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
+        {
+            player1.playerCurrentTurnSpeed -= 9 * deltaTime;
+            if (player1.playerCurrentTurnSpeed < 0.0)
+            {
+                player1.playerCurrentTurnSpeed = 0.0;
+                player1.playerAcceleration = 100.0;
+                player1.pressed = false;
+            }
+        }
+        else if (player1.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
+        {
+            player1.playerCurrentTurnSpeed += 9 * deltaTime;
+            if (player1.playerCurrentTurnSpeed > 0.0)
+            {
+                player1.playerCurrentTurnSpeed = 0.0;
+                player1.playerAcceleration = 100.0;
+                player1.pressed = false;
+            }
+        }
+
+
+        //brake player1
+        if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 || (state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS) && player1.playerCurrentSpeed > 0.0)
+        {
+            player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
+
+            if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
+            {
+                  //playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            }
+            if (player1.playerCurrentSpeed < 0.0)
+            {
+                player1.playerCurrentSpeed = 0.0;
+            }
+        }
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 || (state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS) && player1.playerCurrentSpeed < 0.0)
+        {
+            player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
+            if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
+            {
+                // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            }
+            if (player1.playerCurrentSpeed > 0.0)
+            {
+                player1.playerCurrentSpeed = 0.0;
+            }
+        }
+
+        ////////////////////////player 2/////////////////////////////////////
+
+
+
+             //forward / backward player2
+        if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player2.playerCurrentSpeed <= 0.0)//forward
+        {
+            player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
+            //playerCurrentSpeed = -MovementSpeed;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player2.playerCurrentSpeed >= 0.0)//backward
+        {
+            player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
+            //playerCurrentSpeed = MovementSpeed * 0.7f;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && player2.playerCurrentSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player2.playerCurrentSpeed >= 0.0)//forward while still going backward
+        {
+            player2.playerCurrentSpeed -= player2.playerAcceleration * deltaTime;
+            //playerCurrentSpeed = -MovementSpeed;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && player2.playerCurrentSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player2.playerCurrentSpeed <= 0.0)//backward while still going forward
+        {
+            player2.playerCurrentSpeed += player2.playerAcceleration * deltaTime * 0.7;
+            //playerCurrentSpeed = MovementSpeed * 0.7f;
+        }
+        else if (player2.playerCurrentSpeed > 0.0)//drag force when w key is relesed
+        {
+            player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
+            if (player2.playerCurrentSpeed < 0.0)
+            {
+                player2.playerCurrentSpeed = 0.0;
+            }
+        }
+        else if (player2.playerCurrentSpeed < 0.0)//drag force when s key is relesed
+        {
+            player2.playerCurrentSpeed -= 18000 / player2.playerCurrentSpeed * deltaTime;
+            if (player2.playerCurrentSpeed > 0.0)
+            {
+                player2.playerCurrentSpeed = 0.0;
+            }
+        }
+
+        //Engine sound p2
+        if (player2.playerCurrentSpeed != 0.0 && engine2onP2 == false)
+        {
+            engine2P2->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3");
+            engine2onP2 = true;
+        }
+
+        if (player2.playerCurrentSpeed == 0.0 && engine2onP2 == true)
+        {
+            engine2P2->stopAllSounds();
+            //engine2->drop();
+            engine2onP2 = false;
+        }
+
+
+
+        //left / right player 2
+        if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
+            player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+            player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
+        {
+            player2.playerCurrentTurnSpeed += -0.05 * player2.playerCurrentSpeed * deltaTime;
+            player2.playerCurrentSpeed *= 0.9999;
+            player2.playerAcceleration = 30.00;
+            player2.pressed = true;
+            if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
+                player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
+        }
+        else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+            player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
+        {
+            player2.playerCurrentTurnSpeed += 0.05 * player2.playerCurrentSpeed * deltaTime;
+            player2.playerCurrentSpeed *= 0.9999;
+            player2.playerAcceleration = 30.00;
+            player2.pressed = true;
+            if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
+                player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0. || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
+        {
+            player2.playerCurrentTurnSpeed += -0.08 * player2.playerCurrentSpeed * deltaTime;
+            player2.playerCurrentSpeed *= 0.9999;
+            player2.playerAcceleration = 30.00;
+            player2.pressed = true;
+            if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
+                player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
+        }
+        else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+            && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
+        {
+            player2.playerCurrentTurnSpeed += 0.08 * player2.playerCurrentSpeed * deltaTime;
+            player2.playerCurrentSpeed *= 0.9999;
+            player2.playerAcceleration = 30.00;
+            player2.pressed = true;
+            if (player2.playerCurrentTurnSpeed < -player2.playerMaxTurnSpeed)
+                player2.playerCurrentTurnSpeed = -player2.playerMaxTurnSpeed;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed < 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+            && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
+        {
+            player2.playerCurrentTurnSpeed = 15 * deltaTime;
+        }
+        else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
+            && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
+        {
+            player2.playerCurrentTurnSpeed -= 15 * deltaTime;
+        }
+        else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
+        {
+            player2.playerCurrentTurnSpeed = 15 * deltaTime;
+        }
+        else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+            player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
+        {
+            player2.playerCurrentTurnSpeed -= 15 * deltaTime;
+        }
+        else if (player2.playerCurrentTurnSpeed > 0.0)//keep turning for lil bit after relesing key
+        {
+            player2.playerCurrentTurnSpeed -= 9 * deltaTime;
+            if (player2.playerCurrentTurnSpeed < 0.0)
+            {
+                player2.playerCurrentTurnSpeed = 0.0;
+                player2.playerAcceleration = 100.0;
+                player2.pressed = false;
+            }
+        }
+        else if (player2.playerCurrentTurnSpeed < 0.0)//keep turning for lil bit after relesing key
+        {
+            player2.playerCurrentTurnSpeed += 9 * deltaTime;
+            if (player2.playerCurrentTurnSpeed > 0.0)
+            {
+                player2.playerCurrentTurnSpeed = 0.0;
+                player2.playerAcceleration = 100.0;
+                player2.pressed = false;
+            }
+        }
+
+
+        //brake player2
+        if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0 || state2.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS && player2.playerCurrentSpeed > 0.0)
+        {
+            // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
+            player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
+
+            if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+            {
+                //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            }
+            if (player2.playerCurrentSpeed < 0.0)
+            {
+                player2.playerCurrentSpeed = 0.0;
+            }
+        }
+        if (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0 || state2.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS && player2.playerCurrentSpeed < 0.0)
+        {
+            player2.playerCurrentSpeed -= 80000 / player2.playerCurrentSpeed * deltaTime;
+            if (player2.playerCurrentTurnSpeed < 0.0 || player2.playerCurrentTurnSpeed > 0.0)
+            {
+                // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+            }
+            if (player2.playerCurrentSpeed > 0.0)
+            {
+                player2.playerCurrentSpeed = 0.0;
+            }
+        }
+
+
+        //drift Does not work yet. Idea for futer;
+        // lower playerTurnSpeed growth and maxTurnSpeed so drifting seems more useful,
+        // figure out nice camera movement (disconect player and camera ?) 
+        
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS  &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 &&
+            glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)//turn left when going forward
+        {
+            player1.playerCurrentTurnSpeed *= 70 * deltaTime;
+            player1.playerMaxTurnSpeed = 4.0f;
+        }
+        else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS  &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 &&
+            glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) //turn right when going forward
+        {
+            player1.playerCurrentTurnSpeed *= 70 * deltaTime;
+            player1.playerMaxTurnSpeed = 4.0f;
+        }
+        else
+            player1.playerMaxTurnSpeed = 3.2f;
+            
     }
-
-
-    //drift Does not work yet. Idea for futer;
-    // lower playerTurnSpeed growth and maxTurnSpeed so drifting seems more useful,
-    // figure out nice camera movement (disconect player and camera ?) 
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 &&
-        glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)//turn left when going forward
-    {
-        player1.playerCurrentTurnSpeed *= 70 * deltaTime;
-        player1.playerMaxTurnSpeed = 4.0f;
-    }
-    else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-        player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 &&
-        glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) //turn right when going forward
-    {
-        player1.playerCurrentTurnSpeed *= 70 * deltaTime;
-        player1.playerMaxTurnSpeed = 4.0f;
-    }
-    else
-        player1.playerMaxTurnSpeed = 3.2f;
-
-
+    
   }
-}
+
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
@@ -2775,31 +2749,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
-}
+}                   
 
-// glfw: whenever the mouse moves, this callback is called
-// -------------------------------------------------------
-/*
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    if (firstMouse)
-    {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
-    }
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
-    lastX = xpos;
-    lastY = ypos;
-  //  camera.ProcessMouseMovement(xoffset, yoffset);
-}
-// glfw: whenever the mouse scroll wheel scrolls, this callback is called
-// ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    //camera.ProcessMouseScroll(yoffset);
-}*/
 // renders (and builds at first invocation) a sphere
 // -------------------------------------------------
 unsigned int sphereVAO = 0;

@@ -1,3 +1,4 @@
+//Game Created by members of Group 3 (B00343967 & B00341307 & B00344208)
 #define _USE_MATH_DEFINES
 
 #include <glad/glad.h>
@@ -2283,54 +2284,36 @@ void processInput(GLFWwindow* window)
     glfwGetGamepadState(GLFW_JOYSTICK_1, &state);
     glfwGetGamepadState(GLFW_JOYSTICK_2, &state2);
 
+    //escape
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y] == GLFW_PRESS)
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
+
+    //Press P for two players mode
+    if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS)
+    {
+        PisPressed = true;
+    }
+    else if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE && PisPressed == true)
+    {
+        PisPressed = false;
+        if (numberOfPlayers == 1.0f)
+            numberOfPlayers = 2.0f;
+        else
+            numberOfPlayers = 1.0f;
+    }
+
     if (gameStarted == false)
     {
-        
-        //escape
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y] == GLFW_PRESS)
-        {
-            glfwSetWindowShouldClose(window, true);
-        }
-        //Press P for two players mode
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS)
-        {
-            PisPressed = true;
-        }
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE && PisPressed == true)
-        {
-            PisPressed = false;
-            if (numberOfPlayers == 1.0f)
-                numberOfPlayers = 2.0f;
-            else
-                numberOfPlayers = 1.0f;
-        }
         //start
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS)
         {
             gameStarted = true;
         }
-
     }
     else if (gameStarted && gameFinnished)
     {
-       
-
-        //escape
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_Y])
-            glfwSetWindowShouldClose(window, true);
-        //Press P for two players mode
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_PRESS)
-        {
-            PisPressed = true;
-        }
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE && PisPressed == true || state.buttons[GLFW_GAMEPAD_BUTTON_X] == GLFW_RELEASE &&  PisPressed == true)
-        {
-            PisPressed = false;
-            if (numberOfPlayers == 1.0f)
-                numberOfPlayers = 2.0f;
-            else
-                numberOfPlayers = 1.0f;
-        }
         //start
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || state.buttons[GLFW_GAMEPAD_BUTTON_START] == GLFW_PRESS)
         {
@@ -2356,10 +2339,6 @@ void processInput(GLFWwindow* window)
        // ISoundEngine* engine3 = createIrrKlangDevice();
        // engine3->play2D("resources/sounds/Sports-Car-Driving-Med-www.fesliyanstudios.com.mp3", true);
         // engine2->drop(); // delete engine
-
-
-   
-        
 
 
         //print location and rotation

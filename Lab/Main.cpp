@@ -187,10 +187,8 @@ int main()
     backgroundShader.setInt("environmentMap", 0);
 
     // load models
-
-    Model Grass("resources/objects/Grass/MediumPolyGrass.obj");
-    Model Tree("resources/objects/low_poly_tree/Lowpoly_tree_sample.obj");
     Model Hedge("resources/objects/Rectangular_Box_Hedge/10449_Rectangular_Box_Hedge_v1_iterations-2.obj");
+    Model Tree("resources/objects/Pine_Tree_v2/10447_Pine_Tree_v1_L3b.obj");
 
     stbi_set_flip_vertically_on_load(true);
     Model RedCar("resources/objects/RedCarColours/RedCar.obj");
@@ -687,19 +685,496 @@ int main()
         ourShader.setMat4("model", walls2);
         InnerWalls.Draw(ourShader);
 
-        /*glm::mat4 grass = glm::mat4(1.0f);
-        grass = glm::translate(grass, glm::vec3(0.0f, 0.0f, 0.0f));
-        //grass = glm::rotate(grass, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-        grass = glm::scale(grass, glm::vec3(1.0f, 1.0f, 1.0f));
-        ourShader.setMat4("model", grass);
-        Grass.Draw(ourShader);
-
         glm::mat4 tree = glm::mat4(1.0f);
-        tree = glm::translate(tree, glm::vec3(0.0f, 0.0f, 0.0f));
-        //tree = glm::rotate(tree, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-        tree = glm::scale(tree, glm::vec3(1.0f, 1.0f, 1.0f));
+        tree = glm::translate(tree, glm::vec3(-65.0f, -1.0f, 0.0f));
+        tree = glm::rotate(tree, -1.5f, glm::vec3(1.0f, 0.0f, 0.0f));
+        tree = glm::scale(tree, glm::vec3(0.05f, 0.05f, 0.05f));
         ourShader.setMat4("model", tree);
-        Tree.Draw(ourShader);*/
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -2500.0f, 175.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(300.0f, -250.0f, 23.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -23.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(200.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(200.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(100.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(100.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-250.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-250.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 250.0f, -23.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 250.0f, -23.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, -50.0f, -4.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -12.5f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -12.5f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, 2500.0f, -179.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-9000.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
+
+        tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);
 
         glm::mat4 hedge = glm::mat4(1.0f);
         hedge = glm::translate(hedge, glm::vec3(425.0f, 0.0f, 145.0f));
@@ -711,7 +1186,7 @@ int main()
         glm::mat4 hedge1 = glm::mat4(1.0f);
         hedge1 = glm::translate(hedge1, glm::vec3(420.0f, 0.0f, -245.0f));
         hedge1 = glm::rotate(hedge1, 1.96f, glm::vec3(0.0f, 1.0f, 0.0f));
-        hedge1 = glm::scale(hedge1, glm::vec3(0.025f, 0.2f, 0.75f));
+        hedge1 = glm::scale(hedge1, glm::vec3(0.025f, 0.2f, 0.76f));
         ourShader.setMat4("model", hedge1);
         Hedge.Draw(ourShader);
 
@@ -1199,26 +1674,510 @@ int main()
             ourShader.setMat4("model", innerWalls2);
             InnerWalls.Draw(ourShader);
 
-            /*glm::mat4 grass = glm::mat4(1.0f);
-            grass = glm::translate(grass, glm::vec3(0.0f, 0.0f, 0.0f));
-            //grass = glm::rotate(grass, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-            grass = glm::scale(grass, glm::vec3(1.0f, 1.0f, 1.0f));
-            ourShader.setMat4("model", grass);
-            Grass.Draw(ourShader);
-
             glm::mat4 tree = glm::mat4(1.0f);
-            tree = glm::translate(tree, glm::vec3(0.0f, 0.0f, 0.0f));
-            //tree = glm::rotate(tree, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-            tree = glm::scale(tree, glm::vec3(1.0f, 1.0f, 1.0f));
+            tree = glm::translate(tree, glm::vec3(-65.0f, -1.0f, 0.0f));
+            tree = glm::rotate(tree, -1.5f, glm::vec3(1.0f, 0.0f, 0.0f));
+            tree = glm::scale(tree, glm::vec3(0.05f, 0.05f, 0.05f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -2500.0f, 175.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(300.0f, -250.0f, 23.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -23.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(200.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(200.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(100.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(100.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-250.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-250.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 250.0f, -23.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 250.0f, -23.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -125.0f, 9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, -50.0f, -4.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 125.0f, -9.6f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -12.5f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 250.0f, -12.5f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(500.0f, 500.0f, -33.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 500.0f, -35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, 2500.0f, -179.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-9000.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(-500.0f, -250.0f, 12.5f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            tree = glm::translate(tree, glm::vec3(0.0f, -500.0f, 35.0f));
             ourShader.setMat4("model", tree);
             Tree.Draw(ourShader);
 
             glm::mat4 hedge = glm::mat4(1.0f);
-            hedge = glm::translate(hedge, glm::vec3(0.0f, 0.0f, 0.0f));
-            //hedge = glm::rotate(hedge, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-            hedge = glm::scale(hedge, glm::vec3(1.0f, 1.0f, 1.0f));
+            hedge = glm::translate(hedge, glm::vec3(425.0f, 0.0f, 145.0f));
+            hedge = glm::rotate(hedge, 0.94f, glm::vec3(0.0f, 1.0f, 0.0f));
+            hedge = glm::scale(hedge, glm::vec3(0.025f, 0.2f, 0.4f));
             ourShader.setMat4("model", hedge);
-            Hedge.Draw(ourShader);*/
+            Hedge.Draw(ourShader);
+
+            glm::mat4 hedge1 = glm::mat4(1.0f);
+            hedge1 = glm::translate(hedge1, glm::vec3(420.0f, 0.0f, -245.0f));
+            hedge1 = glm::rotate(hedge1, 1.96f, glm::vec3(0.0f, 1.0f, 0.0f));
+            hedge1 = glm::scale(hedge1, glm::vec3(0.025f, 0.2f, 0.76f));
+            ourShader.setMat4("model", hedge1);
+            Hedge.Draw(ourShader);
 
             if (CollisonDetection(player1.playerPosition, player2.playerPosition,
                 player1.playerRotation, player2.playerRotation))

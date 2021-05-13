@@ -1,4 +1,6 @@
-//Game Created by members of Group 3 (B00343967 & B00341307 & B00344208)
+/////////////////////////////////////////////////////////////////////////
+//Game Created by members of Group 3 (B00343967, B00341307 & B00344208)//
+/////////////////////////////////////////////////////////////////////////
 #define _USE_MATH_DEFINES
 
 #include <glad/glad.h>
@@ -2353,23 +2355,22 @@ void processInput(GLFWwindow* window)
             glfwSetWindowShouldClose(window, true);
 
         //forward / backward player1
-        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//forward
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//forward
         {
             player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
-
             //playerCurrentSpeed = -MovementSpeed;
         }
-        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS  &&player1.playerCurrentSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//backward
+        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//backward
         {
             player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
             //playerCurrentSpeed = MovementSpeed * 0.7f;
         }
-        else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//forward while still going backward
+        else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && player1.playerCurrentSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed >= 0.0)//forward while still going backward
         {
             player1.playerCurrentSpeed -= player1.playerAcceleration * deltaTime;
             //playerCurrentSpeed = -MovementSpeed;
         }
-        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//backward while still going forward
+        else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && player1.playerCurrentSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.1 && player1.playerCurrentSpeed <= 0.0)//backward while still going forward
         {
             player1.playerCurrentSpeed += player1.playerAcceleration * deltaTime * 0.7;
             //playerCurrentSpeed = MovementSpeed * 0.7f;
@@ -2407,7 +2408,7 @@ void processInput(GLFWwindow* window)
 
         //left / right player 1
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
             player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going forward
         {
             player1.playerCurrentTurnSpeed += -0.05 * player1.playerCurrentSpeed * deltaTime;
@@ -2417,8 +2418,8 @@ void processInput(GLFWwindow* window)
             if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
                 player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+        else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
+            player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
             player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
         {
             player1.playerCurrentTurnSpeed += 0.05 * player1.playerCurrentSpeed * deltaTime;
@@ -2429,7 +2430,7 @@ void processInput(GLFWwindow* window)
                 player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
         }
         else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0. || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
             player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed >= 0.0)//turn left when going backward
         {
             player1.playerCurrentTurnSpeed += -0.08 * player1.playerCurrentSpeed * deltaTime;
@@ -2439,7 +2440,7 @@ void processInput(GLFWwindow* window)
             if (player1.playerCurrentTurnSpeed > player1.playerMaxTurnSpeed)
                 player1.playerCurrentTurnSpeed = player1.playerMaxTurnSpeed;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
             && player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed <= 0.0)//turn right when backward
         {
             player1.playerCurrentTurnSpeed += 0.08 * player1.playerCurrentSpeed * deltaTime;
@@ -2449,24 +2450,24 @@ void processInput(GLFWwindow* window)
             if (player1.playerCurrentTurnSpeed < -player1.playerMaxTurnSpeed)
                 player1.playerCurrentTurnSpeed = -player1.playerMaxTurnSpeed;
         }
-        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
             && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going forward 
         {
             player1.playerCurrentTurnSpeed = 15 * deltaTime;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
+        else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
             && player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
         {
             player1.playerCurrentTurnSpeed -= 15 * deltaTime;
         }
         else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS &&
-            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
             player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed < 0.0)//turn left when still turning righ and going backward
         {
             player1.playerCurrentTurnSpeed = 15 * deltaTime;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
-            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
+        else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS &&
+            player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
             player1.playerCurrentSpeed > 0.0 && player1.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
         {
             player1.playerCurrentTurnSpeed -= 15 * deltaTime;
@@ -2494,22 +2495,23 @@ void processInput(GLFWwindow* window)
 
 
         //brake player1
-        if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 || (state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS) && player1.playerCurrentSpeed > 0.0)
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed > 0.0 || state2.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS && player1.playerCurrentSpeed > 0.0)
         {
-            player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
+            // SoundEngine->play2D("resources/sounds/bleep.mp3", false);
+            player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
 
             if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
             {
-                  //playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
+                //  playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
             }
             if (player1.playerCurrentSpeed < 0.0)
             {
                 player1.playerCurrentSpeed = 0.0;
             }
         }
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 || (state.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS) && player1.playerCurrentSpeed < 0.0)
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS && player1.playerCurrentSpeed < 0.0 || state2.buttons[GLFW_GAMEPAD_BUTTON_B] == GLFW_PRESS && player1.playerCurrentSpeed < 0.0)
         {
-            player1.playerCurrentSpeed -= 8000 / player1.playerCurrentSpeed * deltaTime;
+            player1.playerCurrentSpeed -= 80000 / player1.playerCurrentSpeed * deltaTime;
             if (player1.playerCurrentTurnSpeed < 0.0 || player1.playerCurrentTurnSpeed > 0.0)
             {
                 // playerCurrentTurnSpeed -= playerCurrentTurnSpeed / 2 * deltaTime;
@@ -2590,7 +2592,7 @@ void processInput(GLFWwindow* window)
             if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
                 player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
+        else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS &&
             player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3 &&
             player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when going forward
         {
@@ -2612,7 +2614,7 @@ void processInput(GLFWwindow* window)
             if (player2.playerCurrentTurnSpeed > player2.playerMaxTurnSpeed)
                 player2.playerCurrentTurnSpeed = player2.playerMaxTurnSpeed;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
+        else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3
             && player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed <= 0.0)//turn right when backward
         {
             player2.playerCurrentTurnSpeed += 0.08 * player2.playerCurrentSpeed * deltaTime;
@@ -2627,7 +2629,7 @@ void processInput(GLFWwindow* window)
         {
             player2.playerCurrentTurnSpeed = 15 * deltaTime;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
+        else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] > 0.3
             && player2.playerCurrentSpeed < 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going forward
         {
             player2.playerCurrentTurnSpeed -= 15 * deltaTime;
@@ -2638,7 +2640,7 @@ void processInput(GLFWwindow* window)
         {
             player2.playerCurrentTurnSpeed = 15 * deltaTime;
         }
-        else    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
+        else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS &&
             player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0 || state2.axes[GLFW_GAMEPAD_AXIS_LEFT_X] < -0.3 &&
             player2.playerCurrentSpeed > 0.0 && player2.playerCurrentTurnSpeed > 0.0)//turn right when still turning left and going backward
         {
@@ -2695,11 +2697,11 @@ void processInput(GLFWwindow* window)
         }
 
 
-        //drift Does not work yet. Idea for futer;
+        //drift Does not work yet. Idea for future;
         // lower playerTurnSpeed growth and maxTurnSpeed so drifting seems more useful,
         // figure out nice camera movement (disconect player and camera ?) 
         
-        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS  &&
+        /*if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS  &&
             player1.playerCurrentSpeed < 0.0 && player1.playerCurrentTurnSpeed >= 0.0 &&
             glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)//turn left when going forward
         {
@@ -2714,7 +2716,7 @@ void processInput(GLFWwindow* window)
             player1.playerMaxTurnSpeed = 4.0f;
         }
         else
-            player1.playerMaxTurnSpeed = 3.2f;
+            player1.playerMaxTurnSpeed = 3.2f;*/
             
     }
     

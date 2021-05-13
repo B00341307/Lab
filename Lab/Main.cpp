@@ -175,12 +175,10 @@ int main()
         glm::vec3(-4.0f,  2.0f, -12.0f),
         glm::vec3(0.0f,  0.0f, -3.0f)
     };
-
-
- 
-    Shader ourShader("1.model_loading.v2.vs", "1.model_loading.v2.fs");
-    Shader equirectangularToCubemapShader("2.2.2.cubemap.vs", "2.2.2.equirectangular_to_cubemap.fs");
-    Shader backgroundShader("2.2.2.background.vs", "2.2.2.background.fs");
+     
+    Shader ourShader("Shaders/1.model_loading.v2.vs", "Shaders/1.model_loading.v2.fs");
+    Shader equirectangularToCubemapShader("Shaders/2.2.2.cubemap.vs", "Shaders/2.2.2.equirectangular_to_cubemap.fs");
+    Shader backgroundShader("Shaders/2.2.2.background.vs", "Shaders/2.2.2.background.fs");
     Shader shader_explosion("Shaders/Geometry_shader.vs", "Shaders/Geometry_shader.fs", "Shaders/Geometry_shader.gs");
 
     ourShader.use();
@@ -188,19 +186,20 @@ int main()
     backgroundShader.use();
     backgroundShader.setInt("environmentMap", 0);
 
+    // load models
 
-
-    // load models-
-
+    Model Grass("resources/objects/Grass/MediumPolyGrass.obj");
+    Model Tree("resources/objects/low_poly_tree/Lowpoly_tree_sample.obj");
+    Model Hedge("resources/objects/Rectangular_Box_Hedge/10449_Rectangular_Box_Hedge_v1_iterations-2.obj");
 
     stbi_set_flip_vertically_on_load(true);
     Model RedCar("resources/objects/RedCarColours/RedCar.obj");
     Model RedCar2("resources/objects/BlueCar/RedCar.obj");
     Model RingObj("resources/objects/ring/ringobj.obj");
 
-    Model NewTrack("resources/NewTrack2/track2.obj");
-    Model Walls("resources/Walls/track2walls.obj");
-    Model InnerWalls("resources/InnerWalls/track2walls2.obj");
+    Model NewTrack("resources/objects/NewTrack2/track2.obj");
+    Model Walls("resources/objects/Walls/track2walls.obj");
+    Model InnerWalls("resources/objects/InnerWalls/track2walls2.obj");
 
     //Hud
     Model startHud("resources/HUD/start/startHud.obj");
@@ -585,512 +584,52 @@ int main()
                 // == ==============================================================================================
                 //       DESERT
                 // == ==============================================================================================
-
                 glClearColor(0.75f, 0.52f, 0.3f, 1.0f);
 
-                glm::vec3 pointLightColors[] = {
-                    glm::vec3(1.0f, 0.6f, 0.0f),
-                    glm::vec3(1.0f, 0.0f, 0.0f),
-                    glm::vec3(1.0f, 1.0, 0.0),
-                    glm::vec3(0.2f, 0.2f, 1.0f)
-                };
-
                 // Directional light
                 ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
                 ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
                 ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
                 ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-                // Point light 1
-                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[0].linear", 0.09);
-
-                ourShader.setFloat("pointLights[0].quadratic", 0.032);
-                // Point light 2
-
-                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[1].linear", 0.09);
-
-                ourShader.setFloat("pointLights[1].quadratic", 0.032);
-                // Point light 3
-
-                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[2].linear", 0.09);
-
-                ourShader.setFloat("pointLights[2].quadratic", 0.032);
-                // Point light 4
-
-                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[3].linear", 0.09);
-
-                ourShader.setFloat("pointLights[3].quadratic", 0.032);
-                // SpotLight
-
-                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
-
-                ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
-
-                ourShader.setFloat("spotLight.constant", 1.0f);
-
-                ourShader.setFloat("spotLight.linear", 0.09);
-
-                ourShader.setFloat("spotLight.quadratic", 0.032);
-
-                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-
-                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
-
-                /////////////////////////////////////////camera 2 ///////////////////////////////////////////////
-
-                ourShader.use();
-                ourShader.setVec3("viewPos", camera2.Position);
-                ourShader.setFloat("material.shininess", 32.0f);
-
-                // Directional light
-                ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-                ourShader.setVec3("dirLight.ambient", 0.3f, 0.24f, 0.14f);
-                ourShader.setVec3("dirLight.diffuse", 0.7f, 0.42f, 0.26f);
-                ourShader.setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
-                // Point light 1
-                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[0].linear", 0.09);
-
-                ourShader.setFloat("pointLights[0].quadratic", 0.032);
-                // Point light 2
-
-                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[1].linear", 0.09);
-
-                ourShader.setFloat("pointLights[1].quadratic", 0.032);
-                // Point light 3
-
-                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[2].linear", 0.09);
-
-                ourShader.setFloat("pointLights[2].quadratic", 0.032);
-                // Point light 4
-
-                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[3].linear", 0.09);
-
-                ourShader.setFloat("pointLights[3].quadratic", 0.032);
-                // SpotLight
-
-                ourShader.setVec3("spotLight.position", camera2.Position.x, camera2.Position.y, camera2.Position.z);
-
-                ourShader.setVec3("spotLight.direction", camera2.Front.x, camera2.Front.y, camera2.Front.z);
-
-                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.diffuse", 0.8f, 0.8f, 0.0f);
-
-                ourShader.setVec3("spotLight.specular", 0.8f, 0.8f, 0.0f);
-
-                ourShader.setFloat("spotLight.constant", 1.0f);
-
-                ourShader.setFloat("spotLight.linear", 0.09);
-
-                ourShader.setFloat("spotLight.quadratic", 0.032);
-
-                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(12.5f)));
-
-                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(13.0f)));
-
             }
             if (key == 2)
             {
                 // == ==============================================================================================
                 //       FACTORY
                 // == ==============================================================================================
-
                 glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-                glm::vec3 pointLightColors[] = {
-                    glm::vec3(0.2f, 0.2f, 0.6f),
-                    glm::vec3(0.3f, 0.3f, 0.7f),
-                    glm::vec3(0.0f, 0.0f, 0.3f),
-                    glm::vec3(0.4f, 0.4f, 0.4f)
-                };
-
                 // Directional light
-
                 ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
                 ourShader.setVec3("dirLight.ambient", 0.05f, 0.05f, 0.1f);
-
                 ourShader.setVec3("dirLight.diffuse", 0.2f, 0.2f, 0.7);
-
-                ourShader.setVec3("dirLight.specular", 0.7f, 0.7f, 0.7f);
-                // Point light 1
-
-                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[0].linear", 0.09);
-
-                ourShader.setFloat("pointLights[0].quadratic", 0.032);
-                // Point light 2
-
-                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[1].linear", 0.09);
-
-                ourShader.setFloat("pointLights[1].quadratic", 0.032);
-                // Point light 3
-
-                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[2].linear", 0.09);
-
-                ourShader.setFloat("pointLights[2].quadratic", 0.032);
-                // Point light 4
-
-                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[3].linear", 0.09);
-
-                ourShader.setFloat("pointLights[3].quadratic", 0.032);
-                // SpotLight
-
-                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-                ourShader.setFloat("spotLight.constant", 1.0f);
-
-                ourShader.setFloat("spotLight.linear", 0.009);
-
-                ourShader.setFloat("spotLight.quadratic", 0.0032);
-
-                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(12.5f)));
+                ourShader.setVec3("dirLight.specular", 0.7f, 0.7f, 0.7f);                
             }
             if (key == 3)
             {
                 // == ==============================================================================================
                 //       HORROR
                 // == ==============================================================================================
-
                 glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-                glm::vec3 pointLightColors[] = {
-                    glm::vec3(0.1f, 0.1f, 0.1f),
-                    glm::vec3(0.1f, 0.1f, 0.1f),
-                    glm::vec3(0.1f, 0.1f, 0.1f),
-                    glm::vec3(0.3f, 0.1f, 0.1f)
-                };
-
                 // Directional light
-
                 ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
                 ourShader.setVec3("dirLight.ambient", 0.0f, 0.0f, 0.0f);
-
                 ourShader.setVec3("dirLight.diffuse", 0.05f, 0.05f, 0.05);
-
                 ourShader.setVec3("dirLight.specular", 0.2f, 0.2f, 0.2f);
-                // Point light 1
-
-                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[0].linear", 0.14);
-
-                ourShader.setFloat("pointLights[0].quadratic", 0.07);
-                // Point light 2
-
-                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[1].linear", 0.14);
-
-                ourShader.setFloat("pointLights[1].quadratic", 0.07);
-                // Point light 3
-
-                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[2].linear", 0.22);
-
-                ourShader.setFloat("pointLights[2].quadratic", 0.20);
-                // Point light 4
-
-                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[3].linear", 0.14);
-
-                ourShader.setFloat("pointLights[3].quadratic", 0.07);
-                // SpotLight
-
-                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                ourShader.setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
-
-                ourShader.setFloat("spotLight.constant", 1.0f);
-
-                ourShader.setFloat("spotLight.linear", 0.09);
-
-                ourShader.setFloat("spotLight.quadratic", 0.032);
-
-                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(10.0f)));
-
-                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(15.0f)));
             }
             if (key == 4)
             {
                 // == ==============================================================================================
                 //       BIOCHEMICAL LAB
                 // == ==============================================================================================
-
                 glClearColor(0.9f, 0.9f, 0.9f, 1.0f);
 
-                glm::vec3 pointLightColors[] = {
-                    glm::vec3(0.4f, 0.7f, 0.1f),
-                    glm::vec3(0.4f, 0.7f, 0.1f),
-                    glm::vec3(0.4f, 0.7f, 0.1f),
-                    glm::vec3(0.4f, 0.7f, 0.1f)
-                };
-
                 // Directional light
-
                 ourShader.setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-
                 ourShader.setVec3("dirLight.ambient", 0.5f, 0.5f, 0.5f);
-
                 ourShader.setVec3("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
-
-                ourShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);
-                // Point light 1
-
-                ourShader.setVec3("pointLights[0].position", pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-
-                ourShader.setVec3("pointLights[0].ambient", pointLightColors[0].x * 0.1, pointLightColors[0].y * 0.1, pointLightColors[0].z * 0.1);
-
-                ourShader.setVec3("pointLights[0].diffuse", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setVec3("pointLights[0].specular", pointLightColors[0].x, pointLightColors[0].y, pointLightColors[0].z);
-
-                ourShader.setFloat("pointLights[0].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[0].linear", 0.07);
-
-                ourShader.setFloat("pointLights[0].quadratic", 0.017);
-                // Point light 2
-
-                ourShader.setVec3("pointLights[1].position", pointLightPositions[1].x, pointLightPositions[1].y, pointLightPositions[1].z);
-
-                ourShader.setVec3("pointLights[1].ambient", pointLightColors[1].x * 0.1, pointLightColors[1].y * 0.1, pointLightColors[1].z * 0.1);
-
-                ourShader.setVec3("pointLights[1].diffuse", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setVec3("pointLights[1].specular", pointLightColors[1].x, pointLightColors[1].y, pointLightColors[1].z);
-
-                ourShader.setFloat("pointLights[1].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[1].linear", 0.07);
-
-                ourShader.setFloat("pointLights[1].quadratic", 0.017);
-                // Point light 3
-
-                ourShader.setVec3("pointLights[2].position", pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
-
-                ourShader.setVec3("pointLights[2].ambient", pointLightColors[2].x * 0.1, pointLightColors[2].y * 0.1, pointLightColors[2].z * 0.1);
-
-                ourShader.setVec3("pointLights[2].diffuse", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setVec3("pointLights[2].specular", pointLightColors[2].x, pointLightColors[2].y, pointLightColors[2].z);
-
-                ourShader.setFloat("pointLights[2].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[2].linear", 0.07);
-
-                ourShader.setFloat("pointLights[2].quadratic", 0.017);
-                // Point light 4
-
-                ourShader.setVec3("pointLights[3].position", pointLightPositions[3].x, pointLightPositions[3].y, pointLightPositions[3].z);
-
-                ourShader.setVec3("pointLights[3].ambient", pointLightColors[3].x * 0.1, pointLightColors[3].y * 0.1, pointLightColors[3].z * 0.1);
-
-                ourShader.setVec3("pointLights[3].diffuse", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setVec3("pointLights[3].specular", pointLightColors[3].x, pointLightColors[3].y, pointLightColors[3].z);
-
-                ourShader.setFloat("pointLights[3].constant", 1.0f);
-
-                ourShader.setFloat("pointLights[3].linear", 0.07);
-
-                ourShader.setFloat("pointLights[3].quadratic", 0.017);
-                // SpotLight
-
-                ourShader.setVec3("spotLight.position", camera.Position.x, camera.Position.y, camera.Position.z);
-
-                ourShader.setVec3("spotLight.direction", camera.Front.x, camera.Front.y, camera.Front.z);
-
-                ourShader.setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.diffuse", 0.0f, 1.0f, 0.0f);
-
-                ourShader.setVec3("spotLight.specular", 0.0f, 1.0f, 0.0f);
-
-                ourShader.setFloat("spotLight.constant", 1.0f);
-
-                ourShader.setFloat("spotLight.linear", 0.07);
-
-                ourShader.setFloat("spotLight.quadratic", 0.017);
-
-                ourShader.setFloat("spotLight.cutOff", glm::cos(glm::radians(7.0f)));
-
-                ourShader.setFloat("spotLight.outerCutOff", glm::cos(glm::radians(10.0f)));
+                ourShader.setVec3("dirLight.specular", 1.0f, 1.0f, 1.0f);                
             }
         }
 
@@ -1106,11 +645,11 @@ int main()
 
 
         //Background Loader
-            backgroundShader.use();
-            backgroundShader.setMat4("view", view);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
-            renderSphere();
+        backgroundShader.use();
+        backgroundShader.setMat4("view", view);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, envCubemap);
+        renderSphere();
        
 
         //draw model using normal shader
@@ -1135,7 +674,6 @@ int main()
         ourShader.setMat4("model", newtrack);
         NewTrack.Draw(ourShader);
 
-
         glm::mat4 walls = glm::mat4(1.0f);
         walls = glm::translate(walls, glm::vec3(0.0f, -0.3f, -595.0f));
         walls = glm::scale(walls, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -1148,6 +686,34 @@ int main()
         walls2 = glm::scale(walls2, glm::vec3(1.0f, 1.0f, 1.0f));
         ourShader.setMat4("model", walls2);
         InnerWalls.Draw(ourShader);
+
+        /*glm::mat4 grass = glm::mat4(1.0f);
+        grass = glm::translate(grass, glm::vec3(0.0f, 0.0f, 0.0f));
+        //grass = glm::rotate(grass, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        grass = glm::scale(grass, glm::vec3(1.0f, 1.0f, 1.0f));
+        ourShader.setMat4("model", grass);
+        Grass.Draw(ourShader);
+
+        glm::mat4 tree = glm::mat4(1.0f);
+        tree = glm::translate(tree, glm::vec3(0.0f, 0.0f, 0.0f));
+        //tree = glm::rotate(tree, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+        tree = glm::scale(tree, glm::vec3(1.0f, 1.0f, 1.0f));
+        ourShader.setMat4("model", tree);
+        Tree.Draw(ourShader);*/
+
+        glm::mat4 hedge = glm::mat4(1.0f);
+        hedge = glm::translate(hedge, glm::vec3(425.0f, 0.0f, 145.0f));
+        hedge = glm::rotate(hedge, 0.94f, glm::vec3(0.0f, 1.0f, 0.0f));
+        hedge = glm::scale(hedge, glm::vec3(0.025f, 0.2f, 0.4f));
+        ourShader.setMat4("model", hedge);
+        Hedge.Draw(ourShader);
+
+        glm::mat4 hedge1 = glm::mat4(1.0f);
+        hedge1 = glm::translate(hedge1, glm::vec3(420.0f, 0.0f, -245.0f));
+        hedge1 = glm::rotate(hedge1, 1.96f, glm::vec3(0.0f, 1.0f, 0.0f));
+        hedge1 = glm::scale(hedge1, glm::vec3(0.025f, 0.2f, 0.75f));
+        ourShader.setMat4("model", hedge1);
+        Hedge.Draw(ourShader);
 
         //Hud
 
@@ -1168,7 +734,7 @@ int main()
             ring = glm::translate(ring, Ring1.ringPosition);
             ring = glm::scale(ring, glm::vec3(2.0f, 2.0f, 2.0f));
 
-            //chack collision with ring      
+            //check collision with ring      
             if (player1.playerPosition.x - Ring1.ringPosition.x < 6.0f && player1.playerPosition.x - Ring1.ringPosition.x > -6.0f &&
                 player1.playerPosition.z - Ring1.ringPosition.z < 6.0f && player1.playerPosition.z - Ring1.ringPosition.z > -6.0f &&
                 Ring1.explosionis == false)
@@ -1207,7 +773,7 @@ int main()
         ring2 = glm::translate(ring2, Ring2.ringPosition);
         ring2 = glm::scale(ring2, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring2.ringPosition.x < 6.0f && player1.playerPosition.x - Ring2.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring2.ringPosition.z < 6.0f && player1.playerPosition.z - Ring2.ringPosition.z > -6.0f &&
             Ring2.explosionis == false)
@@ -1246,7 +812,7 @@ int main()
         ring3 = glm::translate(ring3, Ring3.ringPosition);
         ring3 = glm::scale(ring3, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring3.ringPosition.x < 6.0f && player1.playerPosition.x - Ring3.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring3.ringPosition.z < 6.0f && player1.playerPosition.z - Ring3.ringPosition.z > -6.0f &&
             Ring3.explosionis == false)
@@ -1284,7 +850,7 @@ int main()
         ring4 = glm::translate(ring4, Ring4.ringPosition);
         ring4 = glm::scale(ring4, glm::vec3(2.0f, 2.0f, 2.0f));
 
-       //chack collision with ring      
+       //check collision with ring      
         if (player1.playerPosition.x - Ring4.ringPosition.x < 6.0f && player1.playerPosition.x - Ring4.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring4.ringPosition.z < 6.0f && player1.playerPosition.z - Ring4.ringPosition.z > -6.0f &&
             Ring4.explosionis == false)
@@ -1321,7 +887,7 @@ int main()
         ring5 = glm::translate(ring5, Ring5.ringPosition);
         ring5 = glm::scale(ring5, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring5.ringPosition.x < 6.0f && player1.playerPosition.x - Ring5.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring5.ringPosition.z < 6.0f && player1.playerPosition.z - Ring5.ringPosition.z > -6.0f &&
             Ring5.explosionis == false)
@@ -1359,7 +925,7 @@ int main()
         ring6 = glm::translate(ring6, Ring6.ringPosition);
         ring6 = glm::scale(ring6, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring6.ringPosition.x < 6.0f && player1.playerPosition.x - Ring6.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring6.ringPosition.z < 6.0f && player1.playerPosition.z - Ring6.ringPosition.z > -6.0f &&
             Ring6.explosionis == false)
@@ -1396,7 +962,7 @@ int main()
         ring7 = glm::translate(ring7, Ring7.ringPosition);
         ring7 = glm::scale(ring7, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring7.ringPosition.x < 6.0f && player1.playerPosition.x - Ring7.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring7.ringPosition.z < 6.0f && player1.playerPosition.z - Ring7.ringPosition.z > -6.0f &&
             Ring7.explosionis == false)
@@ -1435,7 +1001,7 @@ int main()
         ring8 = glm::rotate(ring8, 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
         ring8 = glm::scale(ring8, glm::vec3(2.0f, 2.0f, 2.0f));
 
-        //chack collision with ring      
+        //check collision with ring      
         if (player1.playerPosition.x - Ring8.ringPosition.x < 6.0f && player1.playerPosition.x - Ring8.ringPosition.x > -6.0f &&
             player1.playerPosition.z - Ring8.ringPosition.z < 6.0f && player1.playerPosition.z - Ring8.ringPosition.z > -6.0f &&
             Ring8.explosionis == false)
@@ -1633,6 +1199,26 @@ int main()
             ourShader.setMat4("model", innerWalls2);
             InnerWalls.Draw(ourShader);
 
+            /*glm::mat4 grass = glm::mat4(1.0f);
+            grass = glm::translate(grass, glm::vec3(0.0f, 0.0f, 0.0f));
+            //grass = glm::rotate(grass, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+            grass = glm::scale(grass, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", grass);
+            Grass.Draw(ourShader);
+
+            glm::mat4 tree = glm::mat4(1.0f);
+            tree = glm::translate(tree, glm::vec3(0.0f, 0.0f, 0.0f));
+            //tree = glm::rotate(tree, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+            tree = glm::scale(tree, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", tree);
+            Tree.Draw(ourShader);
+
+            glm::mat4 hedge = glm::mat4(1.0f);
+            hedge = glm::translate(hedge, glm::vec3(0.0f, 0.0f, 0.0f));
+            //hedge = glm::rotate(hedge, 0.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+            hedge = glm::scale(hedge, glm::vec3(1.0f, 1.0f, 1.0f));
+            ourShader.setMat4("model", hedge);
+            Hedge.Draw(ourShader);*/
 
             if (CollisonDetection(player1.playerPosition, player2.playerPosition,
                 player1.playerRotation, player2.playerRotation))
@@ -1651,7 +1237,7 @@ int main()
                 ring = glm::translate(ring, Ring1.ringPosition);
                 ring = glm::scale(ring, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring1.ringPosition.x < 6.0f && player2.playerPosition.x - Ring1.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring1.ringPosition.z < 6.0f && player2.playerPosition.z - Ring1.ringPosition.z > -6.0f &&
                     Ring1.explosionis == false)
@@ -1690,7 +1276,7 @@ int main()
                 ring2 = glm::translate(ring2, Ring2.ringPosition);
                 ring2 = glm::scale(ring2, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring2.ringPosition.x < 6.0f && player2.playerPosition.x - Ring2.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring2.ringPosition.z < 6.0f && player2.playerPosition.z - Ring2.ringPosition.z > -6.0f &&
                     Ring2.explosionis == false)
@@ -1729,7 +1315,7 @@ int main()
                 ring3 = glm::translate(ring3, Ring3.ringPosition);
                 ring3 = glm::scale(ring3, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring3.ringPosition.x < 6.0f && player2.playerPosition.x - Ring3.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring3.ringPosition.z < 6.0f && player2.playerPosition.z - Ring3.ringPosition.z > -6.0f &&
                     Ring3.explosionis == false)
@@ -1767,7 +1353,7 @@ int main()
                 ring4 = glm::translate(ring4, Ring4.ringPosition);
                 ring4 = glm::scale(ring4, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring4.ringPosition.x < 6.0f && player2.playerPosition.x - Ring4.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring4.ringPosition.z < 6.0f && player2.playerPosition.z - Ring4.ringPosition.z > -6.0f &&
                     Ring4.explosionis == false)
@@ -1804,7 +1390,7 @@ int main()
                 ring5 = glm::translate(ring5, Ring5.ringPosition);
                 ring5 = glm::scale(ring5, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring5.ringPosition.x < 6.0f && player2.playerPosition.x - Ring5.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring5.ringPosition.z < 6.0f && player2.playerPosition.z - Ring5.ringPosition.z > -6.0f &&
                     Ring5.explosionis == false)
@@ -1842,7 +1428,7 @@ int main()
                 ring6 = glm::translate(ring6, Ring6.ringPosition);
                 ring6 = glm::scale(ring6, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring6.ringPosition.x < 6.0f && player2.playerPosition.x - Ring6.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring6.ringPosition.z < 6.0f && player2.playerPosition.z - Ring6.ringPosition.z > -6.0f &&
                     Ring6.explosionis == false)
@@ -1879,7 +1465,7 @@ int main()
                 ring7 = glm::translate(ring7, Ring7.ringPosition);
                 ring7 = glm::scale(ring7, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring7.ringPosition.x < 6.0f && player2.playerPosition.x - Ring7.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring7.ringPosition.z < 6.0f && player2.playerPosition.z - Ring7.ringPosition.z > -6.0f &&
                     Ring7.explosionis == false)
@@ -1918,7 +1504,7 @@ int main()
                 ring8 = glm::rotate(ring8, 1.5f, glm::vec3(0.0f, 1.0f, 0.0f));
                 ring8 = glm::scale(ring8, glm::vec3(2.0f, 2.0f, 2.0f));
 
-                //chack collision with ring      
+                //check collision with ring      
                 if (player2.playerPosition.x - Ring8.ringPosition.x < 6.0f && player2.playerPosition.x - Ring8.ringPosition.x > -6.0f &&
                     player2.playerPosition.z - Ring8.ringPosition.z < 6.0f && player2.playerPosition.z - Ring8.ringPosition.z > -6.0f &&
                     Ring8.explosionis == false)
